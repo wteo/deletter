@@ -2,7 +2,5 @@
 @import '../scss/mixins';
 
 .userForm {
-
     @include userForm(350px, 100px, 250px, 250px);
-    
 }
