@@ -1,0 +1,6 @@
+@import '../scss/variables';
+@import '../scss/mixins';
+
+.userForm {
+    @include userForm(450px, 150px, 300px, 350px);    
+}
