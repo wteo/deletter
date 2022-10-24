@@ -1,0 +1,22 @@
+@mixin button() {
+    background-color: $primary-button-color;
+    border: 0.1rem solid $alternate-button-color;
+    border-radius: 1.5rem;
+    color: $alternate-button-color;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Basier circle",-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1;
+    padding: 0.5rem 0.8rem;
+    text-align: center;
+    transition: all 0.1s;
+    height: 2rem;
+
+    &:hover {
+        background-color: $alternate-button-color;
+        color: $primary-button-color;
+    }
+}
+
