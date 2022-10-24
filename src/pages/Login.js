@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import styles from './Login.module.scss';
 
@@ -33,7 +34,7 @@ function Login() {
                 <input type='text' value={ enteredPassword } onChange={ passwordHandler }/>
             </div>
             <div className={ styles.userFormButton }>
-                <p>New to DeLetter? Register</p>
+                <p>New to DeLetter? <Link to='/register'>Register</Link></p>
                 <button>Login</button>
             </div>
         </form>

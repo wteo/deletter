@@ -1,14 +1,22 @@
-import React from "react";
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
-import Login from "./components/Login";
-import Register from './components/Register';
+// Pages
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import Register from './pages/Register';
+import PageNotFound from './pages/PageNotFound';
 
 function App() {
   return (
     <div>
-      <Login />
-      <br/>
-      <Register />
+      <Routes>
+        <Route path='/' element={<Navigate replace to='/login' />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='*' element={<PageNotFound />} />
+      </Routes>
     </div>
   );
 }
