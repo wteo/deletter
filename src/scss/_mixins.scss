@@ -20,3 +20,36 @@
     }
 }
 
+
+
+@mixin userForm($widthForm, $widthGrid1, $widthGrid2, $widthGrid3) {
+    
+    background-color: $primary-background-color;
+    color: $primary-font-color;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    width: $widthForm;
+    padding: 30px;
+
+    .userFormLabel {
+        display: grid;
+        grid-template-columns: $widthGrid1 $widthGrid2;
+        padding: 8px 0px;
+
+        input {
+            border-radius: 5px;
+            border: none;
+        }
+    }
+
+    .userFormButton {
+        padding-top: 15px;
+        display: grid;
+        grid-template-columns: $widthGrid3 100px;
+
+        button {
+            @include button();
+        }
+    }
+}
