@@ -21,9 +21,24 @@
 }
 
 
+@mixin invalid() { 
+    .invalid {
+        color: $invalid-color;
+        margin: 10px 0;
+    }
+
+    .invalidInput {
+        background-color: $invalid-color;
+    }
+
+    ul {
+        margin: auto 0;
+        margin-left: -23px;
+    }
+}
+
 
 @mixin userForm($widthForm, $widthGrid1, $widthGrid2, $widthGrid3) {
-    
     background-color: $primary-background-color;
     color: $primary-font-color;
     border-radius: 10px;

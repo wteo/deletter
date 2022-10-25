@@ -3,6 +3,7 @@
 
 .userForm {
     @include userForm(350px, 100px, 250px, 250px);
+    @include invalid();
 }
 
 

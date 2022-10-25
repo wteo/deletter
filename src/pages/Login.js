@@ -7,6 +7,7 @@ function Login() {
 
     const [enteredUsername, setUsername] = useState('');
     const [enteredPassword, setPassword] = useState('');
+    const [isTouched, setIsTouched] = useState(false);
 
     const usernameHandler = (event) => {
         setUsername(event.target.value);
@@ -16,23 +17,51 @@ function Login() {
         setPassword(event.target.value);
     };
 
+    const isUsernameValid = enteredUsername.includes('@');
+    const regularExpression = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
+    const isPasswordValid = regularExpression.test(enteredPassword);
+
     const submitHandler = (event) => {
+        
         event.preventDefault();
         console.log({ username: enteredUsername, password: enteredPassword });
-        setUsername('');
-        setPassword('');
+
+        setIsTouched(true);
+    
+        if (isUsernameValid && isPasswordValid) {
+            setUsername('');
+            setPassword('');
+            setIsTouched(false);
+        } else {
+            setPassword('');
+            throw new Error('Invalid username and password.');
+        }
     };
+
+    const usernameFeedback = <p className={styles.invalid} >Please enter a valid email.</p>;
+
+    const passwordFeedback = (
+                        <div className={styles.invalid}>
+                            Password must be:
+                            <ul>
+                                <li>8 to 16 characters long; &</li>
+                                <li>has at least 1 alphabet, 1 number and 1 special character.</li>
+                            </ul>
+                        </div>
+                        );
 
     return (
         <form  className={ styles.userForm } onSubmit={ submitHandler }>
             <div className={ styles.userFormLabel }>
                 <label>Username</label>
-                <input type='text' value={ enteredUsername } onChange={ usernameHandler }/>
+                <input type='text' className={ !isUsernameValid && isTouched ? styles.invalidInput : '' } value={ enteredUsername } onChange={ usernameHandler }/>
             </div>
+            { !isUsernameValid && isTouched && usernameFeedback }
             <div className={ styles.userFormLabel }>
                 <label>Password</label>
-                <input type='text' value={ enteredPassword } onChange={ passwordHandler }/>
+                <input type='text' className={ !isPasswordValid && isTouched ? styles.invalidInput : '' } value={ enteredPassword } onChange={ passwordHandler }/>
             </div>
+            { !isPasswordValid && isTouched && passwordFeedback }
             <div className={ styles.userFormButton }>
                 <p>New to DeLetter? <Link to='/register'>Register</Link></p>
                 <button>Login</button>
