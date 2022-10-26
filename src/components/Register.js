@@ -1,49 +1,68 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 
 import styles from './Register.module.scss';
 
+const defaultState = {
+    username            : '',
+    password            : '',
+    confirmedPassword   : '',
+    isTouched           : false
+};
+
+const ACTIONS = {
+    username: 'Enter_username',
+    password: 'Enter_password',
+    confirmedPassword: 'Confirm_password',
+    submit: ['valid', 'invalid_username', 'invalid_password', 'password_not_matched']
+};
+
+const reducer = (state, action) => {
+    switch (action.type) {
+        case ACTIONS.username: 
+            return { ...state, username: action.value }
+        case ACTIONS.password: 
+            return { ...state, password: action.value }
+        case ACTIONS.confirmedPassword: 
+            return { ...state, confirmedPassword: action.value }
+        case ACTIONS.submit[0]: 
+            return { username: '', password: '', confirmedPassword: '', isTouched: false }
+        case ACTIONS.submit[1]: 
+            return { ...state, username: '', isTouched: true }
+        case ACTIONS.submit[2]: 
+            return { ...state, password: '', isTouched: true }
+        case ACTIONS.submit[3]: 
+            return { ...state, confirmedPassword: '', isTouched: true }
+        default:
+            return defaultState;  
+    }
+}
+
 function Register() {
 
-    const [enteredUsername, setUsername] = useState('');
-    const [enteredPassword, setPassword] = useState('');
-    const [enteredConfirmedPasssword, setConfirmedPassword] = useState('');
-    const [isTouched, setIsTouched] = useState(false);
+    const [newState, dispatch] = useReducer(reducer, defaultState);
+    const { username, password, confirmedPassword, isTouched } = newState;
 
-    const usernameHandler = (event) => {
-        setUsername(event.target.value);
-    };
+    const usernameHandler = ( event ) => { dispatch({ type: ACTIONS.username, value: event.target.value }); };
+    const passwordHandler = (event) => { dispatch({ type: ACTIONS.password, value: event.target.value }); };
+    const confirmedPasswordHandler = (event) => { dispatch({ type: ACTIONS.confirmedPassword, value: event.target.value }); };
 
-    const passwordHandler = (event) => {
-        setPassword(event.target.value);
-    };
-
-    const confirmedPasswordHandler = (event) => {
-        setConfirmedPassword(event.target.value);
-    };
-
-    const isUsernameValid = enteredUsername.includes('@');
+    const isUsernameValid = username.includes('@');
     const regularExpression = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
-    const isPasswordValid = regularExpression.test(enteredPassword);
-    const isConfirmedPasswordValid = enteredConfirmedPasssword.match(enteredPassword) && enteredConfirmedPasssword.length >= 6;
+    const isPasswordValid = regularExpression.test(password);
+    const isConfirmedPasswordValid = confirmedPassword.match(password) && confirmedPassword.length >= 6;
 
     const submitHandler = (event) => {
         
         event.preventDefault();
-        console.log({ username: enteredUsername, password: enteredPassword, confirmedPassword: enteredConfirmedPasssword });
-        
-        setIsTouched(true);
+        console.log({ username, password, confirmedPassword });
 
-        if (isUsernameValid && isPasswordValid && isConfirmedPasswordValid) {
-            setUsername('');
-            setPassword('');
-            setConfirmedPassword('');
-            setIsTouched(false);
-        } else {
-            setPassword('');
-            setConfirmedPassword('');
-            throw new Error('Invalid username and password.');
-        }
-    };
+        if (!isUsernameValid) dispatch({ type: ACTIONS.submit[1]});
+        if (!isPasswordValid) dispatch({ type: ACTIONS.submit[2]});
+        if (!isConfirmedPasswordValid) dispatch({ type: ACTIONS.submit[3]});
+        if (isUsernameValid && isPasswordValid && isConfirmedPasswordValid) dispatch({ type: ACTIONS.submit[0]});
+
+        return;
+    }
 
     const usernameFeedback = <p className={styles.invalid} >Please enter a valid email.</p>;
 
@@ -66,17 +85,17 @@ function Register() {
                 <p>Please enter your personal details:</p>
                 <div className={ styles.userFormLabel }>
                     <label>Email</label>
-                    <input type='text' className={ !isUsernameValid && isTouched ? styles.invalidInput : '' } value={ enteredUsername } onChange={ usernameHandler } />
+                    <input type='text' className={ !isUsernameValid && isTouched ? styles.invalidInput : '' } value={ username } onChange={ usernameHandler } />
                 </div>
                 { !isUsernameValid && isTouched && usernameFeedback }
                 <div className={ styles.userFormLabel }>
                     <label>Password</label>
-                    <input type='text' className={ !isPasswordValid && isTouched ? styles.invalidInput : '' } value={ enteredPassword } onChange={ passwordHandler } />
+                    <input type='text' className={ !isPasswordValid && isTouched ? styles.invalidInput : '' } value={ password } onChange={ passwordHandler } />
                 </div>
-                { !isPasswordValid && isTouched && passwordFeedback }
+                { !isPasswordValid && newState.isTouched && passwordFeedback }
                 <div className={ styles.userFormLabel }>
                     <label>Confirm Password</label>
-                    <input type='text' className={ !isConfirmedPasswordValid && isTouched ? styles.invalidInput : '' } value={ enteredConfirmedPasssword } onChange={ confirmedPasswordHandler } />
+                    <input type='text' className={ !isConfirmedPasswordValid && isTouched ? styles.invalidInput : '' } value={ confirmedPassword } onChange={ confirmedPasswordHandler } />
                 </div>
                 { !isConfirmedPasswordValid && isTouched && confirmedPasswordFeedback }
                 <div className={ styles.userFormButton }>
