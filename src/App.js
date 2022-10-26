@@ -2,20 +2,20 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
 // Pages
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import Register from './pages/Register';
-import PageNotFound from './pages/PageNotFound';
+import LoginPage from './pages/LoginPage';
+import DashboardPage from './pages/DashboardPage';
+import RegisterPage from './pages/RegisterPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
     <div>
       <Routes>
         <Route path='/' element={<Navigate replace to='/login' />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='*' element={<PageNotFound />} />
+        <Route path='/login' element={<LoginPage />} />
+        <Route path='/dashboard' element={<DashboardPage />} />
+        <Route path='/register' element={<RegisterPage />} />
+        <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </div>
   );
