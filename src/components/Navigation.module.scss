@@ -1,0 +1,23 @@
+@import '../scss/variables';
+
+nav {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 75px;
+    background-color: $primary-background-color;
+    color: $primary-font-color;
+
+    span {
+        float: right;
+        padding-right: 10vw;
+        padding-top: 40px;
+        font-size: 120%;
+
+        &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    }
+}
