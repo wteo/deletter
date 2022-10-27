@@ -46,6 +46,8 @@
     flex-direction: column;
     width: $widthForm;
     padding: 30px;
+    margin-top: 150px;
+    margin-left: 5vw;
 
     .userFormLabel {
         display: grid;
@@ -59,7 +61,7 @@
     }
 
     .userFormButton {
-        padding-top: 15px;
+        padding-top: 25px;
         display: grid;
         grid-template-columns: $widthGrid3 100px;
 

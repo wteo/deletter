@@ -6,21 +6,24 @@ type UserInput = {
     username: string,
     password: string, 
     confirmedPassword: string,
-    isTouched: boolean
+    isTouched: boolean,
+    isSubmitted: boolean
 };
 
 const defaultState: UserInput = {
     username            : '',
     password            : '',
     confirmedPassword   : '',
-    isTouched           : false
+    isTouched           : false,
+    isSubmitted         : false
 };
 
 const ACTIONS = {
     username: 'Enter_username',
     password: 'Enter_password',
     confirmedPassword: 'Confirm_password',
-    submit: ['valid', 'invalid_username', 'invalid_password', 'password_not_matched']
+    submit: 'valid', 
+    errors: ['invalid_username', 'invalid_password', 'password_not_matched']
 };
 
 const reducer = (state: UserInput, action: { type: string, value?: any }) => {
@@ -31,13 +34,13 @@ const reducer = (state: UserInput, action: { type: string, value?: any }) => {
             return { ...state, password: action.value }
         case ACTIONS.confirmedPassword: 
             return { ...state, confirmedPassword: action.value }
-        case ACTIONS.submit[0]: 
-            return { username: '', password: '', confirmedPassword: '', isTouched: false }
-        case ACTIONS.submit[1]: 
+        case ACTIONS.submit: 
+            return { username: '', password: '', confirmedPassword: '', isTouched: false, isSubmitted: true }
+        case ACTIONS.errors[0]: 
             return { ...state, username: '', isTouched: true }
-        case ACTIONS.submit[2]: 
+        case ACTIONS.errors[1]: 
             return { ...state, password: '', isTouched: true }
-        case ACTIONS.submit[3]: 
+        case ACTIONS.errors[2]: 
             return { ...state, confirmedPassword: '', isTouched: true }
         default:
             return defaultState;  
@@ -47,52 +50,58 @@ const reducer = (state: UserInput, action: { type: string, value?: any }) => {
 function Register() {
 
     const [newState, dispatch] = useReducer(reducer, defaultState);
-    const { username, password, confirmedPassword, isTouched }: UserInput = newState;
+    const { username, password, confirmedPassword, isTouched, isSubmitted }: UserInput = newState;
 
     const usernameHandler = (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.username, value: event.target.value }); };
     const passwordHandler = (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.password, value: event.target.value }); };
     const confirmedPasswordHandler = (event: React.ChangeEvent<HTMLInputElement> ) => { dispatch({ type: ACTIONS.confirmedPassword, value: event.target.value }); };
 
-    const isUsernameValid: boolean = username.includes('@');
-    const regularExpression: RegExp = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
-    const isPasswordValid: boolean = regularExpression.test(password);
+    const isUsernameValid = username.includes('@');
+    const regularExpression = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
+    const isPasswordValid = regularExpression.test(password);
     const isConfirmedPasswordValid: boolean | null = confirmedPassword.match(password) && confirmedPassword.length >= 6;
 
     const submitHandler = (event: React.FormEvent) => {
         
         event.preventDefault();
 
-        const data:{ username: string, password: string, confirmedPassword: string } = { username, password, confirmedPassword };
+        const data = { username, password, confirmedPassword };
+
         console.log(data);
 
         // Handling wrong user inputs
-        if (!isUsernameValid) dispatch({ type: ACTIONS.submit[1]});
-        if (!isPasswordValid) dispatch({ type: ACTIONS.submit[2]});
-        if (!isConfirmedPasswordValid) dispatch({ type: ACTIONS.submit[3]});
+        if (!isUsernameValid) dispatch({ type: ACTIONS.errors[0]});
+        if (!isPasswordValid) dispatch({ type: ACTIONS.errors[1]});
+        if (!isConfirmedPasswordValid) dispatch({ type: ACTIONS.errors[2]});
 
+        // Where all user inputs are valid
         if (isUsernameValid && isPasswordValid && isConfirmedPasswordValid) { 
 
-            /*
-            fetch('../users.json', {
+            fetch('https://deletter-7762f-default-rtdb.asia-southeast1.firebasedatabase.app/users.json', {
                 method: 'POST',
-                headers: {
-                    'Content-type': 'application/json'
-                },
                 body: JSON.stringify(data)
             })
-            .then(res => res.json())
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
-            */
+            .then((res: { status: number } ) => { 
+                try {
+                    if (res.status === 200) {
+                        console.log('New account created!');
+                    }
+                } catch(err: any) {
+                    throw new Error(err.message);
+                }
+             })
+            .catch((err: string) => { 
+                throw new Error(err);
+            });
 
-            dispatch({ type: ACTIONS.submit[0]}); 
+            dispatch({ type: ACTIONS.submit}); 
         }
 
         return;
     }
 
+    // Feedback to user after each submission
     const usernameFeedback = <p className={styles.invalid} >Please enter a valid email.</p>;
-
     const passwordFeedback = (
                         <div className={styles.invalid}>
                             Password must be:
@@ -102,14 +111,13 @@ function Register() {
                             </ul>
                         </div>
                         );
-
-
     const confirmedPasswordFeedback = <p className={styles.invalid}>Password does not match!</p>;
+    const accountCreated = <p id={styles.accountCreated}>Your account has been created.</p> 
 
     return (
         <div>
             <form className={ styles.userForm } onSubmit={ submitHandler }>
-                <p>Please enter your personal details:</p>
+                <h2>Please enter your personal details:</h2>
                 <div className={ styles.userFormLabel }>
                     <label>Email</label>
                     <input 
@@ -147,6 +155,7 @@ function Register() {
                     <p></p>
                     <button>Submit</button>
                 </div>
+                { isSubmitted && accountCreated }
             </form>
         </div>
     );

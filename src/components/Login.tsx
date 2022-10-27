@@ -52,6 +52,7 @@ function Login() {
 
     return (
         <form  className={ styles.userForm } onSubmit={ submitHandler }>
+            <h2>Login</h2>
             <div className={ styles.userFormLabel }>
                 <label>Username</label>
                 <input type='text' className={ !isUsernameValid && isTouched ? styles.invalidInput : '' } value={ enteredUsername } onChange={ usernameHandler }/>
@@ -63,7 +64,7 @@ function Login() {
             </div>
             { !isPasswordValid && isTouched && passwordFeedback }
             <div className={ styles.userFormButton }>
-                <p>New to DeLetter? <Link to='/register'>Register</Link></p>
+                <p>New? <Link to='/register'>Register now</Link></p>
                 <button>Login</button>
             </div>
         </form>
