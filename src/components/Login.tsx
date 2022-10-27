@@ -5,23 +5,23 @@ import styles from './Login.module.scss';
 
 function Login() {
 
-    const [enteredUsername, setUsername] = useState('');
-    const [enteredPassword, setPassword] = useState('');
-    const [isTouched, setIsTouched] = useState(false);
+    const [enteredUsername, setUsername] = useState<string>('');
+    const [enteredPassword, setPassword] = useState<string>('');
+    const [isTouched, setIsTouched] = useState<boolean>(false);
 
-    const usernameHandler = (event) => {
+    const usernameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(event.target.value);
     };
 
-    const passwordHandler = (event) => {
+    const passwordHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
     };
 
-    const isUsernameValid = enteredUsername.includes('@');
-    const regularExpression = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
-    const isPasswordValid = regularExpression.test(enteredPassword);
+    const isUsernameValid: boolean = enteredUsername.includes('@');
+    const regularExpression: RegExp = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
+    const isPasswordValid: boolean = regularExpression.test(enteredPassword);
 
-    const submitHandler = (event) => {
+    const submitHandler = (event: React.FormEvent) => {
         
         event.preventDefault();
         console.log({ username: enteredUsername, password: enteredPassword });

@@ -2,7 +2,14 @@ import React, { useReducer } from 'react';
 
 import styles from './Register.module.scss';
 
-const defaultState = {
+type UserInput = {
+    username: string,
+    password: string, 
+    confirmedPassword: string,
+    isTouched: boolean
+};
+
+const defaultState: UserInput = {
     username            : '',
     password            : '',
     confirmedPassword   : '',
@@ -16,7 +23,7 @@ const ACTIONS = {
     submit: ['valid', 'invalid_username', 'invalid_password', 'password_not_matched']
 };
 
-const reducer = (state, action) => {
+const reducer = (state: UserInput, action: { type: string, value?: any }) => {
     switch (action.type) {
         case ACTIONS.username: 
             return { ...state, username: action.value }
@@ -40,26 +47,46 @@ const reducer = (state, action) => {
 function Register() {
 
     const [newState, dispatch] = useReducer(reducer, defaultState);
-    const { username, password, confirmedPassword, isTouched } = newState;
+    const { username, password, confirmedPassword, isTouched }: UserInput = newState;
 
-    const usernameHandler = ( event ) => { dispatch({ type: ACTIONS.username, value: event.target.value }); };
-    const passwordHandler = (event) => { dispatch({ type: ACTIONS.password, value: event.target.value }); };
-    const confirmedPasswordHandler = (event) => { dispatch({ type: ACTIONS.confirmedPassword, value: event.target.value }); };
+    const usernameHandler = (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.username, value: event.target.value }); };
+    const passwordHandler = (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.password, value: event.target.value }); };
+    const confirmedPasswordHandler = (event: React.ChangeEvent<HTMLInputElement> ) => { dispatch({ type: ACTIONS.confirmedPassword, value: event.target.value }); };
 
-    const isUsernameValid = username.includes('@');
-    const regularExpression = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
-    const isPasswordValid = regularExpression.test(password);
-    const isConfirmedPasswordValid = confirmedPassword.match(password) && confirmedPassword.length >= 6;
+    const isUsernameValid: boolean = username.includes('@');
+    const regularExpression: RegExp = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
+    const isPasswordValid: boolean = regularExpression.test(password);
+    const isConfirmedPasswordValid: boolean | null = confirmedPassword.match(password) && confirmedPassword.length >= 6;
 
-    const submitHandler = (event) => {
+    const submitHandler = (event: React.FormEvent) => {
         
         event.preventDefault();
-        console.log({ username, password, confirmedPassword });
 
+        const data:{ username: string, password: string, confirmedPassword: string } = { username, password, confirmedPassword };
+        console.log(data);
+
+        // Handling wrong user inputs
         if (!isUsernameValid) dispatch({ type: ACTIONS.submit[1]});
         if (!isPasswordValid) dispatch({ type: ACTIONS.submit[2]});
         if (!isConfirmedPasswordValid) dispatch({ type: ACTIONS.submit[3]});
-        if (isUsernameValid && isPasswordValid && isConfirmedPasswordValid) dispatch({ type: ACTIONS.submit[0]});
+
+        if (isUsernameValid && isPasswordValid && isConfirmedPasswordValid) { 
+
+            /*
+            fetch('../users.json', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+            */
+
+            dispatch({ type: ACTIONS.submit[0]}); 
+        }
 
         return;
     }
@@ -85,17 +112,35 @@ function Register() {
                 <p>Please enter your personal details:</p>
                 <div className={ styles.userFormLabel }>
                     <label>Email</label>
-                    <input type='text' className={ !isUsernameValid && isTouched ? styles.invalidInput : '' } value={ username } onChange={ usernameHandler } />
+                    <input 
+                    type='text' 
+                    className={ !isUsernameValid && isTouched ? styles.invalidInput : '' } 
+                    value={ username } 
+                    onChange={ usernameHandler } 
+                    name={ username }
+                    />
                 </div>
                 { !isUsernameValid && isTouched && usernameFeedback }
                 <div className={ styles.userFormLabel }>
                     <label>Password</label>
-                    <input type='text' className={ !isPasswordValid && isTouched ? styles.invalidInput : '' } value={ password } onChange={ passwordHandler } />
+                    <input 
+                        type='text' 
+                        className={ !isPasswordValid && isTouched ? styles.invalidInput : '' } 
+                        value={ password } 
+                        onChange={ passwordHandler } 
+                        name={ password } 
+                    />
                 </div>
                 { !isPasswordValid && newState.isTouched && passwordFeedback }
                 <div className={ styles.userFormLabel }>
                     <label>Confirm Password</label>
-                    <input type='text' className={ !isConfirmedPasswordValid && isTouched ? styles.invalidInput : '' } value={ confirmedPassword } onChange={ confirmedPasswordHandler } />
+                    <input 
+                        type='text' 
+                        className={ !isConfirmedPasswordValid && isTouched ? styles.invalidInput : '' } 
+                        value={ confirmedPassword } 
+                        onChange={ confirmedPasswordHandler } 
+                        name={ confirmedPassword } 
+                    />
                 </div>
                 { !isConfirmedPasswordValid && isTouched && confirmedPasswordFeedback }
                 <div className={ styles.userFormButton }>
