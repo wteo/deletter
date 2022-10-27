@@ -1,0 +1,16 @@
+@import '../scss/variables';
+
+footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 50px;
+    background-color: $primary-background-color;
+    color: $primary-font-color;
+
+    p {
+        float: left;
+        margin-left: 5vw;
+    }
+}
