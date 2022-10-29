@@ -10,10 +10,12 @@ import DashboardPage from './pages/DashboardPage';
 import RegisterPage from './pages/RegisterPage';
 import NotFoundPage from './pages/NotFoundPage';
 import Footer from './components/Footer';
+import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
+
   return (
-    <div>
+    <AuthProvider>
       <Navigation />
       <Routes>
         <Route path='/' element={<Navigate replace to='/login' />} />
@@ -23,7 +25,7 @@ function App() {
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
       <Footer />
-    </div>
+    </AuthProvider>
   );
 }
 
