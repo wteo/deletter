@@ -1,11 +1,17 @@
 import React from 'react';
+import { useAuth } from '../contexts/AuthContext';
 
-// import styles from './Dashboard.module.scss';
+import './Dashboard.module.scss';
 
 function Dashboard() {
 
+    const { isLogIn } = useAuth();
+
     return (
-        <p>Welcome back to DeLetter!</p>
+        <>
+            { isLogIn && <h1>Welcome!</h1>}
+            { !isLogIn && <h1>You are not login.</h1>}
+        </>
     );
 }
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth, } from 'src/contexts/AuthContext';
 
 import styles from './Login.module.scss';
 
@@ -21,21 +22,29 @@ function Login() {
     const regularExpression: RegExp = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
     const isPasswordValid: boolean = regularExpression.test(enteredPassword);
 
-    const submitHandler = (event: React.FormEvent) => {
+    const { signin } = useAuth();
+    const navigation = useNavigate();
+
+    const submitHandler = async (event: React.FormEvent) => {
         
         event.preventDefault();
-        console.log({ username: enteredUsername, password: enteredPassword });
 
-        setIsTouched(true);
-    
-        if (isUsernameValid && isPasswordValid) {
-            setUsername('');
-            setPassword('');
-            setIsTouched(false);
-        } else {
-            setPassword('');
-            throw new Error('Invalid username and password.');
+        try {
+            if (isUsernameValid && isPasswordValid) {
+                setUsername('');
+                setPassword('');
+                setIsTouched(false);
+                await signin(enteredUsername, enteredPassword);
+                navigation('/dashboard');
+            } else {
+                setIsTouched(true);
+                console.log('Invalid username or password.');
+                return;
+            }
+        } catch {
+            throw new Error('Failed to login.');
         }
+
     };
 
     const usernameFeedback = <p className={styles.invalid} >Please enter a valid email.</p>;

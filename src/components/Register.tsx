@@ -1,4 +1,6 @@
 import React, { useReducer } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 import styles from './Register.module.scss';
 
@@ -6,22 +8,25 @@ type UserInput = {
     username: string,
     password: string, 
     confirmedPassword: string,
+    oldUsername: boolean,
     isTouched: boolean,
-    isSubmitted: boolean
+    isSubmitted: boolean,
 };
 
 const defaultState: UserInput = {
     username            : '',
     password            : '',
     confirmedPassword   : '',
+    oldUsername         : false,
     isTouched           : false,
-    isSubmitted         : false
+    isSubmitted         : false,
 };
 
 const ACTIONS = {
     username: 'Enter_username',
     password: 'Enter_password',
     confirmedPassword: 'Confirm_password',
+    oldUsername: 'old_username',
     submit: 'valid', 
     errors: ['invalid_username', 'invalid_password', 'password_not_matched']
 };
@@ -29,13 +34,15 @@ const ACTIONS = {
 const reducer = (state: UserInput, action: { type: string, value?: any }) => {
     switch (action.type) {
         case ACTIONS.username: 
-            return { ...state, username: action.value }
+            return { ...state, username: action.value, oldUsername: false, isSubmitted: false }
         case ACTIONS.password: 
-            return { ...state, password: action.value }
+            return { ...state, password: action.value, oldUsername: false, isSubmitted: false }
         case ACTIONS.confirmedPassword: 
-            return { ...state, confirmedPassword: action.value }
+            return { ...state, confirmedPassword: action.value, oldUsername: false, isSubmitted: false }
         case ACTIONS.submit: 
-            return { username: '', password: '', confirmedPassword: '', isTouched: false, isSubmitted: true }
+            return { ...state, username: '', password: '', confirmedPassword: '', isTouched: false, isSubmitted: true }
+        case ACTIONS.oldUsername:
+            return { ...state, username: '', password: '', confirmedPassword: '', isTouched: false, oldUsername: true }
         case ACTIONS.errors[0]: 
             return { ...state, username: '', isTouched: true }
         case ACTIONS.errors[1]: 
@@ -50,7 +57,8 @@ const reducer = (state: UserInput, action: { type: string, value?: any }) => {
 function Register() {
 
     const [newState, dispatch] = useReducer(reducer, defaultState);
-    const { username, password, confirmedPassword, isTouched, isSubmitted }: UserInput = newState;
+    const { username, password, confirmedPassword, oldUsername, isTouched, isSubmitted }: UserInput = newState;
+    const { signup } = useAuth();
 
     const usernameHandler = (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.username, value: event.target.value }); };
     const passwordHandler = (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.password, value: event.target.value }); };
@@ -61,7 +69,9 @@ function Register() {
     const isPasswordValid = regularExpression.test(password);
     const isConfirmedPasswordValid: boolean | null = confirmedPassword.match(password) && confirmedPassword.length >= 6;
 
-    const submitHandler = (event: React.FormEvent) => {
+    const navigation = useNavigate();
+
+    const submitHandler = async (event: React.FormEvent) => {
         
         event.preventDefault();
 
@@ -69,35 +79,23 @@ function Register() {
 
         console.log(data);
 
-        // Handling wrong user inputs
-        if (!isUsernameValid) dispatch({ type: ACTIONS.errors[0]});
-        if (!isPasswordValid) dispatch({ type: ACTIONS.errors[1]});
-        if (!isConfirmedPasswordValid) dispatch({ type: ACTIONS.errors[2]});
-
-        // Where all user inputs are valid
-        if (isUsernameValid && isPasswordValid && isConfirmedPasswordValid) { 
-
-            fetch('https://deletter-7762f-default-rtdb.asia-southeast1.firebasedatabase.app/users.json', {
-                method: 'POST',
-                body: JSON.stringify(data)
-            })
-            .then((res: { status: number } ) => { 
-                try {
-                    if (res.status === 200) {
-                        console.log('New account created!');
-                    }
-                } catch(err: any) {
-                    throw new Error(err.message);
-                }
-             })
-            .catch((err: string) => { 
-                throw new Error(err);
-            });
-
-            dispatch({ type: ACTIONS.submit}); 
+        try {
+            // Where all user inputs are valid
+            if (isUsernameValid && isPasswordValid && isConfirmedPasswordValid) { 
+                await signup(username, password);
+                dispatch({ type: ACTIONS.submit}); 
+                navigation('/');
+            } else {
+                // Handling wrong user inputs
+                if (!isUsernameValid) dispatch({ type: ACTIONS.errors[0]});
+                if (!isPasswordValid) dispatch({ type: ACTIONS.errors[1]});
+                if (!isConfirmedPasswordValid) dispatch({ type: ACTIONS.errors[2]});
+            }
+        } catch {
+            // Where there's already an existing email registered.
+            dispatch({ type: ACTIONS.oldUsername });
+            throw new Error('Unable to create new account.');
         }
-
-        return;
     }
 
     // Feedback to user after each submission
@@ -112,7 +110,8 @@ function Register() {
                         </div>
                         );
     const confirmedPasswordFeedback = <p className={styles.invalid}>Password does not match!</p>;
-    const accountCreated = <p id={styles.accountCreated}>Your account has been created.</p> 
+    const oldUsernameFeedback =  <p className={styles.invalid}>This email is already registered! Please sign in.</p>;
+
 
     return (
         <div>
@@ -155,7 +154,8 @@ function Register() {
                     <p></p>
                     <button>Submit</button>
                 </div>
-                { isSubmitted && accountCreated }
+                { isSubmitted && <p>Your account has been created.</p> }
+                { oldUsername && oldUsernameFeedback }
             </form>
         </div>
     );
