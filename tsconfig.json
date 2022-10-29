@@ -64,6 +64,6 @@
         "typeRoots": [],
         "jsx": "react",
     },
-    "include": [ "*/*.tsx", "*/*.d.tsx", "*/*.d.ts", "*/*.ts" ],
+    "include": [ "*/*.tsx", "*/*.d.tsx", "*/*.d.ts", "*/*.ts", "src/firebase.d.tsx.local", "src/firebase.js", "src/firebase.js", "src/env.local", "src/firebase.jsx", "src/firebase.js", "src/firebase.d.tsx.local" ],
     "exclude": [ "node_modules" ]
 }
