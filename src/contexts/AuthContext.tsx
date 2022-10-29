@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import firebaseApp from 'src/firebase';
 
-const auth = getAuth(firebaseApp);
+export const auth = getAuth(firebaseApp);
 
 const AuthContext = React.createContext<any>(null);
 
@@ -14,12 +14,10 @@ export function AuthProvider(props: { children: React.ReactNode }) {
 
     const [currentUser, setCurrentUser] = useState<string>();
 
-    const signup = (username: string, password: string) => {
-        createUserWithEmailAndPassword(auth, username, password);
-    };
+    const [isLogIn, setIsLogIn] = useState<boolean>(false);
 
-    const signin = (username: string, password: string) => {
-        signInWithEmailAndPassword(auth, username, password);
+    const isLogInHandler = (value: boolean) => {
+        setIsLogIn(value);
     };
 
     useEffect(() => {
@@ -31,9 +29,8 @@ export function AuthProvider(props: { children: React.ReactNode }) {
 
     const value = {
         currentUser,
-        signin,
-        signup,
-        isLogIn: false,
+        isLogIn,
+        isLogInHandler,
     };
 
     return (

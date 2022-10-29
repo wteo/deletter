@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { auth } from '../contexts/AuthContext';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { Link } from 'react-router-dom';
 
 import styles from './Register.module.scss';
 
@@ -58,7 +59,6 @@ function Register() {
 
     const [newState, dispatch] = useReducer(reducer, defaultState);
     const { username, password, confirmedPassword, oldUsername, isTouched, isSubmitted }: UserInput = newState;
-    const { signup } = useAuth();
 
     const usernameHandler = (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.username, value: event.target.value }); };
     const passwordHandler = (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.password, value: event.target.value }); };
@@ -68,8 +68,6 @@ function Register() {
     const regularExpression = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
     const isPasswordValid = regularExpression.test(password);
     const isConfirmedPasswordValid: boolean | null = confirmedPassword.match(password) && confirmedPassword.length >= 6;
-
-    const navigation = useNavigate();
 
     const submitHandler = async (event: React.FormEvent) => {
         
@@ -82,9 +80,8 @@ function Register() {
         try {
             // Where all user inputs are valid
             if (isUsernameValid && isPasswordValid && isConfirmedPasswordValid) { 
-                await signup(username, password);
+                await createUserWithEmailAndPassword(auth, username, password);
                 dispatch({ type: ACTIONS.submit}); 
-                navigation('/');
             } else {
                 // Handling wrong user inputs
                 if (!isUsernameValid) dispatch({ type: ACTIONS.errors[0]});
@@ -154,7 +151,7 @@ function Register() {
                     <p></p>
                     <button>Submit</button>
                 </div>
-                { isSubmitted && <p>Your account has been created.</p> }
+                { isSubmitted && <p>Your account has been created. <Link to='/'>Log in now?</Link></p> }
                 { oldUsername && oldUsernameFeedback }
             </form>
         </div>
