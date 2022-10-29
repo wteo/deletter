@@ -9,6 +9,17 @@ nav {
     background-color: $primary-background-color;
     color: $primary-font-color;
 
+    div {
+        position: absolute;
+        width: 150px;
+        margin: 10px 5vw;
+        z-index: 200;
+
+        img {
+            width: 100%;
+        }
+    }
+
     span {
         float: right;
         padding-right: 10vw;
