@@ -1,7 +1,6 @@
 import React, { useReducer } from 'react';
 import { auth } from '../contexts/AuthContext';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { Link } from 'react-router-dom';
 
 import styles from './Register.module.scss';
 
@@ -11,7 +10,6 @@ type UserInput = {
     confirmedPassword: string,
     oldUsername: boolean,
     isTouched: boolean,
-    isSubmitted: boolean,
 };
 
 const defaultState: UserInput = {
@@ -20,7 +18,6 @@ const defaultState: UserInput = {
     confirmedPassword   : '',
     oldUsername         : false,
     isTouched           : false,
-    isSubmitted         : false,
 };
 
 const ACTIONS = {
@@ -35,13 +32,13 @@ const ACTIONS = {
 const reducer = (state: UserInput, action: { type: string, value?: any }) => {
     switch (action.type) {
         case ACTIONS.username: 
-            return { ...state, username: action.value, oldUsername: false, isSubmitted: false }
+            return { ...state, username: action.value, oldUsername: false }
         case ACTIONS.password: 
-            return { ...state, password: action.value, oldUsername: false, isSubmitted: false }
+            return { ...state, password: action.value, oldUsername: false }
         case ACTIONS.confirmedPassword: 
-            return { ...state, confirmedPassword: action.value, oldUsername: false, isSubmitted: false }
+            return { ...state, confirmedPassword: action.value, oldUsername: false }
         case ACTIONS.submit: 
-            return { ...state, username: '', password: '', confirmedPassword: '', isTouched: false, isSubmitted: true }
+            return { ...state, username: '', password: '', confirmedPassword: '', isTouched: false }
         case ACTIONS.oldUsername:
             return { ...state, username: '', password: '', confirmedPassword: '', isTouched: false, oldUsername: true }
         case ACTIONS.errors[0]: 
@@ -58,7 +55,7 @@ const reducer = (state: UserInput, action: { type: string, value?: any }) => {
 function Register() {
 
     const [newState, dispatch] = useReducer(reducer, defaultState);
-    const { username, password, confirmedPassword, oldUsername, isTouched, isSubmitted }: UserInput = newState;
+    const { username, password, confirmedPassword, oldUsername, isTouched }: UserInput = newState;
 
     const usernameHandler = (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.username, value: event.target.value }); };
     const passwordHandler = (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.password, value: event.target.value }); };
@@ -151,7 +148,6 @@ function Register() {
                     <p></p>
                     <button>Submit</button>
                 </div>
-                { isSubmitted && <p>Your account has been created. <Link to='/'>Log in now?</Link></p> }
                 { oldUsername && oldUsernameFeedback }
             </form>
         </div>
