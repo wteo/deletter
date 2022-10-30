@@ -15,3 +15,14 @@ a {
         text-decoration: underline;
     }
 }
+
+#forgottenPassword a {
+    
+    color: blue;
+    margin-left: 5vw;
+
+    &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}

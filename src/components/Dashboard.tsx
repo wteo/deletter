@@ -1,17 +1,17 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
-import './Dashboard.module.scss';
+import styles from './Dashboard.module.scss';
 
 function Dashboard() {
 
-    const { isLogIn } = useAuth();
+    const { currentUser } = useAuth();
 
     return (
-        <>
-            { isLogIn && <h1>Welcome!</h1>}
-            { !isLogIn && <h1>You are not logged in.</h1>}
-        </>
+        <div id={styles.dashboard}>
+            <h1>Welcome!</h1>
+            <p>You are currently logged in as { currentUser.email } </p>
+        </div>
     );
 }
 

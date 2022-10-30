@@ -1,16 +1,21 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
 
 import './App.module.scss';
 
-// Pages
 import Navigation from './components/Navigation';
-import LoginPage from './pages/LoginPage';
-import DashboardPage from './pages/DashboardPage';
-import RegisterPage from './pages/RegisterPage';
-import NotFoundPage from './pages/NotFoundPage';
 import Footer from './components/Footer';
-import { AuthProvider } from './contexts/AuthContext';
+
+// Public pages
+import LoginPage from './pages/public/LoginPage';
+import GetPasswordPage from './pages/public/GatPasswordPage'
+import RegisterPage from './pages/public/RegisterPage';
+import NotFoundPage from './pages/public/NotFoundPage';
+
+// Private pages
+import DashboardPage from './pages/private/DashboardPage';
+
 
 function App() {
 
@@ -20,6 +25,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Navigate replace to='/login' />} />
         <Route path='/login' element={<LoginPage />} />
+        <Route path='/password' element={<GetPasswordPage />} />
         <Route path='/dashboard' element={<DashboardPage />} />
         <Route path='/register' element={<RegisterPage />} />
         <Route path='*' element={<NotFoundPage />} />

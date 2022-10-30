@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth, useAuth } from 'src/contexts/AuthContext';
+import { auth } from 'src/contexts/AuthContext';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
 import styles from './Login.module.scss';
@@ -30,7 +30,6 @@ function Login() {
         setPassword(event.target.value);
     };
 
-    const { isLogInHandler } = useAuth();
     const navigation = useNavigate();
 
     const submitHandler = async (event: React.FormEvent) => {
@@ -42,7 +41,6 @@ function Login() {
                     const user = userCredential.user;
                     // Need to specify feedback on username and password
                     console.log(user);
-                    isLogInHandler(true);
                     navigation('/dashboard');
                 })
                 .catch(err => {
@@ -71,6 +69,7 @@ function Login() {
     };
 
     return (
+        <>
         <form  className={ styles.userForm } onSubmit={ submitHandler }>
             <h2>Login</h2>
             <div className={ styles.userFormLabel }>
@@ -90,6 +89,8 @@ function Login() {
                 <button>Login</button>
             </div>
         </form>
+        <p id={styles.forgottenPassword}><Link to='./password'>Forgot your password?</Link></p>
+        </>
     );
 
 }
