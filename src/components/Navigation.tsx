@@ -1,13 +1,27 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
+import { auth, useAuth } from '../contexts/AuthContext';
+import { signOut } from 'firebase/auth';
 
 import styles from './Navigation.module.scss';
 import logo from '../images/logo.PNG';
 
 function Navigation() {
 
-    const { isLogIn, isLogInHandler} = useAuth();
+    const { currentUser } = useAuth();
+    const navigation = useNavigate();
+
+    const logOutHandler = async () => {
+        await signOut(auth)
+        .then(() => {
+            navigation('/login');
+
+        })
+        .catch((error: string) => {
+            alert(`${error} Unable to logout`);
+        })
+
+    }
 
     const navLogIn = (
         <>
@@ -17,21 +31,15 @@ function Navigation() {
         </>
     );
 
-    const logOutHandler = () => {
-        isLogInHandler(false);
-    }
-
-    const navLogOut = <span onClick={logOutHandler}><Link to='/'>Log Out</Link></span>
-
-
+    const navLogOut = <span onClick={logOutHandler}>Log Out</span>
 
     return (
         <nav className={styles.navigation}>
             <div>
                 <img src={logo} alt='logo' />
             </div>
-            { isLogIn && navLogOut }
-            { !isLogIn && navLogIn }
+            { currentUser && navLogOut }
+            { !currentUser && navLogIn }
         </nav>
     );
 }

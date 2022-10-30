@@ -14,12 +14,6 @@ export function AuthProvider(props: { children: React.ReactNode }) {
 
     const [currentUser, setCurrentUser] = useState<string>();
 
-    const [isLogIn, setIsLogIn] = useState<boolean>(false);
-
-    const isLogInHandler = (value: boolean) => {
-        setIsLogIn(value);
-    };
-
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user: any) => {
             setCurrentUser(user);
@@ -29,8 +23,6 @@ export function AuthProvider(props: { children: React.ReactNode }) {
 
     const value = {
         currentUser,
-        isLogIn,
-        isLogInHandler,
     };
 
     return (
