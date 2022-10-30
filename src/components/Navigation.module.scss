@@ -10,7 +10,7 @@ nav {
     color: $primary-font-color;
 
     div {
-        position: absolute;
+        position: fixed;
         width: 150px;
         margin: 10px 5vw;
         z-index: 200;
