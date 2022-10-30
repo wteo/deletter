@@ -31,12 +31,20 @@ function Navigation() {
         </>
     );
 
-    const navLogOut = <span onClick={logOutHandler}>Log Out</span>
+    const navLogOut = (
+        <>
+            <span onClick={logOutHandler}>Log Out</span>
+            <span><Link to='/customers'>Customers</Link></span>
+            <span><Link to='/new'>Create New</Link></span>
+        </>
+    );
 
     return (
         <nav className={styles.navigation}>
             <div>
-                <img src={logo} alt='logo' />
+                <Link to='/dashboard'>
+                    <img src={logo} alt='logo' />
+                </Link>
             </div>
             { currentUser && navLogOut }
             { !currentUser && navLogIn }

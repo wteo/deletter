@@ -89,7 +89,7 @@ function Login() {
                 <button>Login</button>
             </div>
         </form>
-        <p id={styles.forgottenPassword}><Link to='./password'>Forgot your password?</Link></p>
+        <p id={styles.forgottenPassword}><Link to='/login/password'>Forgot your password?</Link></p>
         </>
     );
 

@@ -9,7 +9,7 @@ import Footer from './components/Footer';
 
 // Public pages
 import LoginPage from './pages/public/LoginPage';
-import GetPasswordPage from './pages/public/GatPasswordPage'
+import ForgotPassword from './pages/public/ForgotPasswordPage'
 import RegisterPage from './pages/public/RegisterPage';
 import NotFoundPage from './pages/public/NotFoundPage';
 
@@ -25,7 +25,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Navigate replace to='/login' />} />
         <Route path='/login' element={<LoginPage />} />
-        <Route path='/password' element={<GetPasswordPage />} />
+        <Route path='/login/password' element={<ForgotPassword />} />
         <Route path='/dashboard' element={<DashboardPage />} />
         <Route path='/register' element={<RegisterPage />} />
         <Route path='*' element={<NotFoundPage />} />
