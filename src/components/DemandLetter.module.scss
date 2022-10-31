@@ -1,4 +1,30 @@
+@import '../scss/mixins';
+@import '../scss/variables';
+
 #demandLetter {
-    margin-top: 200px;
+    margin-top: 150px;
     margin-left: 5vw;
 }
+
+#billingAddressForm {
+
+    #billingAddressContainer {
+        display: grid;
+        grid-template-columns: 20vw 35vw;
+        row-gap: 1vh;
+    
+        label {
+            &::after {
+                float: right;
+                padding-right: 1vw;
+                content: ':';
+            }
+        }
+    }
+
+    button {
+        margin-top: 5vh;
+        @include button();
+    }
+}
+
