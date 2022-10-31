@@ -15,6 +15,7 @@ import NotFoundPage from './pages/public/NotFoundPage';
 
 // Private pages
 import DashboardPage from './pages/private/DashboardPage';
+import DemandLetterPage from './pages/private/DemandLetterPage';
 
 
 function App() {
@@ -26,8 +27,9 @@ function App() {
         <Route path='/' element={<Navigate replace to='/login' />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/login/password' element={<ForgotPassword />} />
-        <Route path='/dashboard' element={<DashboardPage />} />
         <Route path='/register' element={<RegisterPage />} />
+        <Route path='/dashboard' element={<DashboardPage />} />
+        <Route path='/letter' element={<DemandLetterPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
       <Footer />

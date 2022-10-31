@@ -35,7 +35,7 @@ function Navigation() {
         <>
             <span onClick={logOutHandler}>Log Out</span>
             <span><Link to='/customers'>Customers</Link></span>
-            <span><Link to='/new'>Create New</Link></span>
+            <span><Link to='/letter'>Create New</Link></span>
         </>
     );
 
