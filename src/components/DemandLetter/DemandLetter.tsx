@@ -7,8 +7,7 @@ import BillingAddress from './BilllingAddress';
 function DemandLetter() {
     return (
         <div id={styles.demandLetter}>
-            <h2>Enter Customer's Billing Address</h2>
-            <BillingAddress />            
+            <BillingAddress />
         </div>
         );
 }
