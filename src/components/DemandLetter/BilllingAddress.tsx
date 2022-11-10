@@ -41,6 +41,7 @@ const ACTIONS = {
 };
 
 const reducer = (state: billingAddress, action: { type: string, value?: any }) => {
+    
     switch (action.type) {
         case ACTIONS.billedTo: 
             return { ...state, billedTo: action.value }
@@ -74,47 +75,38 @@ function BillingAddress() {
     const { billedTo, position, company, building, street, surburb, postcode, state, country } : billingAddress = newState;
 
     const userInputs = [{
-            id: 1,
             label: 'Billed To',
             state: billedTo,
             handler: (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.billedTo, value: event.target.value }) },
         }, {
-            id: 2,
             label: 'Position',
             state: position,
             handler: (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.position, value: event.target.value }) },
         }, {
-            id: 3,
             label: 'Company Name',
             state: company,
             handler: (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.company, value: event.target.value }) },
         }, {
-            id: 4,
             label: 'Building Name',
             state: building,
             handler: (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.building, value: event.target.value }) },
         }, {
-            id: 5,
             label: 'Street Address',
             state: street,
             handler: (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.street, value: event.target.value }) },
         }, {
-            id: 6,
             label: 'Surburb',
             state: surburb,
             handler: (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.surburb, value: event.target.value }) },
         }, {
-            id: 7,
             label: 'Postcode',
             state: postcode,
             handler: (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.postcode, value: event.target.value }) },
         }, {
-            id: 8,
             label: 'State',
             state: state,
             handler: (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.state, value: event.target.value }) },
         }, {
-            id: 9,
             label: 'Country',
             state: country,
             handler: (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.country, value: event.target.value }) },
@@ -132,7 +124,7 @@ function BillingAddress() {
         <form id={styles.billingAddressForm} onSubmit={submitHandler} >
             { userInputs.map((userInput) => {
                 return (
-                    <div key={ userInput.id } className={styles.billingAddressContainer}>
+                    <div key={ userInput.label } className={styles.billingAddressContainer}>
                         <label>{ userInput.label }</label>
                         <input type='text' value={ userInput.state } onChange={ userInput.handler} />
                     </div>
