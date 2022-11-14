@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
-import { DbProvider } from './contexts/DatabaseContext';
+import { DbProvider } from './contexts/DbContext';
 
 import './App.module.scss';
 
@@ -17,6 +17,7 @@ import NotFoundPage from './pages/public/NotFoundPage';
 // Private pages
 import DashboardPage from './pages/private/DashboardPage';
 import DemandLetterPage from './pages/private/DemandLetterPage';
+import CustomersPage from './pages/private/CustomersPage';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/dashboard' element={<DashboardPage />} />
           <Route path='/letter' element={<DbProvider><DemandLetterPage /></DbProvider>} />
+          <Route path='/customers' element={<DbProvider><CustomersPage /></DbProvider>} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
         <Footer />

@@ -1,8 +1,8 @@
 import React , { useReducer }from 'react';
+import { useDb } from '../../contexts/DatabaseContext';
+import { addDoc } from 'firebase/firestore';
 
 import styles from './BillingAddress.module.scss';
-import { addDoc } from 'firebase/firestore';
-import { useDb } from '../../contexts/DatabaseContext'
 
 type billingAddress = {
     billedTo    : string,
@@ -135,10 +135,6 @@ function BillingAddress() {
             console.log({ billedTo, position, company, building, street, surburb, postcode, state, country });
             dispatch({ type: ACTIONS.reset });
         })
-        
-        
-        console.log({ billedTo, position, company, building, street, surburb, postcode, state, country });
-        // dispatch({ type: ACTIONS.reset });
     }
 
     return (
