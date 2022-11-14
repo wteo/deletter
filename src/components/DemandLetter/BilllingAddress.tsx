@@ -1,32 +1,9 @@
 import React , { useReducer }from 'react';
-import { useDb } from '../../contexts/DatabaseContext';
+import { useDb } from '../../contexts/DbContext';
 import { addDoc } from 'firebase/firestore';
+import { billingAddress, defaultState } from 'src/types/BillingAddress';
 
 import styles from './BillingAddress.module.scss';
-
-type billingAddress = {
-    billedTo    : string,
-    position    : string, 
-    company     : string,
-    building    : string,
-    street      : string,
-    surburb     : string,
-    postcode    : number | string,
-    state       : string, 
-    country     : string
-};
-
-const defaultState: billingAddress = {
-    billedTo    : '',
-    position    : '',
-    company     : '',
-    building    : '',
-    street      : '',
-    surburb     : '',
-    postcode    : '',
-    state       : '',
-    country     : ''
-};
 
 const ACTIONS = {
     billedTo    : 'ENTER_BILLED_TO',
@@ -40,7 +17,6 @@ const ACTIONS = {
     country     : 'ENTER_COUNTRY',
     reset       : 'RESET'
 };
-
 
 const reducer = (state: billingAddress, action: { type: string, value?: any }) => {
     
@@ -114,13 +90,12 @@ function BillingAddress() {
             handler: (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.country, value: event.target.value }) },
         }];
 
-    
-    const { billingAddresses } = useDb();
+    const { billAddressColRef } = useDb();
 
     const submitHandler = (event: React.FormEvent) => {
         event.preventDefault();
         
-        addDoc(billingAddresses, {
+        addDoc(billAddressColRef, {
             billedTo,
             position,
             company,

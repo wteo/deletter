@@ -1,24 +1,9 @@
 import React, { useReducer } from 'react';
 import { auth } from '../contexts/AuthContext';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { UserInput, defaultState } from '../types/UserInput';
 
 import styles from './Register.module.scss';
-
-type UserInput = {
-    username: string,
-    password: string, 
-    confirmedPassword: string,
-    oldUsername: boolean,
-    isTouched: boolean,
-};
-
-const defaultState: UserInput = {
-    username            : '',
-    password            : '',
-    confirmedPassword   : '',
-    oldUsername         : false,
-    isTouched           : false,
-};
 
 const ACTIONS = {
     username: 'Enter_username',
