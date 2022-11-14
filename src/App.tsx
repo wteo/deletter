@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
+import { DbProvider } from './contexts/DatabaseContext';
 
 import './App.module.scss';
 
@@ -22,17 +23,17 @@ function App() {
 
   return (
     <AuthProvider>
-      <Navigation />
-      <Routes>
-        <Route path='/' element={<Navigate replace to='/login' />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/login/password' element={<ForgotPassword />} />
-        <Route path='/register' element={<RegisterPage />} />
-        <Route path='/dashboard' element={<DashboardPage />} />
-        <Route path='/letter' element={<DemandLetterPage />} />
-        <Route path='*' element={<NotFoundPage />} />
-      </Routes>
-      <Footer />
+        <Navigation />
+        <Routes>
+          <Route path='/' element={<Navigate replace to='/login' />} />
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/login/password' element={<ForgotPassword />} />
+          <Route path='/register' element={<RegisterPage />} />
+          <Route path='/dashboard' element={<DashboardPage />} />
+          <Route path='/letter' element={<DbProvider><DemandLetterPage /></DbProvider>} />
+          <Route path='*' element={<NotFoundPage />} />
+        </Routes>
+        <Footer />
     </AuthProvider>
   );
 }

@@ -1,7 +1,8 @@
 import React , { useReducer }from 'react';
 
 import styles from './BillingAddress.module.scss';
-
+import { addDoc } from 'firebase/firestore';
+import { useDb } from '../../contexts/DatabaseContext'
 
 type billingAddress = {
     billedTo    : string,
@@ -39,6 +40,7 @@ const ACTIONS = {
     country     : 'ENTER_COUNTRY',
     reset       : 'RESET'
 };
+
 
 const reducer = (state: billingAddress, action: { type: string, value?: any }) => {
     
@@ -112,10 +114,31 @@ function BillingAddress() {
             handler: (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.country, value: event.target.value }) },
         }];
 
+    
+    const { billingAddresses } = useDb();
+
     const submitHandler = (event: React.FormEvent) => {
         event.preventDefault();
+        
+        addDoc(billingAddresses, {
+            billedTo,
+            position,
+            company,
+            building, 
+            street, 
+            surburb, 
+            postcode,
+            state,
+            country 
+        })
+        .then(() => {
+            console.log({ billedTo, position, company, building, street, surburb, postcode, state, country });
+            dispatch({ type: ACTIONS.reset });
+        })
+        
+        
         console.log({ billedTo, position, company, building, street, surburb, postcode, state, country });
-        dispatch({ type: ACTIONS.reset });
+        // dispatch({ type: ACTIONS.reset });
     }
 
     return (
@@ -126,7 +149,7 @@ function BillingAddress() {
                 return (
                     <div key={ userInput.label } className={styles.billingAddressContainer}>
                         <label>{ userInput.label }</label>
-                        <input type='text' value={ userInput.state } onChange={ userInput.handler} />
+                        <input type='text' value={ userInput.state } name={ userInput.label } onChange={ userInput.handler} />
                     </div>
                 );
             }) }
