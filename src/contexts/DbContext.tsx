@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { getFirestore, collection, onSnapshot } from 'firebase/firestore';
-import { billingAddress } from '../types/BillingAddress';
+import { billingAddress, defaultState } from '../types/BillingAddress';
 
 const DbContext = React.createContext<any>(null);
 
@@ -16,14 +16,14 @@ export function DbProvider(props: { children: React.ReactNode }) {
     const billAddressColRef = collection(db, 'billingAddresses');
     
     // Data collected from Firestore
-    const billingAddresses: billingAddress[] = [];
-    
-    onSnapshot(billAddressColRef, (snapshot) => {
-        snapshot.docs.forEach((doc: any) => {
-            billingAddresses.push({ ...doc.data() })
-        })
-        console.log(billingAddresses);
-    });
+    const [billingAddresses, setBillingAddresses] = useState<billingAddress[]>([ defaultState ]);
+
+    useEffect(() => {
+        onSnapshot(billAddressColRef, (snapshot) =>{
+            console.log(snapshot.docs.map((doc: any) => { return {...doc.data(), id: doc.id} }));
+            setBillingAddresses(snapshot.docs.map((doc: any) => { return {...doc.data(), id: doc.id} }));
+        });
+    }, []);
 
     const value = {
         billAddressColRef,
