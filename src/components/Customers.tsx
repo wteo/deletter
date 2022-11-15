@@ -27,8 +27,8 @@ function Customers() {
                     <tr key={billingAddress.company}>
                         <td>{billingAddress.billedTo}</td>
                         <td>{billingAddress.company}</td>
-                        <td></td>
-                        <td></td>
+                        <td>$10,000.00</td>
+                        <td>Sent</td>
                         <td>
                             <button>Delete</button>
                             <button>Update</button>
