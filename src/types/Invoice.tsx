@@ -1,19 +1,19 @@
 export type invoice = {
     docNo: string,
-    type: string, 
-    date: number | null,
-    month: number | null,
-    year: number | null,
-    cost: number | null,
-    gst: boolean
+    docType: string, 
+    date: number | string,
+    month: number | string,
+    year: number | string,
+    cost: number | string,
+    tax: boolean
 };
 
 export const invoiceDefaultState: invoice = {
     docNo: '',
-    type: '', 
-    date: null,
-    month: null,
-    year: null,
-    cost: null,
-    gst: true
+    docType: '', 
+    date: '',
+    month: '',
+    year: '',
+    cost: '',
+    tax: true
 };
