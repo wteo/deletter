@@ -18,7 +18,7 @@ function Customers() {
     
 
     return (
-        <table className={styles.customersList}>
+        <table id={styles.customersList}>
             <thead>
                 <tr>
                     <th>Billed To</th>

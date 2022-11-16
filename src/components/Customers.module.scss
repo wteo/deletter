@@ -1,7 +1,7 @@
 @import '../scss/mixins';
 @import '../scss/variables';
 
-.customersList {
+#customersList {
     margin-top: 150px;
     margin-left: 5vw;
     width: 80%;
@@ -15,7 +15,7 @@
         padding-bottom: 1vh;
     }
 
-    input, button {
+    input {
         @include button();
         margin-left: 0.5vw;
     }
