@@ -26,6 +26,7 @@ export function DbProvider(props: { children: React.ReactNode }) {
     }, []);
 
     const value = {
+        db,
         billAddressColRef,
         billingAddresses
     };
