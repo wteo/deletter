@@ -118,7 +118,7 @@ function Invoices() {
                             <td>{invoice.date}/{invoice.month}/{invoice.year}</td>
                             <td>{invoice.cost}</td>
                             <td>{invoice.cost*0.1}</td>
-                            <td>{invoice.cost + invoice.cost*0.1}</td>
+                            <td>{Number(invoice.cost) + Number(invoice.cost*0.1)}</td>
                             <td>
                                 <form>
                                     <input type="button" value="Delete" />
