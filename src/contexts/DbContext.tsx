@@ -39,6 +39,7 @@ export function DbProvider(props: { children: React.ReactNode }) {
         db,
         billAddressColRef,
         billingAddresses,
+        invoiceColRef,
         invoices
     };
 

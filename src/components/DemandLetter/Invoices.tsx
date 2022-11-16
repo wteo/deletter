@@ -1,20 +1,99 @@
-import React from 'react';
+import React, { useReducer } from 'react';
+import { useDb } from '../../contexts/DbContext';
+import { addDoc } from 'firebase/firestore';
+import { invoice, invoiceDefaultState } from 'src/types/Invoice';
 
 import styles from './Invoices.module.scss';
 
+const ACTIONS = {
+    docNo   : 'ENTER_DOC_NO',
+    docType : 'ENTER_DOC_TYPE',
+    date    : 'ENTER_DATE',
+    month   : 'ENTER_MONTH',
+    year    : 'ENTER_YEAR',
+    cost    : 'ENTER_COST',
+    tax     : 'SELECT_TAX',
+    reset   : 'RESET'
+};
+
+const reducer = (state: invoice, action: { type: string, value?: any }) => {
+    switch (action.type) {
+        case ACTIONS.docNo: 
+            return { ...state, docNo: action.value }
+        case ACTIONS.docType: 
+            return { ...state, docType: action.value}
+        case ACTIONS.date: 
+            return { ...state, date: action.value }
+        case ACTIONS.month: 
+            return { ...state, month: action.value }
+        case ACTIONS.year:
+            return { ...state, year: action.value }
+        case ACTIONS.cost: 
+            return { ...state, cost: action.value }
+        case ACTIONS.tax: 
+            return { ...state, tax: action.value }
+        case ACTIONS.reset:
+            return { ...invoiceDefaultState }
+        default:
+            return invoiceDefaultState;  
+    }
+}
+
 function Invoices() {
 
-    const invoices = [{
-        docNo: '0001',
-        type: 'Tax Invoice',
-        date: '11/11/22',
-        cost: 302.57,
-    }, {
-        docNo: '0002',
-        type: 'Tax Invoice',
-        date: '11/11/22',
-        cost: 900.00,
-    }]
+    const { invoiceColRef, invoices } = useDb();
+
+    const [newState, dispatch] = useReducer(reducer, invoiceDefaultState);
+    const { docNo, docType, date, month, year, cost, tax } : invoice = newState;
+
+    const docNoHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch({ type: ACTIONS.docNo, value: event.target.value });
+    };
+
+    /*
+
+    const docTypeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch({ type: ACTIONS.docType, value: event.target.value });
+    };
+    */
+
+    const dateHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch({ type: ACTIONS.date, value: event.target.value });
+    };
+
+    const monthHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch({ type: ACTIONS.month, value: event.target.value });
+    };
+
+    const yearHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch({ type: ACTIONS.year, value: event.target.value });
+    };
+
+    const costHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch({ type: ACTIONS.cost, value: event.target.value });
+    };
+    /*
+    const taxHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        dispatch({ type: ACTIONS.tax, value: event.target.value });
+    };
+    */
+
+    const submitHandler = (event: React.FormEvent) => {
+        event.preventDefault();
+        addDoc(invoiceColRef, {
+            docNo,
+            docType,
+            date,
+            month, 
+            year, 
+            cost, 
+            tax,
+        })
+        .then(() => {
+            console.log({ docNo, docType, date, month, year, cost, tax });
+            dispatch({ type: ACTIONS.reset });
+        })
+    }
 
     return (
         <>
@@ -32,14 +111,14 @@ function Invoices() {
             </thead>
             <tbody>
                 {
-                    invoices.map(invoice => (
-                        <tr key={invoice.docNo}>
+                    invoices.map((invoice: any) => (
+                        <tr key={invoice.docType}>
                             <td>{invoice.docNo}</td>
-                            <td>{invoice.type}</td>
-                            <td>{invoice.date}</td>
-                            <td>{invoice.cost.toFixed(2)}</td>
-                            <td>{(invoice.cost*0.1).toFixed(2)}</td>
-                            <td>{(invoice.cost + invoice.cost*0.1).toFixed(2)}</td>
+                            <td>{invoice.docType}</td>
+                            <td>{invoice.date}/{invoice.month}/{invoice.year}</td>
+                            <td>{invoice.cost}</td>
+                            <td>{invoice.cost*0.1}</td>
+                            <td>{invoice.cost + invoice.cost*0.1}</td>
                             <td>
                                 <form>
                                     <input type="button" value="Delete" />
@@ -50,9 +129,9 @@ function Invoices() {
                 }
             </tbody>
         </table>
-        <form id={styles.invoiceForm}>
+        <form id={styles.invoiceForm} onSubmit={submitHandler}>
             <label>Document no:</label>
-            <input type="text" />
+            <input type="text" onChange={docNoHandler} />
             <br/>
             <label>Document Type:</label>
             <select id={styles.invoices}>
@@ -63,13 +142,13 @@ function Invoices() {
             <br/>
             <label>Billed Date (in MM/DD/YY format):</label>
             <div>
-                <input type="text" />
-                <input type="text" />
-                <input type="text" />
+                <input type="text" onChange={dateHandler} />
+                <input type="text" onChange={monthHandler} />
+                <input type="text" onChange={yearHandler} />
             </div>
             <br/>
             <label>Cost:</label>
-            <input type="text" />
+            <input type="text" onChange={costHandler} />
             <br/>
             <label>Tax:</label>
             <select id={styles.gst}>
