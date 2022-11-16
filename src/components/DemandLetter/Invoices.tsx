@@ -46,12 +46,13 @@ function Invoices() {
     const [newState, dispatch] = useReducer(reducer, invoiceDefaultState);
     const { docNo, docType, date, month, year, cost, tax } : invoice = newState;
 
+    // Refactor these handlers.
     const docNoHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch({ type: ACTIONS.docNo, value: event.target.value });
     };
 
     /*
-
+    // Need to work out how to add event Handler to iselect elements
     const docTypeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch({ type: ACTIONS.docType, value: event.target.value });
     };
@@ -73,6 +74,7 @@ function Invoices() {
         dispatch({ type: ACTIONS.cost, value: event.target.value });
     };
     /*
+    // Need to work out how to add event Handler to iselect elements
     const taxHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         dispatch({ type: ACTIONS.tax, value: event.target.value });
     };
