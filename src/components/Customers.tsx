@@ -1,13 +1,20 @@
 import React from 'react';
-import { billingAddress } from 'src/types/BillingAddress';
+// import { billingAddress } from 'src/types/BillingAddress';
 import { useDb } from '../contexts/DbContext';
+import { deleteDoc, doc } from 'firebase/firestore';
 
 
 import styles from './Customers.module.scss';
 
 function Customers() {
 
-    const { billingAddresses } = useDb();
+    const { db, billingAddresses } = useDb();
+
+    const deleteHandler = (event: React.FormEvent) => {
+        event.preventDefault();
+        const docRef = doc(db, 'billingAddresses', event.currentTarget.id);
+        deleteDoc(docRef);
+    };
     
 
     return (
@@ -23,15 +30,17 @@ function Customers() {
             </thead>
             <tbody>
             {
-                billingAddresses.map((billingAddress: billingAddress) => (
+                billingAddresses.map((billingAddress: any) => (
                     <tr key={billingAddress.company}>
                         <td>{billingAddress.billedTo}</td>
                         <td>{billingAddress.company}</td>
                         <td>$10,000.00</td>
                         <td>Sent</td>
                         <td>
-                            <button>Delete</button>
-                            <button>Update</button>
+                            <form>
+                                <input id={billingAddress.id} type="button" value='Delete' onClick={deleteHandler} />
+                                <input type="button" value='Update' disabled />
+                            </form>
                         </td>
                     </tr>
                 )) 
