@@ -10,7 +10,7 @@ export type billingAddress = {
     country     : string
 };
 
-export const defaultState: billingAddress = {
+export const billingAddressDefaultState: billingAddress = {
     billedTo    : '',
     position    : '',
     company     : '',

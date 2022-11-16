@@ -1,7 +1,7 @@
 import React , { useReducer }from 'react';
 import { useDb } from '../../contexts/DbContext';
 import { addDoc } from 'firebase/firestore';
-import { billingAddress, defaultState } from 'src/types/BillingAddress';
+import { billingAddress, billingAddressDefaultState } from 'src/types/BillingAddress';
 
 import styles from './BillingAddress.module.scss';
 
@@ -40,16 +40,16 @@ const reducer = (state: billingAddress, action: { type: string, value?: any }) =
         case ACTIONS.country:
             return { ...state, country: action.value }
         case ACTIONS.reset:
-            return { ...defaultState }
+            return { ...billingAddressDefaultState }
         default:
-            return defaultState;  
+            return billingAddressDefaultState;  
     }
 }
 
 
 function BillingAddress() {
 
-    const [newState, dispatch] = useReducer(reducer, defaultState);
+    const [newState, dispatch] = useReducer(reducer, billingAddressDefaultState);
     const { billedTo, position, company, building, street, surburb, postcode, state, country } : billingAddress = newState;
 
     const userInputs = [{

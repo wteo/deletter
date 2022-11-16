@@ -6,7 +6,7 @@ export type UserInput = {
     isTouched: boolean,
 };
 
-export const defaultState: UserInput = {
+export const userInputDefaultState: UserInput = {
     username            : '',
     password            : '',
     confirmedPassword   : '',

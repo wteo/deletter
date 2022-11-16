@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import { auth } from '../contexts/AuthContext';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { UserInput, defaultState } from '../types/UserInput';
+import { UserInput, userInputDefaultState } from '../types/UserInput';
 
 import styles from './Register.module.scss';
 
@@ -33,13 +33,13 @@ const reducer = (state: UserInput, action: { type: string, value?: any }) => {
         case ACTIONS.errors[2]: 
             return { ...state, confirmedPassword: '', isTouched: true }
         default:
-            return defaultState;  
+            return userInputDefaultState;  
     }
 }
 
 function Register() {
 
-    const [newState, dispatch] = useReducer(reducer, defaultState);
+    const [newState, dispatch] = useReducer(reducer, userInputDefaultState);
     const { username, password, confirmedPassword, oldUsername, isTouched }: UserInput = newState;
 
     const usernameHandler = (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.username, value: event.target.value }); };
