@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDb } from '../../contexts/DbContext';
+import { deleteDoc, doc } from 'firebase/firestore';
 
 import styles from './Invoices.module.scss';
 
@@ -8,7 +9,15 @@ import InvoiceForm from './InvoiceForm';
 
 function Invoices() {
 
-    const { invoices } = useDb();
+    const { db, invoices } = useDb();
+
+    const deleteHandler = (event: React.FormEvent) => {
+        event.preventDefault();
+        const docRef = doc(db, 'invoices', event.currentTarget.id);
+        deleteDoc(docRef);
+    };
+
+    const sortedInvoices = invoices.sort((a: any, b: any) => a.docNo - b.docNo);
 
     return (
         <>
@@ -26,7 +35,7 @@ function Invoices() {
             </thead>
             <tbody>
                 {
-                    invoices.map((invoice: any) => (
+                    sortedInvoices.map((invoice: any) => (
                         <tr key={invoice.docNo}>
                             <td>{invoice.docNo}</td>
                             <td>{invoice.docType}</td>
@@ -36,7 +45,7 @@ function Invoices() {
                             <td>{Number(invoice.cost) + Number(invoice.cost*0.1)}</td>
                             <td>
                                 <form>
-                                    <input type="button" value="Delete" />
+                                    <input id={invoice.id} type="button" value="Delete" onClick={deleteHandler} />
                                 </form>
                             </td>
                         </tr>
