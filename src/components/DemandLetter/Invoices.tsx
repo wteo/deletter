@@ -17,6 +17,7 @@ function Invoices() {
         deleteDoc(docRef);
     };
 
+    // This needs to be sorted via date from oldest inv to newest.
     const sortedInvoices = invoices.sort((a: any, b: any) => a.docNo - b.docNo);
 
     return (

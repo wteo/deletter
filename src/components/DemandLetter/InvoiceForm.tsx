@@ -58,6 +58,8 @@ function InvoiceForm() {
 
     const submitHandler = (event: React.FormEvent) => {
         event.preventDefault();
+        // Invoice list needs to be separated as per customer. Otherwise, all entered invoices are shared across all known customers.
+        // create nested array.
         addDoc(invoiceColRef, {
             docNo,
             docType,
@@ -74,35 +76,43 @@ function InvoiceForm() {
     }
 
     return (
+        <>
+        <h2>Enter Invoice Details</h2>
         <form id={styles.invoiceForm} onSubmit={submitHandler}>
-            <label>Document no:</label>
-            <input type="text" value={docNo} onChange={changeHandlers.docNo} />
-            <br/>
-            <label>Document Type:</label>
-            <select onChange={changeHandlers.docType} >
-                <option value="Tax Invoice">Tax Invoice</option>
-                <option value="Credit Note">Credit Note</option>
-                <option value="Overpayment">Overpayment</option>
-            </select>
-            <br/>
-            <label>Billed Date (in MM/DD/YY format):</label>
-            <div>
-                <input type="text" value={date} onChange={changeHandlers.date} />
-                <input type="text" value={month} onChange={changeHandlers.month} />
-                <input type="text" value={year} onChange={changeHandlers.year} />
+            <div className={styles.invoiceContainer}>
+                <label>Document no</label>
+                <input type="text" value={docNo} onChange={changeHandlers.docNo} />
             </div>
-            <br/>
-            <label>Cost:</label>
-            <input type="text" value={cost} onChange={changeHandlers.cost} />
-            <br/>
-            <label>Tax:</label>
-            <select onChange={changeHandlers.tax}>
-                <option value="true">GST 10%</option>
-                <option value="false">No Tax</option>
-            </select>
-            <br/>
+            <div className={styles.invoiceContainer}>
+            <label>Document Type</label>
+                <select onChange={changeHandlers.docType} >
+                    <option value="Tax Invoice">Tax Invoice</option>
+                    <option value="Credit Note">Credit Note</option>
+                    <option value="Overpayment">Overpayment</option>
+                </select>
+            </div>
+            <div className={styles.invoiceContainer}>
+                <label>Billed Date (MM/DD/YY)</label>
+                <div>
+                    <input type="text" value={date} onChange={changeHandlers.date} />/
+                    <input type="text" value={month} onChange={changeHandlers.month} />/
+                    <input type="text" value={year} onChange={changeHandlers.year} />
+                </div>
+            </div>
+            <div className={styles.invoiceContainer}>
+                <label>Cost</label>
+                <input type="text" value={cost} onChange={changeHandlers.cost} />
+            </div>
+            <div className={styles.invoiceContainer}>
+                <label>Tax</label>
+                <select onChange={changeHandlers.tax}>
+                    <option value="true">GST 10%</option>
+                    <option value="false">No Tax</option>
+                </select>
+            </div>
             <button>Submit</button>
         </form>
+        </>
     );
 };
 
