@@ -37,6 +37,26 @@
     }
 }
 
+@mixin table($margin-top, $width: 80%) {
+    margin-left: 5vw;
+    margin-top: $margin-top;
+    margin-bottom: 50px;
+    width: $width;
+    border-spacing: 0;
+    border-collapse: collapse;
+
+    th, td {
+        border-top: $border;
+        text-align: center;
+        padding-top: 1vh;
+        padding-bottom: 1vh;
+    }
+
+    input {
+        @include button();
+    }
+}
+
 
 @mixin userForm($widthForm, $widthGrid1, $widthGrid2, $widthGrid3) {
     background-color: $primary-background-color;

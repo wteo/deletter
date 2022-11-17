@@ -2,24 +2,7 @@
 @import '../../scss/variables';
 
 #invoicesList {
-    // shares the same properties and value to customer Table. Consider creating mixin for repeated use of tehse properties
-    margin-top: 50px;
-    margin-left: 5vw;
-    margin-bottom: 100px;
-    width: 80%;
-    border-spacing: 0;
-    border-collapse: collapse;
-
-    th, td {
-        border-top: 1px solid black;
-        text-align: center;
-        padding-top: 1vh;
-        padding-bottom: 1vh;
-    }
-
-    input {
-        @include button();
-    }
+    @include table(50px);
 }
 
 #invoiceForm {

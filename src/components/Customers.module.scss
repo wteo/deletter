@@ -2,21 +2,10 @@
 @import '../scss/variables';
 
 #customersList {
-    margin-top: 150px;
-    margin-left: 5vw;
-    width: 80%;
-    border-spacing: 0;
-    border-collapse: collapse;
 
-    th, td {
-        border-top: 1px solid black;
-        text-align: center;
-        padding-top: 1vh;
-        padding-bottom: 1vh;
-    }
+    @include table(150px);
 
     input {
-        @include button();
         margin-left: 0.5vw;
     }
 }
