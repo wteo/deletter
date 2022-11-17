@@ -47,38 +47,15 @@ function Invoices() {
     const { docNo, docType, date, month, year, cost, tax } : invoice = newState;
 
     // Refactor these handlers.
-    const docNoHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch({ type: ACTIONS.docNo, value: event.target.value });
+    const changeHandlers = {
+        docNo   : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.docNo, value: event.target.value }),
+        docType : (event: React.ChangeEvent<HTMLSelectElement>) => dispatch({ type: ACTIONS.docType, value: event.target.value }),
+        date    : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.date, value: event.target.value }),
+        month   : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.month, value: event.target.value }),
+        year    : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.year, value: event.target.value }),
+        cost    : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.cost, value: event.target.value }),
+        tax     : (event: React.ChangeEvent<HTMLSelectElement>) => dispatch({ type: ACTIONS.tax, value: event.target.value }),
     };
-
-    /*
-    // Need to work out how to add event Handler to iselect elements
-    const docTypeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch({ type: ACTIONS.docType, value: event.target.value });
-    };
-    */
-
-    const dateHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch({ type: ACTIONS.date, value: event.target.value });
-    };
-
-    const monthHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch({ type: ACTIONS.month, value: event.target.value });
-    };
-
-    const yearHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch({ type: ACTIONS.year, value: event.target.value });
-    };
-
-    const costHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch({ type: ACTIONS.cost, value: event.target.value });
-    };
-    /*
-    // Need to work out how to add event Handler to iselect elements
-    const taxHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch({ type: ACTIONS.tax, value: event.target.value });
-    };
-    */
 
     const submitHandler = (event: React.FormEvent) => {
         event.preventDefault();
@@ -114,7 +91,7 @@ function Invoices() {
             <tbody>
                 {
                     invoices.map((invoice: any) => (
-                        <tr key={invoice.docType}>
+                        <tr key={invoice.docNo}>
                             <td>{invoice.docNo}</td>
                             <td>{invoice.docType}</td>
                             <td>{invoice.date}/{invoice.month}/{invoice.year}</td>
@@ -133,29 +110,29 @@ function Invoices() {
         </table>
         <form id={styles.invoiceForm} onSubmit={submitHandler}>
             <label>Document no:</label>
-            <input type="text" onChange={docNoHandler} />
+            <input type="text" value={docNo} onChange={changeHandlers.docNo} />
             <br/>
             <label>Document Type:</label>
-            <select id={styles.invoices}>
-                <option value="invoice">Tax Invoice</option>
-                <option value="credit">Credit Note</option>
-                <option value="overpayment">Overpayment</option>
+            <select id={styles.invoices} onChange={changeHandlers.docType} >
+                <option value="Tax Invoice">Tax Invoice</option>
+                <option value="Credit Note">Credit Note</option>
+                <option value="Overpayment">Overpayment</option>
             </select>
             <br/>
             <label>Billed Date (in MM/DD/YY format):</label>
             <div>
-                <input type="text" onChange={dateHandler} />
-                <input type="text" onChange={monthHandler} />
-                <input type="text" onChange={yearHandler} />
+                <input type="text" value={date} onChange={changeHandlers.date} />
+                <input type="text" value={month} onChange={changeHandlers.month} />
+                <input type="text" value={year} onChange={changeHandlers.year} />
             </div>
             <br/>
             <label>Cost:</label>
-            <input type="text" onChange={costHandler} />
+            <input type="text" value={cost} onChange={changeHandlers.cost} />
             <br/>
             <label>Tax:</label>
-            <select id={styles.gst}>
-                <option value="gst">GST 10%</option>
-                <option value="noGST">No Tax</option>
+            <select id={styles.gst} onChange={changeHandlers.tax}>
+                <option value="true">GST 10%</option>
+                <option value="false">No Tax</option>
             </select>
             <br/>
             <button>Submit</button>
