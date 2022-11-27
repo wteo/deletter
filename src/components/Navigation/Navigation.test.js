@@ -15,8 +15,7 @@ const MockProvider = (props) => {
 }
 
 describe('Navigation Component', () => {
-
-    test('Renders "Please enter your personal details" as text', async() => {
+    test('Renders "Navigation" as visible element', async() => {
         render(<Navigation/>, { wrapper: MockProvider });
         const navigationElement = await screen.findByRole('navigation');
         expect(navigationElement).toBeVisible();
