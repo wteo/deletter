@@ -99,17 +99,19 @@ function Register() {
                 <div className={ styles.userFormLabel }>
                     <label>Email</label>
                     <input 
-                    type='text' 
-                    className={ !isUsernameValid && isTouched ? styles.invalidInput : '' } 
-                    value={ username } 
-                    onChange={ usernameHandler } 
-                    name={ username }
+                        aria-label='email'
+                        type='text' 
+                        className={ !isUsernameValid && isTouched ? styles.invalidInput : '' } 
+                        value={ username } 
+                        onChange={ usernameHandler } 
+                        name={ username }
                     />
                 </div>
                 { !isUsernameValid && isTouched && usernameFeedback }
                 <div className={ styles.userFormLabel }>
                     <label>Password</label>
                     <input 
+                        aria-label='password'
                         type='text' 
                         className={ !isPasswordValid && isTouched ? styles.invalidInput : '' } 
                         value={ password } 
@@ -121,6 +123,7 @@ function Register() {
                 <div className={ styles.userFormLabel }>
                     <label>Confirm Password</label>
                     <input 
+                        aria-label='passwordConfirmation'
                         type='text' 
                         className={ !isConfirmedPasswordValid && isTouched ? styles.invalidInput : '' } 
                         value={ confirmedPassword } 
@@ -131,7 +134,7 @@ function Register() {
                 { !isConfirmedPasswordValid && isTouched && confirmedPasswordFeedback }
                 <div className={ styles.userFormButton }>
                     <p></p>
-                    <button>Submit</button>
+                    <button aria-label='submit'>Submit</button>
                 </div>
                 { oldUsername && oldUsernameFeedback }
             </form>
