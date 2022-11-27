@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
-import { auth } from '../contexts/AuthContext';
+import { auth } from '../../contexts/AuthContext';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { UserInput, userInputDefaultState } from '../types/UserInput';
+import { UserInput, userInputDefaultState } from '../../types/UserInput';
 
 import styles from './Register.module.scss';
 

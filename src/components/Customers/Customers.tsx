@@ -1,6 +1,6 @@
 import React from 'react';
 // import { billingAddress } from 'src/types/BillingAddress';
-import { useDb } from '../contexts/DbContext';
+import { useDb } from '../../contexts/DbContext';
 import { deleteDoc, doc } from 'firebase/firestore';
 
 

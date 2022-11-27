@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ForgotPassword from '../../components/ForgotPassword';
+import ForgotPassword from '../../components/ForgotPassword/ForgotPassword';
 import PublicRoute from 'src/routes/PublicRoute';
 
 function ForgotPasswordPage() {

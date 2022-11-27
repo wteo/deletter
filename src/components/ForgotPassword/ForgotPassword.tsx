@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import styles from './ForgotPassword.module.scss';
-import { auth } from 'src/contexts/AuthContext';
+import { auth } from '../../contexts/AuthContext';
 import { sendPasswordResetEmail } from 'firebase/auth';
 
 function ForgotPassword() {

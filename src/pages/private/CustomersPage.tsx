@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Customers from '../../components/Customers';
+import Customers from '../../components/Customers/Customers';
 import PrivateRoute from '../../routes/PrivateRoute';
 
 function CustomersPage() {

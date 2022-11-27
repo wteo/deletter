@@ -5,8 +5,8 @@ import { DbProvider } from './contexts/DbContext';
 
 import './App.module.scss';
 
-import Navigation from './components/Navigation';
-import Footer from './components/Footer';
+import Navigation from './components/Navigation/Navigation';
+import Footer from './components/Footer/Footer';
 
 // Public pages
 import LoginPage from './pages/public/LoginPage';

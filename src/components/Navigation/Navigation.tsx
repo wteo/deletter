@@ -1,10 +1,10 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import { auth, useAuth } from '../contexts/AuthContext';
+import { auth, useAuth } from '../../contexts/AuthContext';
 import { signOut } from 'firebase/auth';
 
 import styles from './Navigation.module.scss';
-import logo from '../images/logo.png';
+import logo from '../../images/logo.png';
 
 function Navigation() {
 
