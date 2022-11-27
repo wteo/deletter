@@ -74,19 +74,31 @@ function Login() {
             <h2>Login</h2>
             <div className={ styles.userFormLabel }>
                 <label>Username</label>
-                <input type='text' className={ !isUsernameValid ? styles.invalidInput : '' } value={ enteredUsername } onChange={ usernameHandler }/>
+                <input 
+                    aria-label='username'
+                    type='text' 
+                    className={ !isUsernameValid ? styles.invalidInput : '' } 
+                    value={ enteredUsername } 
+                    onChange={ usernameHandler }
+                />
             </div>
             { !isUsernameValid && <p className={styles.invalid}>Invalid or missing email.</p> }
             <div className={ styles.userFormLabel }>
                 <label>Password</label>
-                <input type='text' className={ !isPasswordValid ? styles.invalidInput : '' } value={ enteredPassword } onChange={ passwordHandler }/>
+                <input
+                    aria-label='password'
+                    type='text' 
+                    className={ !isPasswordValid ? styles.invalidInput : '' } 
+                    value={ enteredPassword } 
+                    onChange={ passwordHandler }
+                />
             </div>
             { !isPasswordValid && <p className={styles.invalid}>Invalid password.</p> }
             { hasAccountLocked && <p className={styles.invalid}>Too many failed attempts. Access to this account has been temporarily disabled.</p> }
             { miscError && <p className={styles.invalid}>Unable to login. Please try again later.</p>}
             <div className={ styles.userFormButton }>
                 <p>New? <Link to='/register'>Register now</Link></p>
-                <button>Login</button>
+                <button aria-label='login'>Login</button>
             </div>
         </form>
         <p id={styles.forgottenPassword}><Link to='/login/password'>Forgot your password?</Link></p>
