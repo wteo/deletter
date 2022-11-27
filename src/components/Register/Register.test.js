@@ -22,10 +22,10 @@ describe('Register Component', () => {
 
     });
 
-    test('Renders "password must be" conditions as text', () => {
+    test('Renders "password" conditions as text', () => {
         render(<Register />);
         const emailInput = screen.getByRole('textbox', { name: 'email' });
-        fireEvent.change(emailInput, { target: { value: 'test@test.com' } });
+        fireEvent.change(emailInput, { target: { value: 'test2@test.com' } });
         const passwordInput = screen.getByRole('textbox', { name: 'password' });
         fireEvent.change(passwordInput, { target: { value: 'ABC1234' } });
         const passwordConfirmationInput = screen.getByRole('textbox', { name: 'passwordConfirmation' });
@@ -40,7 +40,7 @@ describe('Register Component', () => {
     test('Renders "password does not match" as text', () => {
         render(<Register />);
         const emailInput = screen.getByRole('textbox', { name: 'email' });
-        fireEvent.change(emailInput, { target: { value: 'test@test.com' } });
+        fireEvent.change(emailInput, { target: { value: 'test3@test.com' } });
         const passwordInput = screen.getByRole('textbox', { name: 'password' });
         fireEvent.change(passwordInput, { target: { value: 'ABC1234!!!' } });
         const passwordConfirmationInput = screen.getByRole('textbox', { name: 'passwordConfirmation' });
