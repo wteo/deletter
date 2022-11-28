@@ -16,6 +16,6 @@ describe('Customers Component', () => {
     test('Renders "Billed to" as text', () => {
         // render(<Customers/>, { wrapper: MockProvider });
         // const billedToText = screen.getByText(/billed to/i);
-        // expect(billedToText).toBeInTheDocument();        
+        // expect(billedToText).toBeVisible();        
     });
 })

@@ -8,7 +8,7 @@ describe('Login Component', () => {
     test('Renders "Register now" as text', () => {
         render(<Login />, { wrapper: MemoryRouter });
         const loginText = screen.getByText('register now', {exact: false});
-        expect(loginText).toBeInTheDocument();
+        expect(loginText).toBeVisible();
     });
 
     test('Renders "Invalid or Missing email" as text', async() => {
@@ -20,10 +20,10 @@ describe('Login Component', () => {
         const loginButton = await screen.findByRole('button', { name: 'login' });
         fireEvent.submit(loginButton);
         const invalidUsernameText = await screen.findByText(/invalid or missing email/i);
-        expect(invalidUsernameText).toBeInTheDocument();
+        expect(invalidUsernameText).toBeVisible();
     });
 
-    test('Renders "Invalid or Missing email" as text', async() => {
+    test('Renders "too many failed attempts" as text', async() => {
         render(<Login/>, { wrapper: MemoryRouter });
         const usernameInput = await screen.findByRole('textbox', { name: 'username' });
         fireEvent.change(usernameInput, { target: { value: 'test@test.com' } });
@@ -31,7 +31,7 @@ describe('Login Component', () => {
         fireEvent.change(passwordInput, { target: { value: 'ABC' } });
         const loginButton = await screen.findByRole('button', { name: 'login' });
         fireEvent.submit(loginButton);
-        const invalidUsernameText = await screen.findByText(/invalid password/i);
+        const invalidUsernameText = await screen.findByText(/too many failed attempts/i);
         expect(invalidUsernameText).toBeInTheDocument();
     });
 })

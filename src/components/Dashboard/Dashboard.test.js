@@ -16,6 +16,6 @@ describe('Dashboard Component', () => {
     test('Renders "Welcome" as text', async() => {
         // (<Dashboard/>, { wrapper: MockProvider });
         // const welcomeText = await screen.findByText(/Welcome/i);
-        // expect(welcomeText).toBeInTheDocument();
+        // expect(welcomeText).toBeVisible();
     });
 })
