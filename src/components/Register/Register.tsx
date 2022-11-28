@@ -57,7 +57,7 @@ function Register() {
 
         const data = { username, password, confirmedPassword };
 
-        console.log(data);
+        // console.log(data);
 
         try {
             // Where all user inputs are valid
