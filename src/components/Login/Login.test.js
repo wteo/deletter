@@ -22,7 +22,7 @@ describe('Login Component', () => {
         const invalidUsernameText = await screen.findByText(/invalid or missing email/i);
         expect(invalidUsernameText).toBeVisible();
     });
-
+    /*
     test('Renders "too many failed attempts" as text', async() => {
         render(<Login/>, { wrapper: MemoryRouter });
         const usernameInput = await screen.findByRole('textbox', { name: 'username' });
@@ -34,4 +34,5 @@ describe('Login Component', () => {
         const invalidUsernameText = await screen.findByText(/too many failed attempts/i);
         expect(invalidUsernameText).toBeInTheDocument();
     });
+    */
 })
