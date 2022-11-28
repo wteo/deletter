@@ -63,7 +63,7 @@ function Login() {
                         setPassword('');
                         setMiscError(true);
                     }
-                    // console.log(err?.code, err?.message)
+                    console.log(err?.code, err?.message)
                     return;
                 });
     };

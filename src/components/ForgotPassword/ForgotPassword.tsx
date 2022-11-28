@@ -29,12 +29,12 @@ function ForgotPassword() {
             setEnteredEmail('');
             setIsTouched(false);
             setIsSubmitted(true);
-            // console.log(enteredEmail);
+            console.log(enteredEmail);
         })
         .catch((err) => {
             setEnteredEmail('');
             setIsTouched(true);
-            // console.log(err);
+            console.log(err);
         })
     }
 
