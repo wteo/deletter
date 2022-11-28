@@ -10,7 +10,7 @@ function Dashboard() {
     return (
         <div id={styles.dashboard}>
             <h1>Welcome!</h1>
-            <p>You are currently logged in as { currentUser.email } </p>
+            <p>You are currently logged in as { currentUser?.email } </p>
         </div>
     );
 }
