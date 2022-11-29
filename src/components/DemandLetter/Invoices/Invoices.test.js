@@ -15,7 +15,7 @@ const MockProvider = (props) => {
 }
 
 describe('Invoices Component', () => {
-    test('Renders "Document no" as text', async() => {
+    test('Renders "Table" as element', async() => {
         render(<Invoices/>, { wrapper: MockProvider });
         const tableElement = await screen.findByRole('table');
         expect(tableElement).toBeVisible();

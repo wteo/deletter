@@ -17,10 +17,12 @@ const MockProvider = (props) => {
 
 describe('Customers Component', () => {
     
-    test('Renders "Billed to" as text', async() => {
+    test('Renders "Table" as element', async() => {
         render(<Customers/>, { wrapper: MockProvider });
-        const billedToText = await screen.findByText(/billed to/i);
-        expect(billedToText).toBeVisible();
+        const tableElement = await screen.findByRole('table');
+        expect(tableElement).toBeVisible();
     });
+
+    
 
 })
