@@ -1,0 +1,6 @@
+@import '../../../scss/mixins';
+@import '../../../scss/variables';
+
+#invoicesList {
+    @include table(50px);
+}

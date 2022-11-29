@@ -1,11 +1,11 @@
 import React from 'react';
-import { useDb } from '../../contexts/DbContext';
+import { useDb } from '../../../contexts/DbContext';
 import { deleteDoc, doc } from 'firebase/firestore';
 
 import styles from './Invoices.module.scss';
 
 // Children components
-import InvoiceForm from './InvoiceForm';
+import InvoiceForm from './Form/InvoiceForm';
 
 function Invoices() {
 
