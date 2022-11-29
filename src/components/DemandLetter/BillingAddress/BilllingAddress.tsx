@@ -1,7 +1,7 @@
 import React , { useReducer }from 'react';
-import { useDb } from '../../contexts/DbContext';
+import { useDb } from '../../../contexts/DbContext';
 import { addDoc } from 'firebase/firestore';
-import { billingAddress, billingAddressDefaultState } from 'src/types/BillingAddress';
+import { billingAddress, billingAddressDefaultState } from '../../../types/BillingAddress';
 
 import styles from './BillingAddress.module.scss';
 
