@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom'
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from '@testing-library/user-event';
 import ForgotPassword from './ForgotPassword';
 
 describe('ForgotPassword Component', () => {
@@ -13,9 +14,9 @@ describe('ForgotPassword Component', () => {
     test('Renders "What\'s your email address" as text', async() => {
         render(<ForgotPassword/>);
         const emailInputElement = await screen.findByRole('textbox', { name: 'email'});
-        fireEvent.change(emailInputElement, { target: { value: 'test'} });
+        userEvent.type(emailInputElement, 'test');
         const resetButtonElement = await screen.findByRole('button', { name: 'reset' });
-        fireEvent.submit(resetButtonElement);
+        userEvent.click(resetButtonElement);
         const invalidEmailText = await screen.findByText(/username not found/i);
         expect(invalidEmailText).toBeVisible();        
     });

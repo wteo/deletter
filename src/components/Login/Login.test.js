@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom'
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import Login from './Login';
 
@@ -14,25 +15,25 @@ describe('Login Component', () => {
     test('Renders "Invalid or Missing email" as text', async() => {
         render(<Login/>, { wrapper: MemoryRouter });
         const usernameInput = await screen.findByRole('textbox', { name: 'username' });
-        fireEvent.change(usernameInput, { target: { value: 'test' } });
+        userEvent.type(usernameInput, 'test');
         const passwordInput = await screen.findByRole('textbox', { name: 'password' });
-        fireEvent.change(passwordInput, { target: { value: 'ABC1234!' } });
+        userEvent.type(passwordInput, 'ABC1234!');
         const loginButton = await screen.findByRole('button', { name: 'login' });
-        fireEvent.submit(loginButton);
+        userEvent.click(loginButton);
         const invalidUsernameText = await screen.findByText(/invalid or missing email/i);
         expect(invalidUsernameText).toBeVisible();
     });
-    /*
+    
     test('Renders "too many failed attempts" as text', async() => {
         render(<Login/>, { wrapper: MemoryRouter });
         const usernameInput = await screen.findByRole('textbox', { name: 'username' });
-        fireEvent.change(usernameInput, { target: { value: 'test@test.com' } });
+        userEvent.type(usernameInput, 'test@test.com');
         const passwordInput = await screen.findByRole('textbox', { name: 'password' });
-        fireEvent.change(passwordInput, { target: { value: 'ABC' } });
+        userEvent.type(passwordInput, 'ABC');
         const loginButton = await screen.findByRole('button', { name: 'login' });
-        fireEvent.submit(loginButton);
+        userEvent.click(loginButton);
         const invalidUsernameText = await screen.findByText(/too many failed attempts/i);
         expect(invalidUsernameText).toBeInTheDocument();
     });
-    */
+    
 })
