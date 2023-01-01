@@ -1,8 +1,10 @@
 import '@testing-library/jest-dom'
 import { render, screen } from "@testing-library/react";
-import { AuthProvider } from '../../../../contexts/AuthContext';
-import { DbProvider } from '../../../../contexts/DbContext';
-import BillingAddress from './BilllingAddress';
+import { AuthProvider } from '../../../contexts/AuthContext';
+import { DbProvider } from '../../../contexts/DbContext';
+//import BillingAddress from './BillingAddress';
+
+import BillingAddress from './BillingAddress';
 
 const MockProvider = (props) => {
     return (
