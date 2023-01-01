@@ -50,7 +50,7 @@ function ForgotPassword() {
                 className={ !isEmailValid && isTouched ? styles.invalidInput : '' } 
             />
             { isTouched && <p className={styles.invalid}>Username not found.</p>}
-            { isSubmitted && <p>Email received. Please check your inbox.</p>}
+            { isSubmitted && <p>Username found. Please check your inbox.</p>}
             <div className={ styles.userFormButton }>
                 <p></p>
                 <button aria-label='reset'>Reset Password</button>
