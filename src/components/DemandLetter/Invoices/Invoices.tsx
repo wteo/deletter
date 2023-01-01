@@ -7,18 +7,21 @@ import styles from './Invoices.module.scss';
 // Children components
 import InvoiceForm from './Form/InvoiceForm';
 
+// Typing
+import { invoice } from '../../../types/Invoice';
+
 function Invoices() {
 
     const { db, invoices } = useDb();
-
+    
     const deleteHandler = (event: React.FormEvent) => {
         event.preventDefault();
         const docRef = doc(db, 'invoices', event.currentTarget.id);
         deleteDoc(docRef);
     };
 
-    // This needs to be sorted via date from oldest inv to newest.
-    const sortedInvoices = invoices.sort((a: any, b: any) => a.docNo - b.docNo);
+    type docNo = { docNo: number | string };
+    const sortedInvoices = invoices.sort((a: docNo , b: docNo) => (a.docNo > b.docNo) ? 1 : ((b.docNo > a.docNo) ? -1 : 0))
 
     return (
         <>
@@ -36,14 +39,14 @@ function Invoices() {
             </thead>
             <tbody>
                 {
-                    sortedInvoices.map((invoice: any) => (
+                    sortedInvoices.map((invoice: invoice) => (
                         <tr key={invoice.docNo}>
                             <td>{invoice.docNo}</td>
                             <td>{invoice.docType}</td>
                             <td>{invoice.date}/{invoice.month}/{invoice.year}</td>
                             <td>{invoice.cost}</td>
-                            <td>{invoice.cost*0.1}</td>
-                            <td>{Number(invoice.cost) + Number(invoice.cost*0.1)}</td>
+                            <td>{Number(invoice.cost)*0.1}</td>
+                            <td>{Number(invoice.cost) + Number(invoice.cost)*0.1}</td>
                             <td>
                                 <form>
                                     <input id={invoice.id} type="button" value="Delete" onClick={deleteHandler} />
