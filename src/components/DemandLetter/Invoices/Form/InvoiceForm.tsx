@@ -46,10 +46,13 @@ const reducer = (state: invoice, action: { type: string, value?: any }) => {
 
 function InvoiceForm() {
 
-    const { invoiceColRef } = useDb();
+    const { invoiceColRef, billingAddresses } = useDb();
 
     const [newState, dispatch] = useReducer(reducer, invoiceDefaultState);
     const { docNo, docType, date, month, year, cost, tax, customerName } : invoice = newState;
+
+    type company = { company: string };
+    const sortCustomerNames = billingAddresses.sort((a: company, b: company) => (a.company > b.company) ? 1 : ((b.company > a.company) ? -1 : 0));
 
     const changeHandlers = {
         docNo           : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.docNo, value: event.target.value }),
@@ -58,7 +61,7 @@ function InvoiceForm() {
         month           : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.month, value: event.target.value }),
         year            : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.year, value: event.target.value }),
         cost            : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.cost, value: event.target.value }),
-        tax             : (event: React.ChangeEvent<HTMLSelectElement>) => dispatch({ type: ACTIONS.tax, value: event.target.value }),
+        tax             : (event: React.ChangeEvent<HTMLSelectElement>) => dispatch({ type: ACTIONS.tax, value: Number(event.target.value) }),
         customerName    : (event: React.ChangeEvent<HTMLSelectElement>) => dispatch({ type: ACTIONS.customerName, value: event.target.value }),
     };
 
@@ -70,7 +73,7 @@ function InvoiceForm() {
                 date,
                 month, 
                 year, 
-                cost, 
+                cost,
                 tax,
                 customerName, // billed to company
         })
@@ -119,8 +122,10 @@ function InvoiceForm() {
                 <label>BilledTo</label>
                 <select value={customerName} onChange={changeHandlers.customerName}>
                     <option value="">Please select customer name.</option>
-                    <option value="Telstra">Telstra</option>
-                    <option value="Optus">Optus</option>
+                    {
+                        sortCustomerNames.map((customerName: company) => 
+                            <option key={customerName.company} value={customerName.company}>{customerName.company}</option>)
+                    }
                 </select>
             </div>
             <button>Submit</button>
