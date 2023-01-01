@@ -1,11 +1,13 @@
 export type invoice = {
-    docNo: string,
+    docNo: number | string,
     docType: string, 
     date: number | string,
     month: number | string,
     year: number | string,
     cost: number | string,
-    tax: boolean
+    tax: boolean,
+    customerName: string,
+    id: string,
 };
 
 export const invoiceDefaultState: invoice = {
@@ -15,6 +17,8 @@ export const invoiceDefaultState: invoice = {
     month: '',
     year: '',
     cost: '',
-    tax: true
+    tax: true,
+    customerName: '',
+    id: '',
 };
 
