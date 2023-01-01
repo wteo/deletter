@@ -8,14 +8,15 @@ import { invoice, invoiceDefaultState } from '../../../../types/Invoice';
 import styles from './InvoiceForm.module.scss';
 
 const ACTIONS = {
-    docNo   : 'ENTER_DOC_NO',
-    docType : 'ENTER_DOC_TYPE',
-    date    : 'ENTER_DATE',
-    month   : 'ENTER_MONTH',
-    year    : 'ENTER_YEAR',
-    cost    : 'ENTER_COST',
-    tax     : 'SELECT_TAX',
-    reset   : 'RESET'
+    docNo           : 'ENTER_DOC_NO',
+    docType         : 'ENTER_DOC_TYPE',
+    date            : 'ENTER_DATE',
+    month           : 'ENTER_MONTH',
+    year            : 'ENTER_YEAR',
+    cost            : 'ENTER_COST',
+    tax             : 'SELECT_TAX',
+    customerName    : 'SELECT_customerName',
+    reset           : 'RESET'
 };
 
 const reducer = (state: invoice, action: { type: string, value?: any }) => {
@@ -34,6 +35,8 @@ const reducer = (state: invoice, action: { type: string, value?: any }) => {
             return { ...state, cost: action.value }
         case ACTIONS.tax: 
             return { ...state, tax: action.value }
+        case ACTIONS.customerName:
+            return { ...state, customerName: action.value }
         case ACTIONS.reset:
             return { ...invoiceDefaultState }
         default:
@@ -46,16 +49,17 @@ function InvoiceForm() {
     const { invoiceColRef } = useDb();
 
     const [newState, dispatch] = useReducer(reducer, invoiceDefaultState);
-    const { docNo, docType, date, month, year, cost, tax } : invoice = newState;
+    const { docNo, docType, date, month, year, cost, tax, customerName } : invoice = newState;
 
     const changeHandlers = {
-        docNo   : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.docNo, value: event.target.value }),
-        docType : (event: React.ChangeEvent<HTMLSelectElement>) => dispatch({ type: ACTIONS.docType, value: event.target.value }),
-        date    : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.date, value: event.target.value }),
-        month   : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.month, value: event.target.value }),
-        year    : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.year, value: event.target.value }),
-        cost    : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.cost, value: event.target.value }),
-        tax     : (event: React.ChangeEvent<HTMLSelectElement>) => dispatch({ type: ACTIONS.tax, value: event.target.value }),
+        docNo           : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.docNo, value: event.target.value }),
+        docType         : (event: React.ChangeEvent<HTMLSelectElement>) => dispatch({ type: ACTIONS.docType, value: event.target.value }),
+        date            : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.date, value: event.target.value }),
+        month           : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.month, value: event.target.value }),
+        year            : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.year, value: event.target.value }),
+        cost            : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.cost, value: event.target.value }),
+        tax             : (event: React.ChangeEvent<HTMLSelectElement>) => dispatch({ type: ACTIONS.tax, value: event.target.value }),
+        customerName    : (event: React.ChangeEvent<HTMLSelectElement>) => dispatch({ type: ACTIONS.customerName, value: event.target.value }),
     };
 
     const submitHandler = (event: React.FormEvent) => {
@@ -63,16 +67,17 @@ function InvoiceForm() {
         // Invoice list needs to be separated as per customer. Otherwise, all entered invoices are shared across all known customers.
         // create nested array.
         addDoc(invoiceColRef, {
-            docNo,
-            docType,
-            date,
-            month, 
-            year, 
-            cost, 
-            tax,
+                docNo,
+                docType,
+                date,
+                month, 
+                year, 
+                cost, 
+                tax,
+                customerName, // billed to company
         })
         .then(() => {
-            console.log({ docNo, docType, date, month, year, cost, tax });
+            console.log({ docNo, docType, date, month, year, cost, tax, customerName });
             dispatch({ type: ACTIONS.reset });
         })
     }
@@ -110,6 +115,13 @@ function InvoiceForm() {
                 <select onChange={changeHandlers.tax}>
                     <option value="true">GST 10%</option>
                     <option value="false">No Tax</option>
+                </select>
+            </div>
+            <div className={styles.invoiceContainer}>
+                <label>BilledTo</label>
+                <select onChange={changeHandlers.customerName}>
+                    <option>Telstra</option>
+                    <option>Optus</option>
                 </select>
             </div>
             <button>Submit</button>
