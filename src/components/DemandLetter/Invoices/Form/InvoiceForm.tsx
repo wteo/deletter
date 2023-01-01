@@ -80,7 +80,7 @@ function InvoiceForm() {
     return (
         <>
         <h2>Enter Invoice Details</h2>
-        <form id={styles.invoiceForm} onSubmit={submitHandler}>
+        <form aria-label='invoice' id={styles.invoiceForm} onSubmit={submitHandler}>
             <div className={styles.invoiceContainer}>
                 <label>Document no</label>
                 <input type="text" value={docNo} onChange={changeHandlers.docNo} />
