@@ -66,13 +66,11 @@ function Invoices() {
                                     <>
                                         <td>{gst}</td>
                                         <td>{total}</td>
-                                    </>
-                                ) : (
+                                    </>) : (
                                     <>
                                         <td>0.00</td>
                                         <td>{cost}</td>
-                                    </>
-                                )
+                                    </>)
                                 }
                                 <td>
                                     <form>
