@@ -64,8 +64,6 @@ function InvoiceForm() {
 
     const submitHandler = (event: React.FormEvent) => {
         event.preventDefault();
-        // Invoice list needs to be separated as per customer. Otherwise, all entered invoices are shared across all known customers.
-        // create nested array.
         addDoc(invoiceColRef, {
                 docNo,
                 docType,
@@ -120,8 +118,9 @@ function InvoiceForm() {
             <div className={styles.invoiceContainer}>
                 <label>BilledTo</label>
                 <select value={customerName} onChange={changeHandlers.customerName}>
-                    <option>Telstra</option>
-                    <option>Optus</option>
+                    <option value="">Please select customer name.</option>
+                    <option value="Telstra">Telstra</option>
+                    <option value="Optus">Optus</option>
                 </select>
             </div>
             <button>Submit</button>

@@ -29,6 +29,7 @@ function Invoices() {
         <table id={styles.invoicesList}>
             <thead>
                 <tr>
+                    <th>Customer</th>
                     <th>Document no</th>
                     <th>Document type</th>
                     <th>Billed date</th>
@@ -46,6 +47,7 @@ function Invoices() {
                         const total = formatNum(Number(invoice.cost) + Number(invoice.cost)*0.1);
                         return (
                             <tr key={invoice.docNo}>
+                                <td>{invoice.customerName}</td>
                                 <td>{invoice.docNo}</td>
                                 <td>{invoice.docType}</td>
                                 <td>{invoice.date}/{invoice.month}/{invoice.year}</td>
