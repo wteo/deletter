@@ -3,7 +3,6 @@ import React from 'react';
 import { useDb } from '../../contexts/DbContext';
 import { deleteDoc, doc } from 'firebase/firestore';
 
-
 import styles from './Customers.module.scss';
 
 function Customers() {
@@ -30,7 +29,7 @@ function Customers() {
             </thead>
             <tbody>
             {
-                billingAddresses.map((billingAddress: any) => (
+                billingAddresses.map((billingAddress: { company: string, billedTo: string, id: string }) => (
                     <tr key={billingAddress.company}>
                         <td>{billingAddress.billedTo}</td>
                         <td>{billingAddress.company}</td>
