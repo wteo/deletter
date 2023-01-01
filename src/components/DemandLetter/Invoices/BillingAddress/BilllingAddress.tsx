@@ -1,7 +1,7 @@
 import React , { useReducer }from 'react';
-import { useDb } from '../../../contexts/DbContext';
+import { useDb } from '../../../../contexts/DbContext';
 import { addDoc } from 'firebase/firestore';
-import { billingAddress, billingAddressDefaultState } from '../../../types/BillingAddress';
+import { billingAddress, billingAddressDefaultState } from '../../../../types/BillingAddress';
 
 import styles from './BillingAddress.module.scss';
 
@@ -107,7 +107,7 @@ function BillingAddress() {
             country 
         })
         .then(() => {
-            console.log({ billedTo, position, company, building, street, surburb, postcode, state, country });
+            // console.log({ billedTo, position, company, building, street, surburb, postcode, state, country });
             dispatch({ type: ACTIONS.reset });
         })
     }
@@ -115,7 +115,7 @@ function BillingAddress() {
     return (
         <>
         <h2>Enter Customer's Billing Address</h2>
-        <form id={styles.billingAddressForm} onSubmit={submitHandler} >
+        <form aria-label='billingAddress' id={styles.billingAddressForm} onSubmit={submitHandler} >
             { userInputs.map((userInput) => {
                 return (
                     <div key={ userInput.label } className={styles.billingAddressContainer}>
