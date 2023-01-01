@@ -1,6 +1,8 @@
 import React, { useReducer } from 'react';
 import { useDb } from '../../../../contexts/DbContext';
 import { addDoc } from 'firebase/firestore';
+
+// Typing 
 import { invoice, invoiceDefaultState } from '../../../../types/Invoice';
 
 import styles from './InvoiceForm.module.scss';
