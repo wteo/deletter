@@ -92,7 +92,7 @@ function InvoiceForm() {
             </div>
             <div className={styles.invoiceContainer}>
             <label>Document Type</label>
-                <select onChange={changeHandlers.docType} >
+                <select value={docType} onChange={changeHandlers.docType} >
                     <option value="Tax Invoice">Tax Invoice</option>
                     <option value="Credit Note">Credit Note</option>
                     <option value="Overpayment">Overpayment</option>
@@ -112,14 +112,14 @@ function InvoiceForm() {
             </div>
             <div className={styles.invoiceContainer}>
                 <label>Tax</label>
-                <select onChange={changeHandlers.tax}>
-                    <option value="true">GST 10%</option>
-                    <option value="false">No Tax</option>
+                <select value={tax} onChange={changeHandlers.tax}>
+                    <option value="1">GST 10%</option>
+                    <option value="0">No Tax</option>
                 </select>
             </div>
             <div className={styles.invoiceContainer}>
                 <label>BilledTo</label>
-                <select onChange={changeHandlers.customerName}>
+                <select value={customerName} onChange={changeHandlers.customerName}>
                     <option>Telstra</option>
                     <option>Optus</option>
                 </select>
