@@ -9,6 +9,7 @@ const ACTIONS = {
     username: 'Enter_username',
     password: 'Enter_password',
     confirmedPassword: 'Confirm_password',
+    
     oldUsername: 'old_username',
     submit: 'valid', 
     errors: ['invalid_username', 'invalid_password', 'password_not_matched']
