@@ -24,7 +24,7 @@ describe('Login Component', () => {
         expect(invalidUsernameText).toBeVisible();
     });
     
-    test('Renders "too many failed attempts" as text', async() => {
+    test('Renders "Invalid password" as text', async() => {
         render(<Login/>, { wrapper: MemoryRouter });
         const usernameInput = await screen.findByRole('textbox', { name: 'username' });
         userEvent.type(usernameInput, 'test@test.com');
@@ -32,7 +32,7 @@ describe('Login Component', () => {
         userEvent.type(passwordInput, 'ABC');
         const loginButton = await screen.findByRole('button', { name: 'login' });
         userEvent.click(loginButton);
-        const invalidUsernameText = await screen.findByText(/too many failed attempts/i);
+        const invalidUsernameText = await screen.findByText(/invalid password/i);
         expect(invalidUsernameText).toBeInTheDocument();
     });
     
