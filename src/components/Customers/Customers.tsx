@@ -3,18 +3,30 @@ import React from 'react';
 import { useDb } from '../../contexts/DbContext';
 import { deleteDoc, doc } from 'firebase/firestore';
 
+// Typing
+import { invoice } from 'src/types/Invoice';
+
 import styles from './Customers.module.scss';
 
 function Customers() {
 
-    const { db, billingAddresses } = useDb();
+    const { db, billingAddresses, invoices } = useDb();
+
+    const sum = (customerName: string) => {
+        const filteredInvsWithTax = invoices.filter((inv: invoice) => inv.tax === 1 && inv.customerName === customerName);
+        const filteredInvsWithoutTax = invoices.filter((inv: invoice) => inv.tax === 0 && inv.customerName === customerName);
+        const costsWithTax = filteredInvsWithTax.map((inv: invoice) => Number(inv.cost) + Number(inv.cost)*0.1);
+        const costsWithOutTax = filteredInvsWithoutTax.map((inv: invoice) => Number(inv.cost));
+        const allCosts = costsWithTax.concat(costsWithOutTax);
+        const sum = allCosts.reduce((a: number, b: number) => a + b, 0);
+        return sum;
+    }
 
     const deleteHandler = (event: React.FormEvent) => {
         event.preventDefault();
         const docRef = doc(db, 'billingAddresses', event.currentTarget.id);
         deleteDoc(docRef);
     };
-    
 
     return (
         <table id={styles.customersList}>
@@ -33,7 +45,11 @@ function Customers() {
                     <tr key={billingAddress.company}>
                         <td>{billingAddress.billedTo}</td>
                         <td>{billingAddress.company}</td>
-                        <td>$10,000.00</td>
+                        <td>${sum(billingAddress.company).toLocaleString(undefined, { 
+                            minimumFractionDigits: 2, 
+                            maximumFractionDigits: 2 
+                            })}
+                        </td>
                         <td>Sent</td>
                         <td>
                             <form>
@@ -41,8 +57,7 @@ function Customers() {
                                 <input type="button" value='Update' disabled />
                             </form>
                         </td>
-                    </tr>
-                )) 
+                    </tr>))
             }
             </tbody>
         </table>);
