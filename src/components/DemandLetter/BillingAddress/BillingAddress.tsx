@@ -61,7 +61,7 @@ function BillingAddress() {
             state: position,
             handler: (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.position, value: event.target.value }) },
         }, {
-            label: 'Company Name',
+            label: 'Company Name*',
             state: company,
             handler: (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.company, value: event.target.value }) },
         }, {
@@ -93,8 +93,16 @@ function BillingAddress() {
     const { billAddressColRef } = useDb();
 
     const submitHandler = (event: React.FormEvent) => {
+        
         event.preventDefault();
         
+        // Condition when adding new Billing Address / Customer
+        if (company === '') {
+            alert('Please enter a Company Name.');
+            dispatch({ type: ACTIONS.reset });
+            return;
+        }
+
         addDoc(billAddressColRef, {
             billedTo,
             position,
