@@ -11,8 +11,6 @@ const ACTIONS = {
     docNo           : 'ENTER_DOC_NO',
     docType         : 'ENTER_DOC_TYPE',
     date            : 'ENTER_DATE',
-    month           : 'ENTER_MONTH',
-    year            : 'ENTER_YEAR',
     cost            : 'ENTER_COST',
     tax             : 'SELECT_TAX',
     customerName    : 'SELECT_customerName',
@@ -27,10 +25,6 @@ const reducer = (state: invoice, action: { type: string, value?: any }) => {
             return { ...state, docType: action.value}
         case ACTIONS.date: 
             return { ...state, date: action.value }
-        case ACTIONS.month: 
-            return { ...state, month: action.value }
-        case ACTIONS.year:
-            return { ...state, year: action.value }
         case ACTIONS.cost: 
             return { ...state, cost: action.value }
         case ACTIONS.tax: 
@@ -49,7 +43,7 @@ function InvoiceForm() {
     const { invoiceColRef, billingAddresses } = useDb();
 
     const [newState, dispatch] = useReducer(reducer, invoiceDefaultState);
-    const { docNo, docType, date, month, year, cost, tax, customerName } : invoice = newState;
+    const { docNo, docType, date, cost, tax, customerName } : invoice = newState;
 
     type company = { company: string };
     const sortCustomerNames = billingAddresses.sort((a: company, b: company) => (a.company > b.company) ? 1 : ((b.company > a.company) ? -1 : 0));
@@ -58,8 +52,6 @@ function InvoiceForm() {
         docNo           : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.docNo, value: event.target.value }),
         docType         : (event: React.ChangeEvent<HTMLSelectElement>) => dispatch({ type: ACTIONS.docType, value: event.target.value }),
         date            : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.date, value: event.target.value }),
-        month           : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.month, value: event.target.value }),
-        year            : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.year, value: event.target.value }),
         cost            : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.cost, value: event.target.value }),
         tax             : (event: React.ChangeEvent<HTMLSelectElement>) => dispatch({ type: ACTIONS.tax, value: Number(event.target.value) }),
         customerName    : (event: React.ChangeEvent<HTMLSelectElement>) => dispatch({ type: ACTIONS.customerName, value: event.target.value }),
@@ -67,18 +59,47 @@ function InvoiceForm() {
 
     const submitHandler = (event: React.FormEvent) => {
         event.preventDefault();
+
+        // Rules when adding new Documents
+        // Entering doc no
+        if (docNo === '') {
+            alert('Please enter a Document No.');
+            return;
+        }
+
+        // Entering date
+        if (!date.match(/^\d{2}-\d{2}-\d{2}$/)) {
+            alert('Invalid date format.');
+            return;
+        }
+
+        if (date.match(/^\d{2}-\d{2}-\d{2}$/)) {
+            // Where date is in correct format, check if it's a valid date
+            const dateParts = date.split('-');
+            const day: number = Number(dateParts[0]);
+            const month: number = Number(dateParts[1]);
+            const year: number = Number(dateParts[2]);
+            // rules
+            const monthsWithOnly30Days = day > 30 && (month === 4 || 6 || 9 || 11);
+            const febInLeapYear = day > 29 && month === 2 && year % 4 === 0;
+            const febInNonLeapYear = day > 28 && month === 2 && year % 4 !== 0;
+
+            if (day > 31 || month > 12 || monthsWithOnly30Days || febInLeapYear || febInNonLeapYear) {
+                alert('Invalid date.');
+                return;
+              }
+        }
+        
         addDoc(invoiceColRef, {
                 docNo,
                 docType,
                 date,
-                month, 
-                year, 
                 cost,
                 tax,
                 customerName, // billed to company
         })
         .then(() => {
-            console.log({ docNo, docType, date, month, year, cost, tax, customerName });
+            console.log({ docNo, docType, date, cost, tax, customerName });
             dispatch({ type: ACTIONS.reset });
         })
     }
@@ -89,38 +110,41 @@ function InvoiceForm() {
         <form aria-label='invoice' id={styles.invoiceForm} onSubmit={submitHandler}>
             <div className={styles.invoiceContainer}>
                 <label>Document no</label>
-                <input type="text" value={docNo} onChange={changeHandlers.docNo} />
+                <input type="text" name="docNo" value={docNo} onChange={changeHandlers.docNo} />
             </div>
             <div className={styles.invoiceContainer}>
             <label>Document Type</label>
-                <select value={docType} onChange={changeHandlers.docType} >
+                <select value={docType} name="docType" onChange={changeHandlers.docType} >
                     <option value="Tax Invoice">Tax Invoice</option>
                     <option value="Credit Note">Credit Note</option>
                     <option value="Overpayment">Overpayment</option>
                 </select>
             </div>
             <div className={styles.invoiceContainer}>
-                <label>Billed Date (DD/MM/YY)</label>
+                <label>Billed Date</label>
                 <div>
-                    <input type="text" value={date} onChange={changeHandlers.date} />/
-                    <input type="text" value={month} onChange={changeHandlers.month} />/
-                    <input type="text" value={year} onChange={changeHandlers.year} />
+                    <input type="text"
+                    name="date"
+                    placeholder="DD-MM-YY"
+                    value={date}
+                    onChange={changeHandlers.date} 
+                    />
                 </div>
             </div>
             <div className={styles.invoiceContainer}>
                 <label>Cost</label>
-                <input type="text" value={cost} onChange={changeHandlers.cost} />
+                <input type="text" name="cost" value={cost} onChange={changeHandlers.cost} />
             </div>
             <div className={styles.invoiceContainer}>
                 <label>Tax</label>
-                <select value={tax} onChange={changeHandlers.tax}>
+                <select value={tax} name="tax" onChange={changeHandlers.tax}>
                     <option value="1">GST 10%</option>
                     <option value="0">No Tax</option>
                 </select>
             </div>
             <div className={styles.invoiceContainer}>
                 <label>BilledTo</label>
-                <select value={customerName} onChange={changeHandlers.customerName}>
+                <select value={customerName} name="customerName" onChange={changeHandlers.customerName}>
                     <option value="">Please select customer name.</option>
                     {
                         sortCustomerNames.map((customerName: company) => 
