@@ -100,7 +100,7 @@ function InvoiceForm() {
                 </select>
             </div>
             <div className={styles.invoiceContainer}>
-                <label>Billed Date (MM/DD/YY)</label>
+                <label>Billed Date (DD/MM/YY)</label>
                 <div>
                     <input type="text" value={date} onChange={changeHandlers.date} />/
                     <input type="text" value={month} onChange={changeHandlers.month} />/
