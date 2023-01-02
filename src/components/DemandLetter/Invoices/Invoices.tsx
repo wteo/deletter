@@ -60,7 +60,7 @@ function Invoices() {
                                 <td>{invoice.customerName}</td>
                                 <td>{invoice.docNo}</td>
                                 <td>{invoice.docType}</td>
-                                <td>{invoice.date}/{invoice.month}/{invoice.year}</td>
+                                <td>{invoice.date}</td>
                                 <td>{cost}</td>
                                 { invoice.tax === 1 ? (
                                     <>
