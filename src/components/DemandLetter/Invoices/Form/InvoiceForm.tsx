@@ -61,16 +61,18 @@ function InvoiceForm() {
         event.preventDefault();
 
         // Rules when adding new Documents
-        // Entering doc no
+        // Doc no
         if (docNo === '') {
-            alert('Please enter a Document No.');
-            return;
+            const errorMessage: string = 'Please enter a Document No.';
+            alert(errorMessage);
+            throw new Error(errorMessage);
         }
 
-        // Entering date
+        // Date
         if (!date.match(/^\d{2}-\d{2}-\d{2}$/)) {
-            alert('Invalid date format.');
-            return;
+            const errorMessage: string = 'Invalid date format.';
+            alert(errorMessage);
+            throw new Error(errorMessage);
         }
 
         if (date.match(/^\d{2}-\d{2}-\d{2}$/)) {
@@ -85,11 +87,32 @@ function InvoiceForm() {
             const febInNonLeapYear = day > 28 && month === 2 && year % 4 !== 0;
 
             if (day > 31 || month > 12 || monthsWithOnly30Days || febInLeapYear || febInNonLeapYear) {
-                alert('Invalid date.');
-                return;
+                const errorMessage: string = 'Invalid date.';
+                alert(errorMessage);
+                throw new Error(errorMessage);
               }
         }
-        
+
+        // Doc Type
+        if (docType === 'Tax Invoice' && Number(cost) < 0) {
+            const errorMessage: string = 'Cost must be in positive balance.';
+            alert(errorMessage);
+            throw new Error(errorMessage);
+        }
+        if ((docType === 'Overpayment' || docType === 'Credit Note') && Number(cost) > 0) {
+            const errorMessage: string = 'Cost must be in negative balance.';
+            alert(errorMessage);
+            throw new Error(errorMessage);
+        }
+
+        // Billed To (a.k.a customerName)
+        if (customerName === '') {
+            const errorMessage: string = 'Please select an existing customer.';
+            alert(errorMessage);
+            throw new Error(errorMessage);
+        }
+
+        // Where conditions are all met, new document will be created and added to DB.        
         addDoc(invoiceColRef, {
                 docNo,
                 docType,
