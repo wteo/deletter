@@ -28,4 +28,6 @@ describe('Invoices Component', () => {
         const tableElement = await screen.findByRole('table');
         expect(tableElement).toBeVisible();
     });
+
+    test('Renders ')
 })

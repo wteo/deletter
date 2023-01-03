@@ -6,7 +6,7 @@
 
     .invoiceContainer {
         display: grid;
-        grid-template-columns: 20vw 20vw;
+        grid-template-columns: 20vw 20vw 1fr;
         margin-bottom: 1vh;
 
         label {
@@ -24,6 +24,12 @@
         input, select {
             border-radius: 5px;
             border: $border;
+        }
+
+        p {
+            margin: 0;
+            padding-left: 1vw;
+            color: darken($invalid-color, 20%);
         }
     }
 
