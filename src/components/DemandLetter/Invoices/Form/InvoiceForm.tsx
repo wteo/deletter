@@ -38,9 +38,14 @@ const reducer = (state: invoice, action: { type: string, value?: any }) => {
     }
 }
 
+function getErrorMessage(errorMessage: string) {
+    alert(errorMessage);
+    throw new Error(errorMessage);
+}
+
 function InvoiceForm() {
 
-    const { invoiceColRef, billingAddresses } = useDb();
+    const { invoiceColRef, invoices, billingAddresses } = useDb();
 
     const [newState, dispatch] = useReducer(reducer, invoiceDefaultState);
     const { docNo, docType, date, cost, tax, customerName } : invoice = newState;
@@ -60,57 +65,34 @@ function InvoiceForm() {
     const submitHandler = (event: React.FormEvent) => {
         event.preventDefault();
 
-        // Rules when adding new Documents
+        // Conditions when adding new Documents
         // Doc no
-        if (docNo === '') {
-            const errorMessage: string = 'Please enter a Document No.';
-            alert(errorMessage);
-            throw new Error(errorMessage);
-        }
+        if (docNo === '') getErrorMessage('Please enter a Document No.');
+        for (const invoice of invoices) {
+            if (docNo === invoice.docNo) getErrorMessage('This item already exists. Please enter a different Document No.');
+        };
 
         // Date
-        if (!date.match(/^\d{2}-\d{2}-\d{2}$/)) {
-            const errorMessage: string = 'Invalid date format.';
-            alert(errorMessage);
-            throw new Error(errorMessage);
-        }
+        const dateParts = date.split('-');
+        const day: number = Number(dateParts[0]);
+        const month: number = Number(dateParts[1]);
+        const year: number = Number(dateParts[2]);
+        // Rules to validate dates
+        const monthsWithOnly30Days = day > 30 && (month === 4 || 6 || 9 || 11);
+        const febInLeapYear = day > 29 && month === 2 && year % 4 === 0;
+        const febInNonLeapYear = day > 28 && month === 2 && year % 4 !== 0;
 
+        if (!date.match(/^\d{2}-\d{2}-\d{2}$/)) getErrorMessage('Invalid date format.');
         if (date.match(/^\d{2}-\d{2}-\d{2}$/)) {
-            // Where date is in correct format, check if it's a valid date
-            const dateParts = date.split('-');
-            const day: number = Number(dateParts[0]);
-            const month: number = Number(dateParts[1]);
-            const year: number = Number(dateParts[2]);
-            // rules
-            const monthsWithOnly30Days = day > 30 && (month === 4 || 6 || 9 || 11);
-            const febInLeapYear = day > 29 && month === 2 && year % 4 === 0;
-            const febInNonLeapYear = day > 28 && month === 2 && year % 4 !== 0;
-
-            if (day > 31 || month > 12 || monthsWithOnly30Days || febInLeapYear || febInNonLeapYear) {
-                const errorMessage: string = 'Invalid date.';
-                alert(errorMessage);
-                throw new Error(errorMessage);
-              }
+            if (day > 31 || month > 12 || monthsWithOnly30Days || febInLeapYear || febInNonLeapYear) getErrorMessage('Invalid date.');
         }
 
-        // Doc Type
-        if (docType === 'Tax Invoice' && Number(cost) < 0) {
-            const errorMessage: string = 'Cost must be in positive balance.';
-            alert(errorMessage);
-            throw new Error(errorMessage);
-        }
-        if ((docType === 'Overpayment' || docType === 'Credit Note') && Number(cost) > 0) {
-            const errorMessage: string = 'Cost must be in negative balance.';
-            alert(errorMessage);
-            throw new Error(errorMessage);
-        }
-
+        // Doc Type & Cost
+        if (docType === 'Tax Invoice' && Number(cost) < 0) getErrorMessage('Cost must be in positive balance.');
+        if ((docType === 'Overpayment' || docType === 'Credit Note') && Number(cost) > 0) getErrorMessage('Cost must be in negative balance.');
+        
         // Billed To (a.k.a customerName)
-        if (customerName === '') {
-            const errorMessage: string = 'Please select an existing customer.';
-            alert(errorMessage);
-            throw new Error(errorMessage);
-        }
+        if (customerName === '') getErrorMessage('Please select an existing customer.');
 
         // Where conditions are all met, new document will be created and added to DB.        
         addDoc(invoiceColRef, {
