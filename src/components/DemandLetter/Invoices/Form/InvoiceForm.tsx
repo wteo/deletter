@@ -88,12 +88,12 @@ function InvoiceForm() {
         // Doc no
         if (docNo === '') {
             setDocNoError('Please enter a Document No.');
-            throw new Error(docNoError);
+            return;
         }
         for (const invoice of invoices) {
             if (docNo === invoice.docNo) {
                 setDocNoError('This item already exists. Please enter a different Document No.');
-                throw new Error(docNoError);
+                return;
             }
         };
 
@@ -109,29 +109,29 @@ function InvoiceForm() {
 
         if (!date.match(/^\d{2}-\d{2}-\d{2}$/)) {
             setDateError('Invalid date format.');
-            throw new Error(dateError);
+            return;
             }
         if (date.match(/^\d{2}-\d{2}-\d{2}$/)) {
             if (day > 31 || month > 12 || monthsWithOnly30Days || febInLeapYear || febInNonLeapYear) {
                 setDateError('Invalid date.');
-                throw new Error(dateError);
+                return;
             }
         }
 
         // Doc Type & Cost
         if (docType === 'Tax Invoice' && Number(cost) < 0) {
             setCostError('Cost must be in positive balance.');
-            throw new Error(costError);
+            return;
         }
         if ((docType === 'Overpayment' || docType === 'Credit Note') && Number(cost) > 0) {
             setCostError('Cost must be in negative balance.');
-            throw new Error(costError);
+            return;
         }
         
         // Billed To (a.k.a customerName)
         if (customerName === '') {
             setcustomerError('Please select an existing customer.');
-            throw new Error(customerError);
+            return;
         }
 
         // Where conditions are all met, new document will be created and added to DB.        
@@ -144,7 +144,7 @@ function InvoiceForm() {
                 customerName, // billed to company
         })
         .then(() => {
-            console.log({ docNo, docType, date, cost, tax, customerName });
+            // console.log({ docNo, docType, date, cost, tax, customerName });
             dispatch({ type: ACTIONS.reset });
         })
     }
@@ -152,10 +152,10 @@ function InvoiceForm() {
     return (
         <>
         <h2>Enter Invoice Details</h2>
-        <form aria-label='invoice' id={styles.invoiceForm} onSubmit={submitHandler}>
+        <form aria-label="invoice" id={styles.invoiceForm} onSubmit={submitHandler}>
             <div className={styles.invoiceContainer}>
                 <label>Document no</label>
-                <input type="text" name="docNo" value={docNo} onChange={changeHandlers.docNo} />
+                <input aria-label="docNo" type="text" name="docNo" value={docNo} onChange={changeHandlers.docNo} />
                 <p>{docNoError}</p>
             </div>
             <div className={styles.invoiceContainer}>
@@ -169,7 +169,8 @@ function InvoiceForm() {
             <div className={styles.invoiceContainer}>
                 <label>Billed Date</label>
                 <div>
-                    <input type="text"
+                    <input aria-label="date"
+                    type="text"
                     name="date"
                     placeholder="DD-MM-YY"
                     value={date}
@@ -180,7 +181,7 @@ function InvoiceForm() {
             </div>
             <div className={styles.invoiceContainer}>
                 <label>Cost</label>
-                <input type="text" name="cost" value={cost} onChange={changeHandlers.cost} />
+                <input aria-label="cost" type="text" name="cost" value={cost} onChange={changeHandlers.cost} />
                 <p>{costError}</p>
             </div>
             <div className={styles.invoiceContainer}>
@@ -193,7 +194,7 @@ function InvoiceForm() {
             <div className={styles.invoiceContainer}>
                 <label>BilledTo</label>
                 <select value={customerName} name="customerName" onChange={changeHandlers.customerName}>
-                    <option value="">Please select customer name.</option>
+                    <option aria-label="customer" value="">Please select customer name.</option>
                     {
                         sortCustomerNames.map((customerName: company) => 
                             <option key={customerName.company} value={customerName.company}>{customerName.company}</option>)
