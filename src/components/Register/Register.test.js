@@ -6,50 +6,38 @@ import Register from './Register';
 
 describe('Register Component', () => {
 
+    const userInput = (selector, value) => userEvent.type(screen.getByRole('textbox', { name: selector }), value);
+    const submit = () => userEvent.click(screen.getByRole('button', { name: 'submit' }));
+    const isErrMessageVisible = (message) => expect(screen.getByText(message)).toBeVisible();
+
     test('Renders "Please enter your personal details" as text', () => {
         render(<Register />);
-        const text = screen.getByText('Please enter your personal details', {exact: false});
-        expect(text).toBeVisible();
+        isErrMessageVisible(/Please enter your personal details/i);
     });
 
     test('Renders "please enter a valid email" as text', () => {
         render(<Register />);
-        const emailInput = screen.getByRole('textbox', { name: 'email' });
-        userEvent.type(emailInput, 'test.com');
-        const submitButton = screen.getByRole('button', { name: 'submit' });
-        userEvent.click(submitButton);
-        const invalidUsernameText = screen.getByText(/please enter a valid email/i);
-        expect(invalidUsernameText).toBeVisible();
-
+        userInput('email', 'test.com');
+        submit();
+        isErrMessageVisible(/please enter a valid email/i);
     });
 
     test('Renders "password" conditions as text', () => {
         render(<Register />);
-        const emailInput = screen.getByRole('textbox', { name: 'email' });
-        userEvent.type(emailInput, 'test2@test.com');
-        const passwordInput = screen.getByRole('textbox', { name: 'password' });
-        userEvent.type(passwordInput, 'ABC1234');
-        const passwordConfirmationInput = screen.getByRole('textbox', { name: 'passwordConfirmation' });
-        userEvent.type(passwordConfirmationInput, 'ABC1234');
-        const submitButton = screen.getByRole('button', { name: 'submit' });
-        userEvent.click(submitButton);
-        const invalidPasswordText = screen.getByText(/Password must be/i);
-        expect(invalidPasswordText).toBeVisible();
-        
+        userInput('email', 'test2@test.com');
+        userInput('password', 'ABC1234')
+        userInput('passwordConfirmation', 'ABC1234');
+        submit();
+        isErrMessageVisible(/Password must be/i);
     });
 
     test('Renders "password does not match" as text', () => {
         render(<Register />);
-        const emailInput = screen.getByRole('textbox', { name: 'email' });
-        userEvent.type(emailInput, 'test3@test.com');
-        const passwordInput = screen.getByRole('textbox', { name: 'password' });
-        userEvent.type(passwordInput, 'ABC1234!!!');
-        const passwordConfirmationInput = screen.getByRole('textbox', { name: 'passwordConfirmation' });
-        userEvent.type(passwordConfirmationInput, 'ABC1234!!');
-        const submitButton = screen.getByRole('button', { name: 'submit' });
-        userEvent.click(submitButton);
-        const invalidPasswordText = screen.getByText(/password does not match/i);
-        expect(invalidPasswordText).toBeVisible();
+        userInput('email', 'test3@test.com');
+        userInput('password', 'ABC1234!!!!')
+        userInput('passwordConfirmation', 'ABC1234!!!');
+        submit();
+        isErrMessageVisible(/password does not match/i);
     });
 
 });

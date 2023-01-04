@@ -25,64 +25,47 @@ describe('Invoices Component: Form', () => {
     });
 
     // Errors as per wrong user input
-    const clickButton = async() => {
-        const submitButton = await screen.findByRole('button');
-        userEvent.click(submitButton);
-    }
+    const userInput = async(selector, value) => userEvent.type(await screen.findByRole('textbox', { name: selector }), value);
+    const submit = async() => userEvent.click(await screen.findByRole('button'));
 
     test('Renders "Error Message" where user submits a blank Document No', async() => {
         render(<InvoiceForm/>, { wrapper: MockProvider });
-        clickButton();
-        const docNoError = await screen.findByText(/Please enter a document no/i);
-        expect(docNoError).toBeVisible();
+        submit();
+        expect(await screen.findByText(/Please enter a document no/i)).toBeVisible();
     });
 
     test('Renders "Error Message" where user submits invalid date format', async() => {
         render(<InvoiceForm/>, { wrapper: MockProvider });
-        const docNoInput = await screen.findByRole('textbox', { name: 'docNo' });
-        userEvent.type(docNoInput, 'INV001');
-        const dateInput = await screen.findByRole('textbox', { name: 'date' });
-        userEvent.type(dateInput, '30/04/2000');
-        clickButton();
-        const dateError = await screen.findByText(/Invalid date format/i);
-        expect(dateError).toBeVisible();
+        userInput('docNo', 'INV001');
+        userInput('date', '30-04-2000');
+        submit();
+        expect(await screen.findByText(/Invalid date format/i)).toBeVisible();
     });
 
     test('Renders "Error Message" where date format is correct but has invalid date', async() => {
         render(<InvoiceForm/>, { wrapper: MockProvider });
-        const docNoInput = await screen.findByRole('textbox', { name: 'docNo' });
-        userEvent.type(docNoInput, 'INV001');
-        const dateInput = await screen.findByRole('textbox', { name: 'date' });
-        userEvent.type(dateInput, '31-04-20');
-        clickButton();
-        const dateError = await screen.findByText(/Invalid date/i);
-        expect(dateError).toBeVisible();
+        userInput('docNo', 'INV001');
+        userInput('date', '31-04-20');
+        submit();
+        expect(await screen.findByText(/Invalid date/i)).toBeVisible();
     });
 
     test('Renders "Error Message" where cost for tax invoice is in negative', async() => {
         render(<InvoiceForm/>, { wrapper: MockProvider });
-        const docNoInput = await screen.findByRole('textbox', { name: 'docNo' });
-        userEvent.type(docNoInput, 'INV001');
-        const dateInput = await screen.findByRole('textbox', { name: 'date' });
-        userEvent.type(dateInput, '30-04-20');
-        const costInput = await screen.findByRole('textbox', { name: 'cost' });
-        userEvent.type(costInput, '-1000');
-        clickButton();
-        const costError = await screen.findByText(/Cost must be in positive balance/i);
-        expect(costError).toBeVisible();
+        userInput('docNo', 'INV001');
+        userInput('date', '30-04-20');
+        userInput('cost', '-1000');
+        submit();
+        expect(await screen.findByText(/Cost must be in positive balance/i)).toBeVisible();
     });
     
     test('Renders "Error Message" where customer name is not selected', async() => {
         render(<InvoiceForm/>, { wrapper: MockProvider });
-        const docNoInput = await screen.findByRole('textbox', { name: 'docNo' });
-        userEvent.type(docNoInput, 'INV001');
-        const dateInput = await screen.findByRole('textbox', { name: 'date' });
-        userEvent.type(dateInput, '30-04-20');
-        const costInput = await screen.findByRole('textbox', { name: 'cost' });
-        userEvent.type(costInput, '1000');
-        clickButton();
-        const customerNameError = await screen.findByText(/Please select an existing customer/i);
-        expect(customerNameError).toBeVisible();
+        userInput('docNo', 'INV001');
+        userInput('date', '30-04-20');
+        userInput('cost', '1000');
+        submit();
+        expect(await screen.findByText(/Please select an existing customer/i)).toBeVisible();
     });
 });
 
@@ -90,8 +73,7 @@ describe('Invoices Component: Table', () => {
     
     test('Renders "Table" as element', async() => {
         render(<Invoices/>, { wrapper: MockProvider });
-        const tableElement = await screen.findByRole('table');
-        expect(tableElement).toBeVisible();
+        expect(await screen.findByRole('table')).toBeVisible();
     });
 
 });
