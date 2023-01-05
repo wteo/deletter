@@ -1,0 +1,13 @@
+$letter-template-bg-color: aliceblue;
+
+#letterTemplate {
+
+    background-color: $letter-template-bg-color;
+    padding: 5vw;
+    margin: 5vw;
+
+    >* {
+        padding: 0;
+        margin: 0;
+    }
+}
