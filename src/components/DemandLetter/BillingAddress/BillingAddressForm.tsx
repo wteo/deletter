@@ -3,7 +3,7 @@ import { useDb } from '../../../contexts/DbContext';
 import { addDoc } from 'firebase/firestore';
 import { billingAddress, billingAddressDefaultState } from '../../../types/BillingAddress';
 
-import styles from './BillingAddress.module.scss';
+import styles from './BillingAddressForm.module.scss';
 
 const ACTIONS = {
     billedTo    : 'ENTER_BILLED_TO',
@@ -47,7 +47,7 @@ const reducer = (state: billingAddress, action: { type: string, value?: any }) =
 }
 
 
-function BillingAddress() {
+function BillingAddressForm() {
 
     const [newState, dispatch] = useReducer(reducer, billingAddressDefaultState);
     const { billedTo, position, company, building, street, surburb, postcode, state, country } : billingAddress = newState;
@@ -138,4 +138,4 @@ function BillingAddress() {
     );
 }
 
-export default BillingAddress;
+export default BillingAddressForm;
