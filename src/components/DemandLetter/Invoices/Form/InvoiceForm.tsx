@@ -160,7 +160,7 @@ function InvoiceForm() {
             </div>
             <div className={styles.invoiceContainer}>
             <label>Document Type</label>
-                <select value={docType} name="docType" onChange={changeHandlers.docType} >
+                <select data-testid="docType" value={docType} name="docType" onChange={changeHandlers.docType} >
                     <option value="Tax Invoice">Tax Invoice</option>
                     <option value="Credit Note">Credit Note</option>
                     <option value="Overpayment">Overpayment</option>
@@ -181,7 +181,7 @@ function InvoiceForm() {
             </div>
             <div className={styles.invoiceContainer}>
                 <label>Cost</label>
-                <input aria-label="cost" type="text" name="cost" value={cost} onChange={changeHandlers.cost} />
+                <input aria-label="cost" placeholder="0.00" type="text" name="cost" value={cost} onChange={changeHandlers.cost} />
                 <p>{costError}</p>
             </div>
             <div className={styles.invoiceContainer}>
@@ -193,8 +193,8 @@ function InvoiceForm() {
             </div>
             <div className={styles.invoiceContainer}>
                 <label>BilledTo</label>
-                <select value={customerName} name="customerName" onChange={changeHandlers.customerName}>
-                    <option aria-label="customer" value="">Please select customer name.</option>
+                <select id="customer"  data-testid="customer" value={customerName} name="customerName" onChange={changeHandlers.customerName}>
+                    <option value="" style={{ color: "gray" }}>Please select customer name.</option>
                     {
                         sortCustomerNames.map((customerName: company) => 
                             <option key={customerName.company} value={customerName.company}>{customerName.company}</option>)
