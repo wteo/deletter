@@ -19,7 +19,7 @@ function BillingAddressErrors(props: props) {
     useEffect(() => {
         // Conditions when creating new Customer / Billing Address
         // Error messages when user gives the wrong input
-        const companyErrorMessage: string = 'Company name';
+        const companyErrorMessage: string = 'Company';
         const streetErrorMessage: string = 'Street';
         const surburbErrorMessage: string = 'Surburb';
         const postcodeErrorMessage: string = 'Postcode';
@@ -223,7 +223,7 @@ function BillingAddressErrors(props: props) {
         <div id={style.billingAddressErrorMessage}>
             <button onClick={closeHandler}>X</button>
             <h4>Missing details. Please enter:</h4>
-            { errorMessages.map((errorMessage: string) => <p>{errorMessage}</p>)}
+            { errorMessages.map((errorMessage: string) => <p data-testid="errMessage">{errorMessage}</p>)}
         </div>
     );
 
