@@ -1,8 +1,8 @@
 import React from 'react';
 
-import BillingAddress from './BillingAddress/BillingAddress';
+import BillingAddress from './BillingAddress';
 import MainContent from './MainContent/MainContent';
-import Signature from './Signature/Signature';
+import Signature from './Signature';
 
 import style from './LetterTemplate.module.scss';
 

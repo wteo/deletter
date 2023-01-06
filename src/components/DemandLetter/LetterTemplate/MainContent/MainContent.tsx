@@ -1,6 +1,6 @@
 import React from 'react';
 
-import InvoiceTable from './InvoiceTable/InvoiceTable';
+import InvoiceTable from '../MainContent.tsx/InvoiceTable/InvoiceTable';
 
 function MainContent() {
     return (

@@ -5,7 +5,7 @@ export type billingAddress = {
     building    : string,
     street      : string,
     surburb     : string,
-    postcode    : number | string,
+    postcode    : string,
     state       : string, 
     country     : string
 };
