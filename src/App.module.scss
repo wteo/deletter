@@ -1,5 +1,8 @@
+@import './scss/variables';
+
 body {
     background: url('./images/background.jpg');
     background-repeat: no-repeat;
+    color: $alternate-font-color;
 }
 
