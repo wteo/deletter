@@ -108,7 +108,7 @@ function InvoiceForm() {
         const febInNonLeapYear = day > 28 && month === 2 && year % 4 !== 0;
 
         if (!date.match(/^\d{2}-\d{2}-\d{2}$/)) {
-            setDateError('Invalid date format.');
+            setDateError('Invalid format. Please enter date in DD-MM-YY.');
             return;
             }
         if (date.match(/^\d{2}-\d{2}-\d{2}$/)) {

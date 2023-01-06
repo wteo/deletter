@@ -40,7 +40,7 @@ describe('Invoices Component: Form', () => {
         userInput('docNo', 'INV001');
         userInput('date', '30-04-2000');
         submit();
-        expect(await screen.findByText(/Invalid date format/i)).toBeVisible();
+        expect(await screen.findByText(/Invalid format/i)).toBeVisible();
     });
 
     test('Renders "Error Message" where date format is correct but has invalid date', async() => {
