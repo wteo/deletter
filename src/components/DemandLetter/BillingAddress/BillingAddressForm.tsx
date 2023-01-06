@@ -1,7 +1,9 @@
-import React , { useReducer }from 'react';
+import React , { useReducer, useState }from 'react';
 import { useDb } from '../../../contexts/DbContext';
 import { addDoc } from 'firebase/firestore';
 import { billingAddress, billingAddressDefaultState } from '../../../types/BillingAddress';
+
+import BillingAddressErrors from './BillingAddressErrors';
 
 import styles from './BillingAddressForm.module.scss';
 
@@ -52,6 +54,16 @@ function BillingAddressForm() {
     const [newState, dispatch] = useReducer(reducer, billingAddressDefaultState);
     const { billedTo, position, company, building, street, surburb, postcode, state, country } : billingAddress = newState;
 
+    // States generating error messages where user enters the wrong input
+    const [companyError, setCompanyError] = useState<string>('');
+    const [streetError, setStreetError] = useState<string>('');
+    const [surburbError, setSurburbError] = useState<string>('');
+    const [postcodeError, setPostcodeError] = useState<string>('');
+    const [stateError, setStateError] = useState<string>('');
+
+    // Checking whether form is submitted or not
+    const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
+
     const userInputs = [{
             label: 'Billed To',
             state: billedTo,
@@ -63,27 +75,42 @@ function BillingAddressForm() {
         }, {
             label: 'Company Name*',
             state: company,
-            handler: (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.company, value: event.target.value }) },
+            handler: (event: React.ChangeEvent<HTMLInputElement>) => { 
+                setCompanyError('');
+                dispatch({ type: ACTIONS.company, value: event.target.value }) 
+                },
         }, {
             label: 'Building Name',
             state: building,
             handler: (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.building, value: event.target.value }) },
         }, {
-            label: 'Street Address',
+            label: 'Street Address*',
             state: street,
-            handler: (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.street, value: event.target.value }) },
+            handler: (event: React.ChangeEvent<HTMLInputElement>) => { 
+                setStreetError('');
+                dispatch({ type: ACTIONS.street, value: event.target.value }) 
+                },
         }, {
-            label: 'Surburb',
+            label: 'Surburb*',
             state: surburb,
-            handler: (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.surburb, value: event.target.value }) },
+            handler: (event: React.ChangeEvent<HTMLInputElement>) => { 
+                setSurburbError('');
+                dispatch({ type: ACTIONS.surburb, value: event.target.value }) 
+                },
         }, {
-            label: 'Postcode',
+            label: 'Postcode*',
             state: postcode,
-            handler: (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.postcode, value: event.target.value }) },
+            handler: (event: React.ChangeEvent<HTMLInputElement>) => { 
+                setPostcodeError('');
+                dispatch({ type: ACTIONS.postcode, value: event.target.value }) 
+                },
         }, {
-            label: 'State',
+            label: 'State*',
             state: state,
-            handler: (event: React.ChangeEvent<HTMLInputElement>) => { dispatch({ type: ACTIONS.state, value: event.target.value }) },
+            handler: (event: React.ChangeEvent<HTMLInputElement>) => { 
+                setStateError('');
+                dispatch({ type: ACTIONS.state, value: event.target.value }) 
+                },
         }, {
             label: 'Country',
             state: country,
@@ -93,16 +120,11 @@ function BillingAddressForm() {
     const { billAddressColRef } = useDb();
 
     const submitHandler = (event: React.FormEvent) => {
-        
         event.preventDefault();
-        
-        // Condition when adding new Billing Address / Customer
-        if (company === '') {
-            alert('Please enter a Company Name.');
-            dispatch({ type: ACTIONS.reset });
+        if (company === '' || street === '' || surburb === '' || postcode === '' || state === '') {
+            setIsFormSubmitted(true);
             return;
         }
-
         addDoc(billAddressColRef, {
             billedTo,
             position,
@@ -116,14 +138,30 @@ function BillingAddressForm() {
         })
         .then(() => {
             // console.log({ billedTo, position, company, building, street, surburb, postcode, state, country });
+            setIsFormSubmitted(false);
             dispatch({ type: ACTIONS.reset });
         })
     }
 
+    // Passing dataErrors to BillingAddressErrors component
+    const dataErrors = { setCompanyError, setStreetError, setSurburbError, setPostcodeError, setStateError, setIsFormSubmitted };
+    const setErrors = (data: any) => data;
+
+    const closeHandler = () => setIsFormSubmitted(false);
+
     return (
         <>
-        <h2>Enter Customer's Billing Address</h2>
-        <form aria-label='billingAddress' id={styles.billingAddressForm} onSubmit={submitHandler} >
+        { isFormSubmitted && 
+            <BillingAddressErrors 
+                company={company} 
+                street={street} 
+                surburb={surburb} 
+                postcode={postcode} 
+                state={state}
+                errors={{ company: companyError, street: streetError, surburb: surburbError, postcode: postcodeError, state: stateError }}
+                setErrors={setErrors(dataErrors)}
+            /> }
+        <form aria-label='billingAddress' id={styles.billingAddressForm} onSubmit={submitHandler} onClick={closeHandler}>
             { userInputs.map((userInput) => {
                 return (
                     <div key={ userInput.label } className={styles.billingAddressContainer}>
