@@ -1,5 +1,4 @@
 import React from 'react';
-
 import NewInvoiceRow from './NewInvoiceRow';
 
 function InvoiceTable() {
