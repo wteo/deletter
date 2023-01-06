@@ -27,7 +27,7 @@ function Navigation() {
         <>
             <span><Link to='/login'>Login</Link></span>
             <span><Link to='/register'>Register</Link></span>
-            <span><Link to='/About'>About</Link></span> 
+            <span><Link to='/about'>About</Link></span> 
         </>
     );
 
