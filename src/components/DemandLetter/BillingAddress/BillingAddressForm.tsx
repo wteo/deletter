@@ -161,7 +161,9 @@ function BillingAddressForm() {
                 errors={{ company: companyError, street: streetError, surburb: surburbError, postcode: postcodeError, state: stateError }}
                 setErrors={setErrors(dataErrors)}
             /> }
+        
         <form aria-label='billingAddress' id={styles.billingAddressForm} onSubmit={submitHandler} onClick={closeHandler}>
+            <h2>Enter Customer Details</h2>
             { userInputs.map((userInput) => {
                 return (
                     <div key={ userInput.label } className={styles.billingAddressContainer}>
