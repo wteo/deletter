@@ -33,7 +33,9 @@ export function DbProvider(props: { children: React.ReactNode }) {
             console.log(snapshot.docs.map((doc: any) => { return {...doc.data(), id: doc.id} }));
             setInvoices(snapshot.docs.map((doc: any) => { return {...doc.data(), id: doc.id} }));
         });
-    }, []);
+    }, 
+    // eslint-disable-next-line
+    []);
 
     const value = {
         db,
