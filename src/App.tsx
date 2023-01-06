@@ -9,6 +9,7 @@ import Navigation from './components/Navigation/Navigation';
 import Footer from './components/Footer/Footer';
 
 // Public pages
+import AboutPage from './pages/public/AboutPage';
 import LoginPage from './pages/public/LoginPage';
 import ForgotPassword from './pages/public/ForgotPasswordPage'
 import RegisterPage from './pages/public/RegisterPage';
@@ -27,6 +28,7 @@ function App() {
         <Navigation />
         <Routes>
           <Route path='/' element={<Navigate replace to='/login' />} />
+          <Route path='/about' element={<AboutPage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/login/password' element={<ForgotPassword />} />
           <Route path='/register' element={<RegisterPage />} />
