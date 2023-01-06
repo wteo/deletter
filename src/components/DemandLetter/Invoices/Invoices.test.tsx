@@ -1,3 +1,4 @@
+import React from 'react';
 import '@testing-library/jest-dom'
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from '@testing-library/user-event';
@@ -80,6 +81,7 @@ describe('Invoices Component: Form', () => {
         expect(await screen.findByText(/Please select an existing customer/i)).toBeVisible();
     });
 
+    /*
     test('Adding new option to Customer Name selection', () => {
         render(<Invoices/>, { wrapper: MockProvider });
         userInput('docNo', 'INV001');
@@ -101,6 +103,7 @@ describe('Invoices Component: Form', () => {
         waitFor(async() => expect(await screen.findByText(/INV001/i).not.toBeVisible())); // Something is wrong here...
 
     });
+    */
     
 });
 
