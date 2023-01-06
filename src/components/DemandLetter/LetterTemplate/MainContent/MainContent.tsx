@@ -1,10 +1,14 @@
 import React from 'react';
-import InvoiceTable from '../MainContent.tsx/InvoiceTable/InvoiceTable';
+import InvoiceTable from './InvoiceTable/InvoiceTable';
 
-function MainContent() {
+function MainContent(props: { recipient: string }) {
+
+    const fullName = props.recipient.split(' ');
+    const firstName = fullName[0];
+
     return (
         <div>
-            <p>Dear [Recipient Name],</p>
+            <p>Dear {firstName === '' ? 'Customer' : firstName},</p>
             <p>I am writing to request payment of the following overdue invoices:</p>
             <InvoiceTable />
             <p>The total amount due is $[Total Amount Due]. These invoices have been overdue since [most Overdue Invoice].</p>
