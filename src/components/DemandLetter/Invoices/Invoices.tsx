@@ -21,15 +21,21 @@ function Invoices() {
     };
 
     // type docNo = { docNo: number | string };
-    type customerName = { customerName: string };
+    // type customerName = { customerName: string };
     // type cost = { cost: number};
+    type date = { date: string };
     
     // Sorting invoices
     // const sortInvsByDocNo = invoices.sort((a: docNo , b: docNo) => 
     //    (a.docNo > b.docNo) ? 1 : ((b.docNo > a.docNo) ? -1 : 0));
-    const sortInvsByCustomerName = invoices.sort((a: customerName , b: customerName) => 
-        (a.customerName > b.customerName) ? 1 : ((b.customerName > a.customerName) ? -1 : 0));
+    // const sortInvsByCustomerName = invoices.sort((a: customerName , b: customerName) => 
+    //     (a.customerName > b.customerName) ? 1 : ((b.customerName > a.customerName) ? -1 : 0));
     // const sortInvsByCost = invoices.sort((a: cost, b: cost) => (b.cost) - (a.cost));
+    const sortInvsByDates = invoices.sort((a: date, b: date) => {
+        const x: string = a.date.split('-').reverse().join();
+        const y: string = b.date.split('-').reverse().join();
+        return x < y ? -1 : (x > y ? 1 : 0);
+        });
     
     // Formatting nums
     const formatNum = (num: number) => num.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -51,7 +57,7 @@ function Invoices() {
             </thead>
             <tbody>
                 {
-                    sortInvsByCustomerName.map((invoice: invoice) => {
+                    sortInvsByDates.map((invoice: invoice) => {
                         const cost = formatNum(Number(invoice.cost));
                         const gst = formatNum(Number(invoice.cost)*0.1);
                         const total = formatNum(Number(invoice.cost) + Number(invoice.cost)*0.1);
