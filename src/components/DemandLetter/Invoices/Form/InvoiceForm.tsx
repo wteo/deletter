@@ -103,7 +103,7 @@ function InvoiceForm() {
         const month: number = Number(dateParts[1]);
         const year: number = Number(dateParts[2]);
         // Rules to validate dates
-        const monthsWithOnly30Days = day > 30 && (month === 4 || 6 || 9 || 11);
+        const monthsWithOnly30Days = day > 30 && (month === 4 || month === 6 || month === 9 || month === 11);
         const febInLeapYear = day > 29 && month === 2 && year % 4 === 0;
         const febInNonLeapYear = day > 28 && month === 2 && year % 4 !== 0;
 
