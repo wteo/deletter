@@ -10,6 +10,7 @@ import style from './LetterTemplate.module.scss';
 
 // Typing 
 import { billingAddress } from '../../../types/BillingAddress';
+import { invoice } from 'src/types/Invoice';
 
 function LetterTemplate() {
 
@@ -25,18 +26,21 @@ function LetterTemplate() {
         country     : '[Country]',
     }
 
-    const { billingAddresses } = useDb();
+    const { billingAddresses, invoices } = useDb();
     const [selectedCompany, setSelectedCompany] = useState<string>('');
 
     // sorting the customer names a.k.a companies
-    const companies = billingAddresses.map((billingAddress: billingAddress) => billingAddress.company);
-    const sortedCompanies = companies.sort();
+    const companies: string[] = billingAddresses.map((billingAddress: billingAddress) => billingAddress.company);
+    const sortedCompanies: string[] = companies.sort();
 
     // Generating billing address in letter template as per selected by user 
     const selectedCompanyHandler = (event: React.ChangeEvent<HTMLSelectElement>) => setSelectedCompany(event.target.value);
-    const filterBillingAddresses = billingAddresses.filter((billingAddress: billingAddress) => billingAddress.company === selectedCompany);
-    const selectedBillingAddress = filterBillingAddresses[0];
+    const filterBillingAddresses: billingAddress[] = billingAddresses.filter((billingAddress: billingAddress) => billingAddress.company === selectedCompany);
+    const selectedBillingAddress: billingAddress = filterBillingAddresses[0];
     const { billedTo, position, company, building, street, surburb, postcode, state, country }: billingAddress = selectedBillingAddress ?? templateCustomerAddress;
+
+    // Filtering invoices as per selected customer
+    const filteredInvoices = invoices.filter((invoice: invoice) => invoice.customerName === selectedCompany);
 
     return (
         <div id={style.letterTemplate}>
@@ -59,7 +63,7 @@ function LetterTemplate() {
             />
             <TodayDate />
             <h2>Re: Demand for Payment of Overdue Invoices</h2>
-            <MainContent recipient={billedTo} />
+            <MainContent recipient={billedTo} invoices={filteredInvoices} />
             <Signature />
         </div> 
     );
