@@ -62,7 +62,6 @@ function LetterTemplate() {
                 country={country}
             />
             <TodayDate />
-            <h2>Re: Demand for Payment of Overdue Invoices</h2>
             <MainContent recipient={billedTo} invoices={filteredInvoices} />
             <Signature />
         </div> 

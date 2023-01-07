@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import InvoiceTable from './InvoiceTable/InvoiceTable';
 
 import style from './MainContent.module.scss';
@@ -12,11 +12,14 @@ function MainContent(props: { recipient: string, invoices: any }) {
     const fullName: string[] = props.recipient.split(' ');
     const firstName: string = fullName[0];
 
+    const [creditErr, setCreditErr] = useState<boolean>(false);
+    const closeHandler = () => setCreditErr(false);
+
     // Feedback to user regarding invoices
     const noDocErrMessage = <p id={style.noDocErr}>Invoices will be listed here in a table. Please add invoice or select a customer with an outstanding balance.</p>;
     const creditErrMessage = 
         (<div id={style.creditErr}>
-            <button>X</button>
+            <button onClick={closeHandler}>X</button>
             <h4>Warning:</h4>
             <p>This customer has a total balance that is in credit!</p>
         </div>)
@@ -31,6 +34,12 @@ function MainContent(props: { recipient: string, invoices: any }) {
     if (allCostsArr.length > 0) {
         sum = allCostsArr.reduce((a: number, b: number) => a + b);
     }
+
+    useEffect(() => {
+        if (sum < 0) setCreditErr(true);
+    },
+    // eslint-disable-next-line 
+    [sum]);
 
     // Formatting nums
     const formatNum = (num: number) => num.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -68,11 +77,12 @@ function MainContent(props: { recipient: string, invoices: any }) {
     }
 
     return (
-        <div>
+        <div onClick={closeHandler}>
+            <h2>Re: Demand for Payment of Overdue Invoices</h2>
             <p>Dear {firstName === '' || firstName.includes('Billed') ? 'Customer' : firstName},</p>
             <p>I am writing to request payment of the following overdue invoices:</p>
             { props.invoices.length < 1  && noDocErrMessage }
-            { sum < 0 && creditErrMessage }
+            { sum < 0 && creditErr && creditErrMessage }
             { props.invoices.length > 0 && <InvoiceTable invoices={props.invoices} />}
             <p>The total amount due is ${ props.invoices.length > 0 ? formatNum(sum) : '[Total Amount Due]'}, with the  
             oldest invoice overdue since {docDates.length > 0 ? oldestDueDate : '[Due Date]'}.
