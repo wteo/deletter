@@ -37,6 +37,7 @@
     }
 }
 
+
 @mixin table($margin-top, $width: 80%) {
     margin-left: 5vw;
     margin-top: $margin-top;
@@ -90,3 +91,35 @@
         }
     }
 }
+
+
+
+@mixin warningPopMessage($paddingTop, $paddingRight, $paddingBottom, $paddingLeft) {
+    background-color: $invalid-color;
+    color: darken($invalid-color, 40%);
+    border: 1px solid darken($invalid-color, 40%);
+    border-radius: 10px;
+    padding: $paddingTop $paddingRight $paddingBottom $paddingLeft;
+    width: 50%;
+    position: absolute;
+    animation: fade-in 0.25s;
+    
+    button {
+        float: right;
+        background-color: transparent;
+        color: darken($invalid-color, 40%);
+        border: 1.5px solid;
+        border-radius: 5px;
+        transition: all 0.25s;
+    
+        &:hover {
+            background-color: darken($invalid-color, 40%);
+            cursor: pointer;
+        }
+    }
+
+    p, h4 {
+        margin: 0;
+    }
+}
+

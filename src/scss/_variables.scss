@@ -1,9 +1,16 @@
+// General style for entire app
 $primary-background-color: #0d172a;
 $primary-font-color: white;
+$guide-font-color: gray;
 $alternate-font-color: #0d172a;
 $border: 1px solid $primary-background-color;
 
+// Button
 $primary-button-color: white;
 $alternate-button-color: #173160;
 
+// Demand Letter Template
+$letter-template-bg-color: aliceblue;
+
+// Errors
 $invalid-color: rgb(239, 144, 144);

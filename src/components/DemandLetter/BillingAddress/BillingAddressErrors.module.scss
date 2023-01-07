@@ -1,38 +1,12 @@
+@import '../../../scss/animations';
+@import '../../../scss/mixins';
 @import '../../../scss/variables';
-
-$darker: darken($invalid-color, 40%);
 
 #billingAddressErrorMessage {
 
-    background-color: $invalid-color;
-    color: $darker;
-    border: 1px solid $darker;
-    border-radius: 10px;
-    padding: 2vh;
-    margin-bottom: 5vh;
-    width: 50%;
-    position: absolute;
+    @include warningPopMessage(2vh, 2vh, 2vh, 2vh);
     top: 25%;
     left: 25%;
-    animation: fade-in 0.25s;
-    
-    button {
-        float: right;
-        background-color: transparent;
-        color: darker;
-        border: 1.5px solid $darker;
-        border-radius: 5px;
-        transition: all 0.25s;
-
-        &:hover {
-            background-color: $darker;
-            cursor: pointer;
-        }
-    }
-
-    p, h4 {
-        margin: 0;
-    }
 
     h4 {
         padding-bottom: 2vh;
@@ -43,15 +17,3 @@ $darker: darken($invalid-color, 40%);
     }
 }
 
-@keyframes fade-in {
-
-    0% { 
-        opacity: 0; 
-        transform: translateY(-7vh);
-    }
-    
-    100% { 
-        opacity: 1; 
-        transform: translateY(0px);
-    }
-}
