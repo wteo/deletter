@@ -1,4 +1,4 @@
-$letter-template-bg-color: aliceblue;
+@import '../../../scss/variables';
 
 #letterTemplate {
 
@@ -6,4 +6,9 @@ $letter-template-bg-color: aliceblue;
     padding: 5vw;
     margin: 5vw;
 
+    label {
+        color: $guide-font-color;
+    }
+
 }
+

@@ -1,0 +1,16 @@
+@import '../../../../scss/animations';
+@import '../../../../scss/mixins';
+@import '../../../../scss/variables';
+
+#noDocErr {
+    color: $guide-font-color;
+    margin: 2.5vh 0;
+}
+
+#creditErr {
+    @include warningPopMessage(1vh, 1vh, 2vh, 3vw);
+
+    h4 {
+        margin-top: 1vh;
+    }
+}

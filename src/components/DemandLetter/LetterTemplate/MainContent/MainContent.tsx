@@ -1,6 +1,8 @@
 import React from 'react';
 import InvoiceTable from './InvoiceTable/InvoiceTable';
 
+import style from './MainContent.module.scss';
+
 // Typing
 import { invoice } from 'src/types/Invoice';
 
@@ -11,8 +13,13 @@ function MainContent(props: { recipient: string, invoices: any }) {
     const firstName: string = fullName[0];
 
     // Feedback to user regarding invoices
-    const noDocErrMessage = <p>Invoices will be listed here in a table. Please add invoice or select a customer with an outstanding balance.</p>;
-    const creditErrMessage = <p>This customer has a total balance that is in credit!</p>
+    const noDocErrMessage = <p id={style.noDocErr}>Invoices will be listed here in a table. Please add invoice or select a customer with an outstanding balance.</p>;
+    const creditErrMessage = 
+        (<div id={style.creditErr}>
+            <button>X</button>
+            <h4>Warning:</h4>
+            <p>This customer has a total balance that is in credit!</p>
+        </div>)
 
     // Calculating the total cost as per customer
     const invoicesWithTax: invoice[] = props.invoices.filter((invoice: invoice) => invoice.tax === 1);
