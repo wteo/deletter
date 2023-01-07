@@ -107,11 +107,11 @@ function InvoiceForm() {
         const febInLeapYear = day > 29 && month === 2 && year % 4 === 0;
         const febInNonLeapYear = day > 28 && month === 2 && year % 4 !== 0;
 
-        if (!date.match(/^\d{2}-\d{2}-\d{2}$/)) {
-            setDateError('Invalid format. Please enter date in DD-MM-YY.');
+        if (!date.match(/^\d{2}-\d{2}-\d{4}$/)) {
+            setDateError('Invalid format. Please enter date in DD-MM-YYYY.');
             return;
             }
-        if (date.match(/^\d{2}-\d{2}-\d{2}$/)) {
+        if (date.match(/^\d{2}-\d{2}-\d{4}$/)) {
             if (day > 31 || month > 12 || monthsWithOnly30Days || febInLeapYear || febInNonLeapYear) {
                 setDateError('Invalid date.');
                 return;
@@ -172,7 +172,7 @@ function InvoiceForm() {
                     <input aria-label="date"
                     type="text"
                     name="date"
-                    placeholder="DD-MM-YY"
+                    placeholder="DD-MM-YYYY"
                     value={date}
                     onChange={changeHandlers.date} 
                     />
