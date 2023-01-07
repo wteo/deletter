@@ -4,16 +4,18 @@ import { useDb } from 'src/contexts/DbContext';
 import CustomerAddress from './CustomerAddress/CustomerAddress';
 import TodayDate from './TodayDate';
 import MainContent from './MainContent/MainContent';
-import Signature from './Signature';
+import Signature from './Signature/Signature';
 
 import style from './LetterTemplate.module.scss';
 
 // Typing 
 import { billingAddress } from '../../../types/BillingAddress';
+import { signature } from '../../../types/Signature';
 import { invoice } from 'src/types/Invoice';
 
 function LetterTemplate() {
 
+    // Templates
     const templateCustomerAddress: billingAddress = {
         billedTo    : '[Billed To]',
         position    : '[Position]',
@@ -26,7 +28,18 @@ function LetterTemplate() {
         country     : '[Country]',
     }
 
+    const templateSignature: signature = {
+        signedName      : '[Your name]',
+        signedPosition  : '[Your Position]',
+        company         : '[Your Company]',
+        phone           : '[Phone]',
+        email           : '[Email]',
+    }
+
+    // Importing data from database
     const { billingAddresses, invoices } = useDb();
+
+    // Handling customer selection
     const [selectedCompany, setSelectedCompany] = useState<string>('');
 
     // sorting the customer names a.k.a companies
@@ -41,6 +54,9 @@ function LetterTemplate() {
 
     // Filtering invoices as per selected customer
     const filteredInvoices = invoices.filter((invoice: invoice) => invoice.customerName === selectedCompany);
+
+    // Handling signature selection
+    // const [selectedSignature, setSelectedSignature] = useState<string>('');
 
     return (
         <div id={style.letterTemplate}>
@@ -63,7 +79,13 @@ function LetterTemplate() {
             />
             <TodayDate />
             <MainContent recipient={billedTo} invoices={filteredInvoices} />
-            <Signature />
+            <Signature 
+                signedName={templateSignature.signedName}
+                signedPosition={templateSignature.signedPosition}
+                company={templateSignature.company}
+                phone={templateSignature.phone}
+                email={templateSignature.email}
+            />
         </div> 
     );
 }

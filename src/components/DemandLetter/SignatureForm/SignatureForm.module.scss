@@ -1,0 +1,36 @@
+@import '../../../scss/mixins';
+@import '../../../scss/variables';
+
+#signatureForm {
+    margin-bottom: 100px;
+
+    .signatureContainer {
+        display: grid;
+        grid-template-columns: 13vw 20vw 1fr;
+        margin-bottom: 1vh;
+
+        label {
+            &::after {
+                float: right;
+                padding-right: 1vw;
+                content: ':';
+            }
+        }
+
+        input {
+            border-radius: 5px;
+            border: $border;
+        }
+
+        p {
+            margin: 0;
+            padding-left: 1vw;
+            color: darken($invalid-color, 20%);
+        }
+    }
+    
+    button {
+        margin-top: 5vh;
+        @include button();
+    }
+}
