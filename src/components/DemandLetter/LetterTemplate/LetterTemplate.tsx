@@ -44,7 +44,7 @@ function LetterTemplate() {
 
     return (
         <div id={style.letterTemplate}>
-            <label>Which customer you want to send your Demand Letter to?</label>
+            <label>Pick which customer you want to send your Demand Letter to.</label>
             <br/>
             <select name="selectedBillingAddress" value={selectedCompany} onChange={selectedCompanyHandler}>
                 <option value='' ></option>

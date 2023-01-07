@@ -4,7 +4,8 @@
 
 #noDocErr {
     color: $guide-font-color;
-    margin: 2.5vh 0;
+    font-size: 125%;
+    margin: 3.5vh 0;
 }
 
 #creditErr {
@@ -12,5 +13,10 @@
 
     h4 {
         margin-top: 1vh;
+    }
+
+    p {
+        margin-top: 1vh;
+        margin-right: 1vw;
     }
 }

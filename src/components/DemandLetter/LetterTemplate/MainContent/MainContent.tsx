@@ -21,7 +21,7 @@ function MainContent(props: { recipient: string, invoices: any }) {
         (<div id={style.creditErr}>
             <button onClick={closeHandler}>X</button>
             <h4>Warning:</h4>
-            <p>This customer has a total balance that is in credit!</p>
+            <p>This customer's account is in credit! Please add invoice(s) until the total amount is in positive or select a different customer.</p>
         </div>)
 
     // Calculating the total cost as per customer
