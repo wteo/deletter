@@ -1,9 +1,9 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import BillingAddressForm from '../DemandLetter/BillingAddress/BillingAddressForm';
-import InvoiceForm from '../DemandLetter/Invoices/Form/InvoiceForm';
-import LetterTemplate from '../DemandLetter/LetterTemplate/LetterTemplate';
+import BillingAddressForm from './BillingAddressForm/BillingAddressForm';
+import InvoiceForm from './InvoiceForm/InvoiceForm';
+import LetterTemplate from './LetterTemplate/LetterTemplate';
 import SignatureForm from '../SignatureForm/SignatureForm';
 
 import styles from './Form.module.scss';

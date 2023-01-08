@@ -1,10 +1,10 @@
 import React from 'react';
 // import { billingAddress } from 'src/types/BillingAddress';
-import { useDb } from '../../contexts/DbContext';
+import { useDb } from '../../../contexts/DbContext';
 import { deleteDoc, doc } from 'firebase/firestore';
 
 // Typing
-import { invoice } from 'src/types/Invoice';
+import { invoice } from '../../../types/Invoice';
 
 import styles from './Customers.module.scss';
 

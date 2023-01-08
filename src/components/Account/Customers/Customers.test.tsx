@@ -1,8 +1,8 @@
 import React from 'react';
 import '@testing-library/jest-dom'
 import { render, screen } from "@testing-library/react";
-import { AuthProvider } from '../../contexts/AuthContext';
-import { DbProvider } from '../../contexts/DbContext';
+import { AuthProvider } from '../../../contexts/AuthContext';
+import { DbProvider } from '../../../contexts/DbContext';
 import Customers from './Customers';
 
 const MockProvider = (props) => {

@@ -4,9 +4,6 @@ import { deleteDoc, doc } from 'firebase/firestore';
 
 import styles from './Invoices.module.scss';
 
-// Children components
-import InvoiceForm from './Form/InvoiceForm';
-
 // Typing
 import { invoice } from '../../../types/Invoice';
 
@@ -88,7 +85,6 @@ function Invoices() {
                 }
             </tbody>
         </table>
-        <InvoiceForm />
         </>
     );
 }

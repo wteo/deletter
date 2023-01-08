@@ -217,13 +217,29 @@ function BillingAddressErrors(props: props) {
     };
 
     const { company, street, surburb, postcode, state } = props.errors;
-    const errorMessages = [company, street, surburb, postcode, state];
+    const errors = 
+        [{   
+            id: 0, 
+            message: company 
+        }, { 
+            id: 1, 
+            message: street 
+        }, { 
+            id: 2, 
+            message: surburb 
+        }, { 
+            id: 3, 
+            message: postcode 
+        } , { 
+            id: 4, 
+            message: state 
+        }];
     
     return (
         <div id={styles.billingAddressErrorMessage}>
             <button onClick={closeHandler}>X</button>
             <h4>Missing details. Please enter:</h4>
-            { errorMessages.map((errorMessage: string) => <p data-testid="errMessage">{errorMessage}</p>)}
+            { errors.map((error: { id: number, message: string }) => <p key={error.id} data-testid="errMessage">{error.message}</p>)}
         </div>
     );
 

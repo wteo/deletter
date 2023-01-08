@@ -34,10 +34,15 @@ function Navigation() {
     const navLogOut = (
         <>
             <span onClick={logOutHandler}>Log Out</span>
-            <span><Link to='/customers'>Customers</Link></span>
-            <span><Link to='/letter'>Create New</Link></span>
-            <span>
-                <Link to='/form'>Form
+            <span>Account
+                <div>
+                    <ul className={styles.dropdownMenu}>
+                        <li><Link to='/account/customers'>Customers</Link></li>
+                        <li><Link to='/account/invoices'>Invoices</Link></li>
+                    </ul>
+                </div>
+            </span>
+            <span>Create New
                 <div>
                     <ul className={styles.dropdownMenu}>
                         <li><Link to='/form/customer'>Customer</Link></li>
@@ -46,7 +51,6 @@ function Navigation() {
                         <li><Link to='/form/signature'>Signature</Link></li>
                     </ul>
                 </div>
-                </Link>
             </span>
         </>
     );
