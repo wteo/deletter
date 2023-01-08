@@ -25,9 +25,9 @@ function Navigation() {
 
     const navLogIn = (
         <>
-            <span><Link to='/login'>Login</Link></span>
-            <span><Link to='/register'>Register</Link></span>
-            <span><Link to='/about'>About</Link></span> 
+            <Link to='/login'><span>Login</span></Link>
+            <Link to='/register'><span>Register</span></Link>
+            <Link to='/about'><span>About</span></Link>
         </>
     );
 
@@ -37,20 +37,20 @@ function Navigation() {
             <span>Account
                 <div>
                     <ul className={styles.dropdownMenu}>
-                        <li><Link to='/account/customers'>Customers</Link></li>
-                        <li><Link to='/account/invoices'>Invoices</Link></li>
+                        <Link to='/account/customers'><li>Customers</li></Link>
+                        <Link to='/account/invoices'><li>Invoices</li></Link>
                     </ul>
-                </div>
+                </div> 
             </span>
             <span>Create New
                 <div>
                     <ul className={styles.dropdownMenu}>
-                        <li><Link to='/form/customer'>Customer</Link></li>
-                        <li><Link to='/form/invoice'>Invoice</Link></li>
-                        <li><Link to='/form/letter'>Letter</Link></li>
-                        <li><Link to='/form/signature'>Signature</Link></li>
+                        <Link to='/form/customer'><li>Customer</li></Link>
+                        <Link to='/form/invoice'><li>Invoice</li></Link>
+                        <Link to='/form/letter'><li>Letter</li></Link>
+                        <Link to='/form/signature'><li>Signature</li></Link>
                     </ul>
-                </div>
+                </div> 
             </span>
         </>
     );
