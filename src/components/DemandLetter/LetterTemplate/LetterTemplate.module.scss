@@ -1,3 +1,4 @@
+@import '../../../scss/animations';
 @import '../../../scss/mixins';
 @import '../../../scss/variables';
 
@@ -10,9 +11,9 @@
     label {
         color: $guide-font-color;
         font-size: 125%;
-    }
+    } 
 
-    button {
+    #letterButton {
         margin-top: 5vh;
         @include button();
     }

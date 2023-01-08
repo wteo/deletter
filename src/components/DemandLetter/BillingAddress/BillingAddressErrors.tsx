@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import style from './BillingAddressErrors.module.scss';
+import styles from './BillingAddressErrors.module.scss';
 
 type props = {
     company: string,
@@ -220,7 +220,7 @@ function BillingAddressErrors(props: props) {
     const errorMessages = [company, street, surburb, postcode, state];
     
     return (
-        <div id={style.billingAddressErrorMessage}>
+        <div id={styles.billingAddressErrorMessage}>
             <button onClick={closeHandler}>X</button>
             <h4>Missing details. Please enter:</h4>
             { errorMessages.map((errorMessage: string) => <p data-testid="errMessage">{errorMessage}</p>)}

@@ -1,7 +1,7 @@
 import React from 'react';
 import NewInvoiceRow from './NewInvoiceRow';
 
-import style from './InvoiceTable.module.scss';
+import styles from './InvoiceTable.module.scss';
 
 function InvoiceTable(props: { invoices: any }) {
 
@@ -12,7 +12,7 @@ function InvoiceTable(props: { invoices: any }) {
         });
 
     return (
-        <table id={style.invoicesListLetter}>
+        <table id={styles.invoicesListLetter}>
             <thead>
                 <tr>
                     <th>Document No</th>

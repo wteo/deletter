@@ -1,10 +1,10 @@
 import React from 'react';
 
-import style from './About.module.scss'
+import styles from './About.module.scss'
 
 function About() {
     return (
-        <div id={style.about}>
+        <div id={styles.about}>
             <h1>Welcome to DeLetter!</h1>
             <p>With 10 years of experience in credit control and a passion for web development, 
                 I saw an opportunity to combine my professional experience and self-taught programming skills to 

@@ -6,7 +6,7 @@ import TodayDate from './TodayDate';
 import MainContent from './MainContent/MainContent';
 import Signature from './Signature/Signature';
 
-import style from './LetterTemplate.module.scss';
+import styles from './LetterTemplate.module.scss';
 
 // Typing 
 import { billingAddress } from '../../../types/BillingAddress';
@@ -87,7 +87,7 @@ function LetterTemplate() {
 
 
     return (
-        <div id={style.letterTemplate}>
+        <div id={styles.letterTemplate}>
             { isLetterChecked === false &&
             <>
             <label>Pick which customer you want to send your Demand Letter to.</label>
@@ -126,7 +126,7 @@ function LetterTemplate() {
                 phone={phone}
                 email={email}
             />
-            <button onClick={sentHandler}>{ isLetterChecked ? 'Reset' : 'Finalise'}</button>
+            <button id={styles.letterButton} onClick={sentHandler}>{ isLetterChecked ? 'Reset' : 'Finalise'}</button>
         </div>
     );
 }
