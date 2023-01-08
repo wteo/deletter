@@ -1,7 +1,7 @@
 export type signature = {
     signedName      : string,
     signedPosition  : string,
-    company         : string,
+    signedCompany   : string,
     phone           : string,
     email           : string,
 }
@@ -9,7 +9,7 @@ export type signature = {
 export const signatureDefaultState: signature = {
     signedName      : '',
     signedPosition  : '',
-    company         : '',
+    signedCompany   : '',
     phone           : '',
     email           : '',
 };

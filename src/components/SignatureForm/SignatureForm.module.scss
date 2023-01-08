@@ -1,5 +1,5 @@
-@import '../../../scss/mixins';
-@import '../../../scss/variables';
+@import '../../scss/mixins';
+@import '../../scss/variables';
 
 #signatureForm {
     margin-bottom: 100px;
@@ -30,7 +30,7 @@
     }
     
     button {
-        margin-top: 5vh;
+        margin-top: 3vh;
         @include button();
     }
 }

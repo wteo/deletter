@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import InvoiceTable from './InvoiceTable/InvoiceTable';
 
-import style from './MainContent.module.scss';
+import styles from './MainContent.module.scss';
 
 // Typing
 import { invoice } from 'src/types/Invoice';
@@ -16,9 +16,9 @@ function MainContent(props: { recipient: string, invoices: any }) {
     const closeHandler = () => setCreditErr(false);
 
     // Feedback to user regarding invoices
-    const noDocErrMessage = <p id={style.noDocErr}>Invoices will be listed here in a table. Please add invoice or select a customer with an outstanding balance.</p>;
+    const noDocErrMessage = <p id={styles.noDocErr}>Invoices will be listed here in a table. Please add invoice or select a customer with an outstanding balance.</p>;
     const creditErrMessage = 
-        (<div id={style.creditErr}>
+        (<div id={styles.creditErr}>
             <button onClick={closeHandler}>X</button>
             <h4>Warning:</h4>
             <p>This customer's account is in credit! Please add invoice(s) until the total amount is in positive or select a different customer.</p>
@@ -77,7 +77,7 @@ function MainContent(props: { recipient: string, invoices: any }) {
     }
 
     return (
-        <div onClick={closeHandler}>
+        <div id={styles.mainContent} onClick={closeHandler}>
             <h2>Re: Demand for Payment of Overdue Invoices</h2>
             <p>Dear {firstName === '' || firstName.includes('Billed') ? 'Customer' : firstName},</p>
             <p>I am writing to request payment of the following overdue invoices:</p>

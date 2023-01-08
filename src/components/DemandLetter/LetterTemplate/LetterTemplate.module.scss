@@ -1,15 +1,21 @@
+@import '../../../scss/mixins';
 @import '../../../scss/variables';
 
 #letterTemplate {
 
     background-color: $letter-template-bg-color;
     padding: 5vw;
-    margin: 5vw;
+    margin: 5vh 5vw 5vh;
 
     label {
         color: $guide-font-color;
         font-size: 125%;
     }
 
+    button {
+        margin-top: 5vh;
+        @include button();
+    }
+    
 }
 

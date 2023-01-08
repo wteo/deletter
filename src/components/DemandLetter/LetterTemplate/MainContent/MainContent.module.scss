@@ -2,21 +2,27 @@
 @import '../../../../scss/mixins';
 @import '../../../../scss/variables';
 
-#noDocErr {
-    color: $guide-font-color;
-    font-size: 125%;
-    margin: 3.5vh 0;
+#mainContent {
+
+    margin-bottom: 5vh;
+
+    #noDocErr {
+        color: $guide-font-color;
+        font-size: 125%;
+        margin: 3.5vh 0;
+    }
+    
+    #creditErr {
+        @include warningPopMessage(1vh, 1vh, 2vh, 3vw);
+    
+        h4 {
+            margin-top: 1vh;
+        }
+    
+        p {
+            margin-top: 1vh;
+            margin-right: 1vw;
+        }
+    }
 }
 
-#creditErr {
-    @include warningPopMessage(1vh, 1vh, 2vh, 3vw);
-
-    h4 {
-        margin-top: 1vh;
-    }
-
-    p {
-        margin-top: 1vh;
-        margin-right: 1vw;
-    }
-}

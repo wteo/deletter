@@ -12,7 +12,7 @@ function Signature(props: signature) {
             <br/>
             <p>{props.signedName}</p>
             <p>{props.signedPosition}</p>
-            <p>{props.company}</p>
+            <p>{props.signedCompany}</p>
             <p>{props.phone}</p>
             <p>{props.email}</p>      
         </div>

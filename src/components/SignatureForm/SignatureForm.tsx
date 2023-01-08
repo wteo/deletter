@@ -1,9 +1,9 @@
 import React, { useReducer, useState } from 'react';
-import { useDb } from '../../../contexts/DbContext';
+import { useDb } from '../../contexts/DbContext';
 import { addDoc } from 'firebase/firestore';
 
 // Typing
-import { signature, signatureDefaultState } from '../../../types/Signature';
+import { signature, signatureDefaultState } from '../../types/Signature';
 
 import styles from './SignatureForm.module.scss';
 
@@ -11,7 +11,7 @@ const ACTIONS = {
     signedName      : 'ENTER_NAME',
     signedPosition  : 'ENTER_POSITION',
     phone           : 'ENTER_PHONE',
-    company         : 'ENTER_COMPANY',
+    signedCompany   : 'ENTER_COMPANY',
     email           : 'ENTER_EMAIL',
     reset           : 'RESET'
 };
@@ -21,9 +21,9 @@ const reducer = (state: signature, action: { type: string, value?: any }) => {
         case ACTIONS.signedName: 
             return { ...state, signedName: action.value }
         case ACTIONS.signedPosition: 
-            return { ...state, signedPosition: action.value }
-        case ACTIONS.company: 
-            return { ...state, company: action.value }
+            return { ...state, signedPosition: action.value}
+        case ACTIONS.signedCompany: 
+            return { ...state, signedCompany: action.value }
         case ACTIONS.phone: 
             return { ...state, phone: action.value }
         case ACTIONS.email: 
@@ -42,7 +42,7 @@ function SignatureForm() {
 
     // State for Signature
     const [newState, dispatch] = useReducer(reducer, signatureDefaultState);
-    const { signedName, signedPosition, company, phone, email } : signature = newState;
+    const { signedName, signedPosition, signedCompany, phone, email } : signature = newState;
 
     // Handling error
     const [nameError, setNameError] = useState<string>('');
@@ -53,7 +53,7 @@ function SignatureForm() {
                                 setNameError('');
                                 },
         signedPosition  : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.signedPosition, value: event.target.value }),
-        company         : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.company, value: event.target.value }),
+        signedCompany   : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.signedCompany, value: event.target.value }),
         phone           : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.phone, value: event.target.value }),
         email           : (event: React.ChangeEvent<HTMLInputElement>) => dispatch({ type: ACTIONS.email, value: event.target.value }),
     };
@@ -66,7 +66,7 @@ function SignatureForm() {
             return;
         }
         // Where conditions are all met, new signature will be created and added to DB.       
-        addDoc(signatureColRef, { signedName, signedPosition, company, phone, email })
+        addDoc(signatureColRef, { signedName, signedPosition, signedCompany, phone, email })
         .then(() => {
             // console.log({ signedName, signedPosition, phone, email });
             dispatch({ type: ACTIONS.reset });
@@ -88,7 +88,7 @@ function SignatureForm() {
             </div>
             <div className={styles.signatureContainer}>
                 <label>Company</label>
-                <input type="text" name="company" value={company} onChange={changeHandlers.company} />
+                <input type="text" name="company" value={signedCompany} onChange={changeHandlers.signedCompany} />
             </div>
             <div className={styles.signatureContainer}>
                 <label>Phone</label>

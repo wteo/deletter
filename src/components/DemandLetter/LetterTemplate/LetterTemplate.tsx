@@ -31,13 +31,13 @@ function LetterTemplate() {
     const templateSignature: signature = {
         signedName      : '[Your name]',
         signedPosition  : '[Your Position]',
-        company         : '[Your Company]',
+        signedCompany   : '[Your Company]',
         phone           : '[Phone]',
         email           : '[Email]',
     }
 
     // Importing data from database
-    const { billingAddresses, invoices } = useDb();
+    const { billingAddresses, invoices, signatures } = useDb();
 
     // Handling customer selection
     const [selectedCompany, setSelectedCompany] = useState<string>('');
@@ -56,16 +56,47 @@ function LetterTemplate() {
     const filteredInvoices = invoices.filter((invoice: invoice) => invoice.customerName === selectedCompany);
 
     // Handling signature selection
-    // const [selectedSignature, setSelectedSignature] = useState<string>('');
+    const [selectedName, setSelectedName] = useState<string>('');
+    const selectedNameHandler = (event: React.ChangeEvent<HTMLSelectElement>) => setSelectedName(event.target.value);
+    const filterNames: signature[] = signatures.filter((signature: signature) => `${signature.signedName} of ${signature.signedCompany}`=== selectedName);
+    const selectedSignature: signature = filterNames[0];
+    const { signedName, signedPosition, signedCompany, phone, email }: signature = selectedSignature ?? templateSignature;
+
+    // sorting the signatures by name, followed by company
+    const names: string[] = signatures.map((signature: signature) => [`${signature.signedName} of ${signature.signedCompany}`]);
+    const sortedNames: string[] = names.sort();
+
+    // Sending out letter as the final step
+    const [isLetterChecked, setIsLetterSent] = useState<boolean>(false);
+
+    const sentHandler = () => {
+        if (selectedCompany === '') {
+            alert('Please select a customer.');
+            return;
+        }
+        if (selectedName === '') {
+            alert('Please pick your signature.');
+            return;
+        }
+        if (isLetterChecked) {
+            setSelectedCompany('');
+            setSelectedName('');
+        };
+        setIsLetterSent(isLetterChecked => !isLetterChecked);
+    }
+
 
     return (
         <div id={style.letterTemplate}>
+            { isLetterChecked === false &&
+            <>
             <label>Pick which customer you want to send your Demand Letter to.</label>
             <br/>
             <select name="selectedBillingAddress" value={selectedCompany} onChange={selectedCompanyHandler}>
                 <option value='' ></option>
                 { sortedCompanies.map((company: string) => <option key={company} value={company}>{company}</option>)}
             </select>
+            </>}
             <CustomerAddress 
                 billedTo={billedTo} 
                 position={position} 
@@ -79,14 +110,24 @@ function LetterTemplate() {
             />
             <TodayDate />
             <MainContent recipient={billedTo} invoices={filteredInvoices} />
+            { isLetterChecked === false &&
+            <>
+            <label>Pick your signature.</label>
+            <br/>
+            <select name="selectedSignature" value={selectedName} onChange={selectedNameHandler}>
+                <option value='' ></option>
+                { sortedNames.map((name: string) => <option key={name} value={name}>{name}</option>)}
+            </select>
+            </>}
             <Signature 
-                signedName={templateSignature.signedName}
-                signedPosition={templateSignature.signedPosition}
-                company={templateSignature.company}
-                phone={templateSignature.phone}
-                email={templateSignature.email}
+                signedName={signedName}
+                signedPosition={signedPosition}
+                signedCompany={signedCompany}
+                phone={phone}
+                email={email}
             />
-        </div> 
+            <button onClick={sentHandler}>{ isLetterChecked ? 'Reset' : 'Finalise'}</button>
+        </div>
     );
 }
 
