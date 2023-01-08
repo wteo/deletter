@@ -30,5 +30,33 @@ nav {
             cursor: pointer;
             text-decoration: underline;
         }
+
+        div {
+
+            margin: 1vh 0;
+
+            .dropdownMenu {
+                border: $border;
+                background-color: $primary-background-color;
+                color: $primary-font-color;
+                list-style: none;
+                margin: 0;
+                padding: 0;
+
+                li {
+                    margin: 0 auto;
+                    padding: 0.5vh 1.5vw;
+                    transition: all 0.25s;
+
+                    &:hover {
+                        cursor: pointer;
+                        text-decoration: underline;
+                        background-color: lighten($primary-background-color, 20%);
+                    }
+                }
+            }
+        }
     }
 }
+
+

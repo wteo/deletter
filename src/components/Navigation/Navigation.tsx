@@ -36,6 +36,18 @@ function Navigation() {
             <span onClick={logOutHandler}>Log Out</span>
             <span><Link to='/customers'>Customers</Link></span>
             <span><Link to='/letter'>Create New</Link></span>
+            <span>
+                <Link to='/form'>Form
+                <div>
+                    <ul className={styles.dropdownMenu}>
+                        <li><Link to='/form/customer'>Customer</Link></li>
+                        <li><Link to='/form/invoice'>Invoice</Link></li>
+                        <li><Link to='/form/letter'>Letter</Link></li>
+                        <li><Link to='/form/signature'>Signature</Link></li>
+                    </ul>
+                </div>
+                </Link>
+            </span>
         </>
     );
 
