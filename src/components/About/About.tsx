@@ -23,7 +23,7 @@ function About() {
             <p>My background in credit control has given me a deep understanding of the importance of effective debt collection, 
                 and I hope that DeLetter will be a valuable resource for others in similar roles. 
             </p>
-            <p>Thank you for checking out DeLetter. I hope you find this a useful project.</p>
+            <p>Thank you for checking out DeLetter.</p>
         </div>
     );
 }
