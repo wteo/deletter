@@ -1,9 +1,9 @@
 import React, { useReducer, useState } from 'react';
-import { useDb } from '../../contexts/DbContext';
+import { useDb } from '../../../contexts/DbContext';
 import { addDoc } from 'firebase/firestore';
 
 // Typing
-import { signature, signatureDefaultState } from '../../types/Signature';
+import { signature, signatureDefaultState } from '../../../types/Signature';
 
 import styles from './SignatureForm.module.scss';
 
