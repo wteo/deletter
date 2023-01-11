@@ -139,6 +139,7 @@ function BillingAddressForm() {
         .then(() => {
             // console.log({ billedTo, position, company, building, street, surburb, postcode, state, country });
             setIsFormSubmitted(false);
+            setIsConfirmedSuccess(true);
             dispatch({ type: ACTIONS.reset });
         })
     }
@@ -149,8 +150,13 @@ function BillingAddressForm() {
 
     const closeHandler = () => setIsFormSubmitted(false);
 
+    // Feedback whether form has been successfully submitted
+    const [IsConfirmedSuccess, setIsConfirmedSuccess] = useState<boolean>(false);
+    const clickHandler = () => setIsConfirmedSuccess(false);
+
     return (
         <>
+        { IsConfirmedSuccess && <p className={styles.confirmedSuccess}>New customer has been successfully created.</p> }
         { isFormSubmitted && 
             <BillingAddressErrors 
                 company={company} 
@@ -166,7 +172,7 @@ function BillingAddressForm() {
             <h2>Enter Customer Details</h2>
             { userInputs.map((userInput) => {
                 return (
-                    <div key={ userInput.label } className={styles.billingAddressContainer}>
+                    <div key={ userInput.label } className={styles.billingAddressContainer} onClick={clickHandler}>
                         <label>{ userInput.label }</label>
                         <input type='text' value={ userInput.state } name={ userInput.label } onChange={ userInput.handler} />
                     </div>

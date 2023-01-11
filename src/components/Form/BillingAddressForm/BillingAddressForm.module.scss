@@ -1,6 +1,10 @@
 @import '../../../scss/mixins';
 @import '../../../scss/variables';
 
+.confirmedSuccess {
+    @include confirmedSuccess();
+}
+
 #billingAddressForm {
 
     .billingAddressContainer {

@@ -20,6 +20,10 @@
     }
 }
 
+@mixin confirmedSuccess {
+    color: $success-font-color;
+    margin-bottom: 5vh;
+}
 
 @mixin invalid() { 
     .invalid {

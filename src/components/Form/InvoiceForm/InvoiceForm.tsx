@@ -145,14 +145,20 @@ function InvoiceForm() {
         })
         .then(() => {
             // console.log({ docNo, docType, date, cost, tax, customerName });
+            setIsConfirmedSuccess(true);
             dispatch({ type: ACTIONS.reset });
         })
     }
 
+    // Feedback whether form has been successfully submitted
+    const [IsConfirmedSuccess, setIsConfirmedSuccess] = useState<boolean>(false);
+    const clickHandler = () => setIsConfirmedSuccess(false);
+
     return (
         <>
+        { IsConfirmedSuccess && <p className={styles.confirmedSuccess}>New invoice has been successfully created.</p> }
         <h2>Enter Invoice Details</h2>
-        <form aria-label="invoice" id={styles.invoiceForm} onSubmit={submitHandler}>
+        <form aria-label="invoice" id={styles.invoiceForm} onSubmit={submitHandler} onClick={clickHandler}>
             <div className={styles.invoiceContainer}>
                 <label>Document no</label>
                 <input aria-label="docNo" type="text" name="docNo" value={docNo} onChange={changeHandlers.docNo} />

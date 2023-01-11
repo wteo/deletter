@@ -69,14 +69,20 @@ function SignatureForm() {
         addDoc(signatureColRef, { signedName, signedPosition, signedCompany, phone, email })
         .then(() => {
             // console.log({ signedName, signedPosition, phone, email });
+            setIsConfirmedSuccess(true);
             dispatch({ type: ACTIONS.reset });
         })
     }
 
+    // Feedback whether form has been successfully submitted
+    const [IsConfirmedSuccess, setIsConfirmedSuccess] = useState<boolean>(false);
+    const clickHandler = () => setIsConfirmedSuccess(false);
+
     return (
         <>
+        { IsConfirmedSuccess && <p className={styles.confirmedSuccess}>New signature has been successfully created.</p> }
         <h2>Enter Signature Details</h2>
-        <form id={styles.signatureForm} onSubmit={submitHandler}>
+        <form id={styles.signatureForm} onSubmit={submitHandler} onClick={clickHandler}>
             <div className={styles.signatureContainer}>
                 <label>Name*</label>
                 <input type="text" name="signedName" value={signedName} onChange={changeHandlers.signedName} />
