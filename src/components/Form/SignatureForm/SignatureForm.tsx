@@ -2,6 +2,8 @@ import React, { useReducer, useState } from 'react';
 import { useDb } from '../../../contexts/DbContext';
 import { addDoc } from 'firebase/firestore';
 
+import Signatures from './Signatures';
+
 // Typing
 import { signature, signatureDefaultState } from '../../../types/Signature';
 
@@ -106,6 +108,7 @@ function SignatureForm() {
             </div>
             <button>Submit</button>
         </form>
+        <Signatures />
         </>
         );
 }

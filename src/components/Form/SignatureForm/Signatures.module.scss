@@ -1,0 +1,11 @@
+@import '../../../scss/mixins';
+@import '../../../scss/variables';
+
+#signaturesList {
+
+    @include table(10vh);
+
+    input {
+        margin-left: 0.5vw;
+    }
+}
