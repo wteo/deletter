@@ -11,7 +11,7 @@ This is an updated version from my previous app <a href="https://github.com/wteo
 
 DeLetter is an app designed to help individuals and businesses draft demand letters in just a few easy steps. To get started, the user will only need to input the necessary information, including the customer's billing address and outstanding invoices. The app will then generate a demand letter based on the provided information. Once you have finalised the letter, you can preview it to ensure that all the information is correct and that the letter is formatted correctly. 
 
-To use the app, you'll need first to register.
+Due to the sensitivity and confidentiality of the data that the user inputs, I also include a layer of authentication in this app. To use DeLetter, you'll need first to register.
 
 
 <h2>Tools and Technologies</h2>
@@ -21,7 +21,8 @@ The DeLetter app was built using the following technologies:
 <li>Language: TypeScript</li>
 <li>UI Library: React.js</li>
 <li>Backend: Node.js</li>
-<li>Database: Firebase Real-time Database</li>
+<li>Database: Firebase Real-time Database v9</li>
+<li>Routing: React Router v6</li>
 <li>Design: Sass</li>
 <li>Testing: Jest and React Testing Library</li>
 </ul>
