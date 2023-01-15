@@ -87,7 +87,7 @@ function Login() {
                 <label>Password</label>
                 <input
                     aria-label='password'
-                    type='text' 
+                    type='password' 
                     className={ !isPasswordValid ? styles.invalidInput : '' } 
                     value={ enteredPassword } 
                     onChange={ passwordHandler }

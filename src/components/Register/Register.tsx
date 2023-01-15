@@ -113,7 +113,7 @@ function Register() {
                     <label>Password</label>
                     <input 
                         aria-label='password'
-                        type='text' 
+                        type='password' 
                         className={ !isPasswordValid && isTouched ? styles.invalidInput : '' } 
                         value={ password } 
                         onChange={ passwordHandler } 
@@ -125,7 +125,7 @@ function Register() {
                     <label>Confirm Password</label>
                     <input 
                         aria-label='passwordConfirmation'
-                        type='text' 
+                        type='password' 
                         className={ !isConfirmedPasswordValid && isTouched ? styles.invalidInput : '' } 
                         value={ confirmedPassword } 
                         onChange={ confirmedPasswordHandler } 
