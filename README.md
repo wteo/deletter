@@ -22,7 +22,7 @@ The DeLetter app was built using the following technologies:
 <li>UI Library: React.js</li>
 <li>Backend: Node.js</li>
 <li>Database: Firebase Real-time Database</li>
-<li>Design: Sass: I used Sass to write clean and maintainable styles</li>
+<li>Design: Sass</li>
 <li>Testing: Jest and React Testing Library</li>
 </ul>
 
