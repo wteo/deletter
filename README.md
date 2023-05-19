@@ -16,7 +16,7 @@ Due to the sensitivity and confidentiality of the data that the user inputs, I a
 
 <h2>Video Demo</h2>
 
-Please check out the link [video](https://www.youtube.com/watch?v=tq5geGFyU3) for a quick demonstration on what the app does.
+Please check out the link [video](https://www.youtube.com/watch?v=tq5geGFyU3c) for a quick demonstration on what the app does.
 
 
 <h2>Tools and Technologies</h2>
